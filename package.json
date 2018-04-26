@@ -1,0 +1,42 @@
+{
+  "name": "attendance-management",
+  "version": "0.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "sync": "SET NODE_ENV=development&& node ./dist/bin/sync",
+    "start": "SET NODE_ENV=development&& node ./bin/www",
+    "sync_mac": "export NODE_ENV=development; node ./dist/bin/sync",
+    "start_mac": "export NODE_ENV=development; node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "~1.18.2",
+    "commander": "^2.15.1",
+    "config": "latest",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.15.5",
+    "helmet": "^3.12.0",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.0",
+    "mysql2": "^1.5.2",
+    "sequelize": "^4.35.2",
+    "serve-favicon": "~2.4.5"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.16.8",
+    "@types/commander": "^2.12.2",
+    "@types/config": "0.0.34",
+    "@types/cookie-parser": "^1.4.1",
+    "@types/debug": "0.0.30",
+    "@types/express": "^4.11.1",
+    "@types/helmet": "0.0.37",
+    "@types/morgan": "^1.7.35",
+    "@types/mysql": "^2.15.2",
+    "@types/node": "^9.4.6",
+    "@types/sequelize": "^4.27.12",
+    "typescript": "^2.7.2"
+  }
+}

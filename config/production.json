@@ -1,0 +1,15 @@
+{
+  "sequelize": {
+    "database": "attendance_management",
+    "username": null,
+    "password": null,
+    "options": {
+      "host": "localhost",
+      "dialect": "mysql",
+      "pool": {
+        "maxConnections": 5,
+        "maxIdleTime": 30
+      }
+    }
+  }
+}
