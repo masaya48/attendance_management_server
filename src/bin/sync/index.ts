@@ -25,8 +25,6 @@ import * as Promise from 'bluebird';
 const sequelize:Sequelize.Sequelize = require('../../libs/dbconn')(config);
 const models:Sequelize.Models = require('../../libs/models')(sequelize);
 
-// sequelize.models = models;
-// console.log(sequelize.models);
 console.log(sequelize.isDefined('m_employee'));
 
 const done = () => {
@@ -88,16 +86,4 @@ if (sync_all === true || !sync_tables) {
           sequelize.close();
         });
     });
-  // sync_tables.forEach((table) => {
-  //   console.log('sync ' + table + '. start');
-  //   const model = models[table];
-  //   if (model) {
-  //     model
-  //       .sync({force: false, alter: true})
-  //       .then(done())
-  //       .error(dberr());
-  //   } else {
-  //     console.log('table:' + table + ' is not found.');
-  //   }
-  // });
 }
