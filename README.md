@@ -3,7 +3,7 @@
   箇条書き「* 〜〜」のあとは一行空ける
 -->
 ## **説明**
-infordio用出退勤管理システムサーバー側実装
+出退勤管理システムサーバー側実装
 
 <br/>
 
@@ -22,21 +22,24 @@ infordio用出退勤管理システムサーバー側実装
 ## **使用方法**
 ### *依存関係のインストール*
 ```sh
-$ npm install
+$ yarn
 ```
-### *ソースのコンパイルとwatch*
+### *tsのビルドとwatch*
 ```sh
-$ npm run build
-# or
-$ npm run watch
+# ビルド
+$ yarn build
+
+# watch
+$ yarn watch
 ```
+
 ### *サーバ起動*
 ```sh
 # for windows
-$ npm start
+$ yarn start
 
 # for mac
-$ npm run start_mac
+$ yarn start_mac
 ```
 
 <br/>
@@ -46,8 +49,8 @@ $ npm run start_mac
 * 『attendance_management』の名称でDB作成
 
 ```sql
--- rootは任せます。
--- 指定されたuser名とpasswordでユーザー作成と権限付与
+-- rootは任せます。
+-- rootのユーザーでログインして、指定されたuser名とpasswordでユーザー作成と権限付与
 -- DB作成
 CREATE DATABASE attendance_management CHARACTER SET utf8;
 
@@ -57,63 +60,38 @@ CREATE USER user_name IDENTIFIED BY password;
 -- 権限付与
 GRANT ALL ON attendance_management.* TO user_name;
 ```
-* DBマイグレーションの実行(下記参照)
 
 <br/>
 
 ## **DBマイグレーションの実行手順(変更の可能性あり？)**
-* ソースをビルドして以下のコマンドを実行
-
-### *For Windows (PowerShell)*
-```powerShell
-# 全テーブルを同期
-$ npm run sync
-# テーブルを指定して同期
-$ npm run sync -- -t table_name
-```
-
-### *For Mac*
-```sh
-# 全て再構築
-$ npm run sync_mac
-# テーブルを指定して再構築
-$ npm run sync_mac -- -t table_name1,table_name2
-```
-
-
-
-
-
-
-
-
 * DBを準備、起動
-* サーバを起動
-* 以下のマイグレーション用のコマンドを実行
+* ソースをビルド
+* 以下のコマンドを実行
 
-### *For Windows (PowerShell)*
-```powershell
-# 全て再構築
-$ Invoke-RestMethod -Uri "localhost:3000/devel/sync" -Method POST
-
-# テーブルを指定して再構築
-$ Invoke-RestMethod -Uri "localhost:3000/devel/sync/employee" -Method POST
-
-# データを保持したまま再構築
-$ Invoke-RestMethod -Uri "localhost:3000/devel/sync/employee" -Method POST -BODY "force=0&alter=1"
-```
-### *For Mac*
+### *基本コマンド*
 ```sh
-# 全て再構築
-$ curl -X POST 'localhost:3000/devel/sync'
+# for windows
+$ yarn sync
 
-# テーブルを指定して再構築
-$ curl -X POST 'localhost:3000/devel/sync/employee'
-
-# データを保持したまま再構築
-$ curl -X POST 'localhost:3000/devel/sync/employee' -d 'force=0&alter=1'
+# for mac
+$ yarn sync_mac
 ```
 
+### *同期オプション(例はwindows)*
+```sh
+# help表示
+$ yarn sync -- -h
+
+# 全テーブルを同期
+$ yarn sync -- -a
+
+# 指定したテーブルのみ同期(カンマ「,」で複数指定可)
+#   ※「-a」と同時に指定した場合は「-a」が優先
+$ yarn sync -- -t <table_name>
+
+# 同期オプション(考え中…)
+$ yarn sync -- -o ****
+```
 <br/>
 
 ## **Install**
