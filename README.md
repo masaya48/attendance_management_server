@@ -80,17 +80,20 @@ $ yarn sync_mac
 ### *同期オプション(例はwindows)*
 ```sh
 # help表示
-$ yarn sync -- -h
+$ yarn sync -h
 
 # 全テーブルを同期
-$ yarn sync -- -a
+$ yarn sync -A
 
 # 指定したテーブルのみ同期(カンマ「,」で複数指定可)
-#   ※「-a」と同時に指定した場合は「-a」が優先
-$ yarn sync -- -t <table_name>
+#   ※「-A」と同時に指定した場合は「-A」が優先
+$ yarn sync -t <table_name>
 
 # 同期オプション(考え中…)
-$ yarn sync -- -o ****
+# テーブルの「DROP & CREATE」もしくは「CREATE」の指定
+$ yarn sync -f 1
+# テーブルの「Alter」有無指定
+$ yarn sync -a 1
 ```
 <br/>
 
