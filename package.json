@@ -6,10 +6,13 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "sync": "SET NODE_ENV=development&& node ./dist/bin/sync",
+    "sync": "SET NODE_ENV=development&& node ./dist/bin/commands sync",
+    "seed": "SET NODE_ENV=development&& node ./dist/bin/commands seed",
     "start": "SET NODE_ENV=development&& node ./bin/www",
-    "sync_mac": "export NODE_ENV=development; node ./dist/bin/sync",
-    "start_mac": "export NODE_ENV=development; node ./bin/www"
+    "sync_mac": "export NODE_ENV=development; node ./dist/bin/commands sync",
+    "seed_mac": "export NODE_ENV=development; node ./dist/bin/commands seed",
+    "start_mac": "export NODE_ENV=development; node ./bin/www",
+    "test": "export NODE_ENV=development; node ./dist/bin/test"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
