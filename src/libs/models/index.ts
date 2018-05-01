@@ -17,8 +17,12 @@ module.exports = (sequelize:Sequelize.Sequelize) => {
       return (file.indexOf('.') !== 0)/*&& (file !== basename)*/ && (file.slice(-3) === '.js');
     })
     .forEach(file => {
-      const model = sequelize.import(path.join(directory, file));
-      db[model.name] = model;
+      const model = sequelize['import'](path.join(directory, file));
+      console.log('file name:' + file);
+      console.log('model:' + model);
+      if (model) {
+        db[model.name] = model;
+      }
     });
 
   Object.keys(db).forEach(modelName => {
@@ -29,6 +33,6 @@ module.exports = (sequelize:Sequelize.Sequelize) => {
 
   db['sequelize'] = sequelize;
   db['Sequelize'] = Sequelize;
-  
+
   return db;
 }

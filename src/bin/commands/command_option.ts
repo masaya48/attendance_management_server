@@ -41,14 +41,13 @@ module.exports = (commander:Commander.CommanderStatic) => {
       } else {
         sync_options.alter = false;
       }
-      
+
       const args = {
         all: options.all,
         tables: options.tables,
         options: sync_options
       };
       console.log(JSON.stringify(args));
-      console.log(env);
 
       // 同期処理実行
       require('../sync')(options.all, options.tables, sync_options);
@@ -82,7 +81,7 @@ module.exports = (commander:Commander.CommanderStatic) => {
   // } else {
   //   options.alter = false;
   // }
-  
+
   // const sync_options = {
   //   all: commander.all,
   //   tables: commander.tables,
