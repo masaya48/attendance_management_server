@@ -28,9 +28,18 @@ module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) 
     }
   },
   {
+    // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓本プロジェクト必須↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
     // 設定をキャメルケースに変更
     underscored: true,
     // テーブル名を複数形にしないよう抑制
-    freezeTableName: true
+    freezeTableName: true,
+    // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑本プロジェクト必須↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+    // 本モジュールのstaticメソッドの定義
+    classMethods: {
+      associate: (models:Sequelize.Models) => {
+        // 外部キー等の他テーブルとの関係を記述
+        // データ取得の際に役立つ模様(要調査)
+      }
+    }
   });
 };

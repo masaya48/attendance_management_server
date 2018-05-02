@@ -1,61 +1,86 @@
 import * as Sequelize from 'sequelize';
 import * as Config from 'config';
 import * as Bluebird from 'bluebird';
+// const Connection = require('../connection');
 
-const sequelize:Sequelize.Sequelize = require('../../libs/dbconn')(Config);
-const models:Sequelize.Models = require('../../libs/models')(sequelize);
-const seeds = require('../../libs/seeds')();
 module.exports = (all:boolean, tables:string[]) => {
+  // connectionを取得
+  // const con = new Connection(Config);
+  // const sequelize:Sequelize.Sequelize = con.getSequelize();
+  // const models:Sequelize.Models = con.getModels();
+  const sequelize:Sequelize.Sequelize = require('../../libs/dbconn')(Config);
+  const models:Sequelize.Models = require('../../libs/models')(sequelize);
+  const seeds = require('../../libs/seeds')();
+  const done = () => {
+    return () => {
+      console.log('sync success!');
+    }
+  };
+  const dberr = () => {
+    return (e:Error) => {
+      console.log('sync faild!');
+    }
+  };
   if (all || !tables || tables.length === 0) {
     return Bluebird
       .resolve()
       .then(() => {
+        // seedの前処理
+        return sequelize
+          .query('SET FOREIGN_KEY_CHECKS = 0;');
+      })
+      .then(() => {
+        // seedの主処理
         return Bluebird.all(Object.keys(seeds).map(seedName => {
           const model = models[seedName];
           const seed = seeds[seedName];
           if (model && seed) {
             return model
-              .bulkCreate(seed)
+              .bulkCreate(seed);
           } else {
-            console.log('seed ' + seedName + ' is not found.')
+            console.log('seed ' + seedName + ' is not found.');
           }
         }))
       })
+      .then(done())
       .finally(() => {
-        return sequelize.close()
+        // seedの後処理
+        return sequelize
+          .query('SET FOREIGN_KEY_CHECKS = 1;')
+          .finally(() => {
+            return sequelize.close();
+          });
       });
   } else if (tables && tables.length > 0) {
-    return Bluebird.resolve().then(() => {
-      console.log('not created!')
-    })
+    return Bluebird
+      .resolve()
+      .then(() => {
+        // seedの前処理
+        return sequelize
+          .query('SET FOREIGN_KEY_CHECKS = 0;');
+      })
+      .then(() => {
+        // seedの主処理
+        return Bluebird.all(tables.map((tableName) => {
+          const model = models[tableName];
+          const seed = seeds[tableName];
+          if (model && seed) {
+            return model
+              .bulkCreate(seed);
+          } else {
+            console.log('seed ' + tableName + ' is not found.');
+          }
+        }));
+      })
+      .then(done())
+      .finally(() => {
+        // seedの後処理
+        return sequelize
+          .query('SET FOREIGN_KEY_CHECKS = 1;')
+          .finally(() => {
+            return sequelize.close();
+          });
+      })
+      .error(dberr());
   }
-  // console.log('seeds: ' +JSON.stringify(seeds['m_employee']));
-
-  // console.log('test seed');
-  // const emp = models['m_employee'];
-  // emp.findAll()
-  // .then((emps) => {
-  //   emps.forEach(e => {
-  //     console.log(e);
-  //   });
-  //   if (emps.length === 0) {
-  //     console.log('not find');
-  //   }
-  // })
-  // .then(() => {
-  //   const data = require('../../seeds/m_emplyee');
-  //   emp.bulkCreate(data.seeds)
-  //   .then(() => {
-  //     return emp.findAll();
-  //   })
-  //   .then(a => {
-  //     console.log(a);
-  //   })
-  //   .finally(() => {
-  //     sequelize.close();
-  //   })
-  //   .error((e) => {
-  //     console.log(e);
-  //   });
-  // });
 };

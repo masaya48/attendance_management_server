@@ -11,6 +11,7 @@ module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) 
     },
     employee_no: {
       type: DataTypes.STRING(4),
+      unique: true,
       allowNull: false
     },
     employee_name: {
@@ -31,20 +32,9 @@ module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) 
     }
   },
   {
-    // Sequelizeデフォルトのcreate_at,update_atカラムを抑制
-    // timestamps: false,
     // 設定をキャメルケースに変更
     underscored: true,
     // テーブル名を複数形にしないよう抑制
     freezeTableName: true
-  }/*,
-  {
-    classMethods: {
-      hashPassword: function(pass) {
-        var sha1 = require('crypto').createHash('sha1');
-        sha1.update(pass, 'utf8');
-        return sha1.digest('hex');
-      }
-    }
-  }*/);
+  });
 }

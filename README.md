@@ -72,6 +72,9 @@ Enter password: *******
 mysql> CREATE DATABASE attendance_management CHARACTER SET utf8;
 
 -- ユーザー作成
+-- user_name:本プロジェクトで使用するUSER
+-- password:本プロジェクトで使用するpassword
+-- config/[NODE_ENV].jsonに同様のUSER、passwordを設定すること
 mysql> CREATE USER user_name IDENTIFIED BY 'password';
 
 -- 権限付与
@@ -91,12 +94,12 @@ Database changed
 
 <br/>
 
-## **DBマイグレーションの実行手順(変更の可能性あり？)**
+## **DBマイグレーションの実行手順**
 * DBを準備、起動
 * ソースをビルド
 * 以下のコマンドを実行(src/models配下に作成したテーブル定義に従って作成される)
 
-### *基本コマンド*
+### *テーブル定義の同期*
 ```sh
 # for windows
 $ yarn sync
@@ -122,6 +125,26 @@ $ yarn sync -t <table_name>
 $ yarn sync -f 1
 # テーブルの「Alter」有無指定
 $ yarn sync -a 1
+```
+
+### *初期データ投入*
+```sh
+# for windows
+$ yarn seed
+
+# for mac
+$ yarn seed_mac
+```
+
+### *投入オプション(例はwindows)*
+```sh
+# help表示
+$ yarn seed -h
+
+# 全テーブルを同期
+$ yarn seed -A
+
+#
 ```
 
 <br/>
