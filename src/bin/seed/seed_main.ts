@@ -3,7 +3,7 @@ import * as Config from 'config';
 import * as Bluebird from 'bluebird';
 // const Connection = require('../connection');
 
-module.exports = (all:boolean, tables:string[]) => {
+module.exports = (all:boolean, tables:string[], destroy:boolean) => {
   // connectionを取得
   // const con = new Connection(Config);
   // const sequelize:Sequelize.Sequelize = con.getSequelize();
@@ -13,12 +13,12 @@ module.exports = (all:boolean, tables:string[]) => {
   const seeds = require('../../libs/seeds')();
   const done = () => {
     return () => {
-      console.log('sync success!');
+      console.log('seed success!');
     }
   };
   const dberr = () => {
     return (e:Error) => {
-      console.log('sync faild!');
+      console.log('seed faild!');
     }
   };
   if (all || !tables || tables.length === 0) {
@@ -35,8 +35,23 @@ module.exports = (all:boolean, tables:string[]) => {
           const model = models[seedName];
           const seed = seeds[seedName];
           if (model && seed) {
-            return model
-              .bulkCreate(seed);
+            return Bluebird
+              .resolve()
+              .then(() => {
+                if (destroy) {
+                  console.log('destroy');
+                  return model
+                    .destroy({
+                      truncate: true
+                    });
+                } else {
+                  console.log('model not destroyed.');
+                }
+              })
+              .then(() => {
+                return model
+                  .bulkCreate(seed);
+              });
           } else {
             console.log('seed ' + seedName + ' is not found.');
           }
@@ -65,8 +80,22 @@ module.exports = (all:boolean, tables:string[]) => {
           const model = models[tableName];
           const seed = seeds[tableName];
           if (model && seed) {
-            return model
-              .bulkCreate(seed);
+            return Bluebird
+              .resolve()
+              .then(() => {
+                if (destroy) {
+                  return model
+                    .destroy({
+                      truncate: true
+                    });
+                } else {
+                  console.log('model not destroyed.');
+                }
+              })
+              .then(() => {
+                return model
+                  .bulkCreate(seed);
+              })
           } else {
             console.log('seed ' + tableName + ' is not found.');
           }

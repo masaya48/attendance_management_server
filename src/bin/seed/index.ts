@@ -2,7 +2,7 @@
 /**
  * 初期データ投入
  */
-module.exports = (all:boolean, tables:string[]) => {
-  const seed = require('./seed_main')(all, tables);
+module.exports = (all:boolean, tables:string[], destroy:boolean) => {
+  const seed = require('./seed_main')(all, tables, destroy);
   seed.then();
 };

@@ -59,9 +59,10 @@ module.exports = (commander:Commander.CommanderStatic) => {
     .description('seed')
     .option('-A, --all', 'all seeds insert')
     .option('-t, --tables <csv>', 'choose tables with csv', types.csv)
+    .option('-d, --destroy', 'delete table row')
     .action((env, options) => {
       console.log('seed');
-      require('../seed')(options.all, options.tables);
+      require('../seed')(options.all, options.tables, options.destroy);
     });
 
   // 使用するオプションにnodeのコマンドライン引数を指定
