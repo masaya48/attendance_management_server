@@ -27,6 +27,10 @@ module.exports = (commander:Commander.CommanderStatic) => {
     .option('-f, --options-force <n>', 'sync option of force', /^(0|1)$/i, '0')
     .option('-a, --options-alter <n>', 'sync option of alter', /^(0|1)$/i, '1')
     .action((env, options) => {
+      const node_env = process.env.NODE_ENV;
+      if (node_env !== 'development') {
+        return;
+      }
       const sync_options:Sequelize.SyncOptions = {};
 
       // forceの設定
@@ -59,10 +63,15 @@ module.exports = (commander:Commander.CommanderStatic) => {
     .description('seed')
     .option('-A, --all', 'all seeds insert')
     .option('-t, --tables <csv>', 'choose tables with csv', types.csv)
+    .option('-u, --update', 'insert or update rows')
     .option('-d, --destroy', 'delete table row')
     .action((env, options) => {
+      const node_env = process.env.NODE_ENV;
+      if (node_env !== 'development') {
+        return;
+      }
       console.log('seed');
-      require('../seed')(options.all, options.tables, options.destroy);
+      require('../seed')(options.all, options.tables, options.update, options.destroy);
     });
 
   // 使用するオプションにnodeのコマンドライン引数を指定

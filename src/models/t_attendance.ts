@@ -1,6 +1,6 @@
 import * as Sequelize from 'sequelize';
 module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) => {
-  return sequelize.define('t_attendance',
+  let model = sequelize.define('t_attendance',
   {
     attendance_no: {
       type: DataTypes.BIGINT,
@@ -55,11 +55,13 @@ module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) 
     // 設定をキャメルケースに変更
     underscored: true,
     // テーブル名を複数形にしないよう抑制
-    freezeTableName: true/*,
-    classMethods: {
-      associate: (models:Sequelize.Models) => {
-        console.log('t_attendance associate.');
-      }
-    }*/
+    freezeTableName: true
   });
+  model.associate = (models:Sequelize.Models) => {
+    const m_employee = models.m_employee;
+    const t_attendance = models.t_attendance;
+    t_attendance
+      .belongsTo(m_employee, {foreignKey: 'user_no', targetKey: 'user_no'});
+  };
+  return model;
 };

@@ -1,6 +1,6 @@
 import * as Sequelize from 'sequelize';
 module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) => {
-  return sequelize.define('m_employee',
+  const model = sequelize.define('m_employee',
   {
     user_no: {
       type: DataTypes.INTEGER,
@@ -16,14 +16,15 @@ module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) 
     },
     employee_name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      defaultValue: ''
     },
     password: {
       type: DataTypes.STRING
     },
-    auto_login_password: {
-      type: DataTypes.STRING
-    },
+    // auto_login_password: {
+    //   type: DataTypes.STRING
+    // },
     entry_date: {
       type: DataTypes.DATE
     },
@@ -37,4 +38,5 @@ module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) 
     // テーブル名を複数形にしないよう抑制
     freezeTableName: true
   });
+  return model;
 }

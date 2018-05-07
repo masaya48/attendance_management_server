@@ -3,7 +3,7 @@ import * as Config from 'config';
 import * as Bluebird from 'bluebird';
 // const Connection = require('../connection');
 
-module.exports = (all:boolean, tables:string[], destroy:boolean) => {
+module.exports = (all:boolean, tables:string[], update:boolean, destroy:boolean) => {
   // connectionを取得
   // const con = new Connection(Config);
   // const sequelize:Sequelize.Sequelize = con.getSequelize();
@@ -33,7 +33,7 @@ module.exports = (all:boolean, tables:string[], destroy:boolean) => {
         // seedの主処理
         return Bluebird.all(Object.keys(seeds).map(seedName => {
           const model = models[seedName];
-          const seed = seeds[seedName];
+          const seed:any[] = seeds[seedName];
           if (model && seed) {
             return Bluebird
               .resolve()
@@ -49,8 +49,15 @@ module.exports = (all:boolean, tables:string[], destroy:boolean) => {
                 }
               })
               .then(() => {
-                return model
-                  .bulkCreate(seed);
+                if (update) {
+                  return Bluebird.all(seed.map(s => {
+                    return model
+                      .upsert(s);
+                  }));
+                } else {
+                  return model
+                    .bulkCreate(seed);
+                }
               });
           } else {
             console.log('seed ' + seedName + ' is not found.');
@@ -85,17 +92,22 @@ module.exports = (all:boolean, tables:string[], destroy:boolean) => {
               .then(() => {
                 if (destroy) {
                   return model
-                    .destroy({
-                      truncate: true
-                    });
+                    .truncate();
                 } else {
                   console.log('model not destroyed.');
                 }
               })
               .then(() => {
-                return model
-                  .bulkCreate(seed);
-              })
+                if (update) {
+                  return Bluebird.all(seed.map(s => {
+                    return model
+                      .upsert(s);
+                  }));
+                } else {
+                  return model
+                    .bulkCreate(seed);
+                }
+              });
           } else {
             console.log('seed ' + tableName + ' is not found.');
           }

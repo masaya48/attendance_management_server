@@ -18,8 +18,6 @@ module.exports = (sequelize:Sequelize.Sequelize) => {
     })
     .forEach(file => {
       const model = sequelize['import'](path.join(directory, file));
-      console.log('file name:' + file);
-      console.log('model:' + model);
       if (model) {
         db[model.name] = model;
       }

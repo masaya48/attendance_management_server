@@ -1,6 +1,6 @@
 import * as Sequelize from 'sequelize';
 module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) => {
-  return sequelize.define('table_sample',
+  const model = sequelize.define('table_sample',
   {
     sample_no: {
       type: DataTypes.INTEGER,
@@ -34,12 +34,9 @@ module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) 
     // テーブル名を複数形にしないよう抑制
     freezeTableName: true,
     // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑本プロジェクト必須↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
-    // 本モジュールのstaticメソッドの定義
-    classMethods: {
-      associate: (models:Sequelize.Models) => {
-        // 外部キー等の他テーブルとの関係を記述
-        // データ取得の際に役立つ模様(要調査)
-      }
-    }
   });
+  // model.associate = (models:Sequelize.Models) => {
+    // 外部キーの定義・その他
+  // };
+  return model;
 };

@@ -1,7 +1,6 @@
 import * as Sequelize from 'sequelize';
 module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) => {
-  return sequelize.define('m_project',
-  {
+  const model =  sequelize.define('m_project', {
     project_code: {
       type:DataTypes.BIGINT,
       primaryKey: true,
@@ -28,4 +27,5 @@ module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) 
     // テーブル名を複数形にしないよう抑制
     freezeTableName: true
   });
+  return model;
 };

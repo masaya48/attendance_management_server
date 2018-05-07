@@ -8,12 +8,12 @@ module.exports = (app:express.Express, config:config.IConfig) => {
 
   // Database migration(DBの再構築)
   // NODE_ENV = developmentの時のみ動作
-  let env = app.get('env');
-  if (env === 'development') {
-    let sync = require('./sync');
-    app.post('/devel/sync/:table', sync.one(models));
-    app.post('/devel/sync', sync.all(sequelize));
-  }
+  // let env = app.get('env');
+  // if (env === 'development') {
+  //   let sync = require('./sync');
+  //   app.post('/devel/sync/:table', sync.one(models));
+  //   app.post('/devel/sync', sync.all(sequelize));
+  // }
 
   // const test = require('./test');
   // app.use('/', test);

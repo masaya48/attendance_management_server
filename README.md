@@ -120,9 +120,10 @@ $ yarn sync -A
 #   ※「-A」と同時に指定した場合は「-A」が優先
 $ yarn sync -t <table_name>
 
-# 同期オプション(考え中…)
-# テーブルの「DROP & CREATE」の有効化
+# 同期オプション
+# テーブルの「DROP & CREATE」の有効化
 $ yarn sync -f 1
+
 # テーブルの「Alter」有無指定
 $ yarn sync -a 1
 ```
@@ -141,10 +142,18 @@ $ yarn seed_mac
 # help表示
 $ yarn seed -h
 
-# 全テーブルを同期
+# データのある全テーブルを投入
 $ yarn seed -A
 
-#
+# 指定したテーブルのデータのみ投入(カンマ「,」で複数指定可)
+#   ※「-A」と同時に指定した場合は「-A」が優先
+$ yarn seed -t <table_name>
+
+# 今あるデータを上書き(updateなければ新規追加(insert)
+$ yarn seed -u
+
+# 今あるデータを削除して再投入(TRANCATE文実行による再作成)
+$ yarn seed -d
 ```
 
 <br/>
