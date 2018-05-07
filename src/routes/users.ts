@@ -1,5 +1,6 @@
 import * as Express from 'express';
 import * as Sequelize from 'sequelize';
+import * as Employee from 'm_employee';
 module.exports = (models:Sequelize.Models) => {
   let router = Express.Router();
 
@@ -13,10 +14,26 @@ module.exports = (models:Sequelize.Models) => {
       res.send(column);
     });
   });
-
+/*
+{
+   where: Sequelize.and(
+     { name: 'a project' },
+     Sequelize.or(
+       { id: [1,2,3] },
+       { id: { gt: 10 } }
+     )
+   )
+}
+*/
   // アクセスURL返すだけ
   router.get('/url', (req:Express.Request, res:Express.Response, next:Express.NextFunction) => {
     res.send(req.baseUrl + ' + ' + req.url + ' → ' + req.originalUrl);
+  });
+  router.post('/test', (req:Express.Request, res:Express.Response, next:Express.NextFunction) => {
+    const Employee = models.m_employee;
+    Employee.findById(1).then((employee:Employee.Instance) => {
+      res.send(employee.employee_name);
+    });
   });
 
   // POSTアクセス

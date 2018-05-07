@@ -18,6 +18,9 @@ module.exports = (app:express.Express, config:config.IConfig) => {
   // const test = require('./test');
   // app.use('/', test);
 
+  const login = require('./login')(models);
+  app.use('/login', login);
+
   const users = require('./users')(models);
   app.use('/users', users);
 }
