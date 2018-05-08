@@ -4,6 +4,7 @@ interface Params {
   employee_no: string,
   employee_name: string,
   password: string,
+  token: string,
   entry_date: Date,
   birthday: Date
 }
@@ -12,6 +13,7 @@ interface Model extends Sequelize.Model<Model, Params> {
   employee_no: string,
   employee_name: string,
   password: string,
+  token: string,
   entry_date: Date,
   birthday: Date,
   created_at: string,

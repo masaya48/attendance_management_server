@@ -22,9 +22,9 @@ module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) 
     password: {
       type: DataTypes.STRING
     },
-    // auto_login_password: {
-    //   type: DataTypes.STRING
-    // },
+    token: {
+      type: DataTypes.STRING
+    },
     entry_date: {
       type: DataTypes.DATE
     },
