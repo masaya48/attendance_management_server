@@ -12,9 +12,11 @@ module.exports = (models:Sequelize.Models) => {
   /* ログイン認証 */
   router.post('/login', [
     check('employee_no', 'message')
-      .exists(),
+      .exists()
+      .isLength({min:1}),
     check('password', 'message')
       .exists()
+      .isLength({min:1})
   ], (req:Express.Request, res:Express.Response, next:Express.NextFunction) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
