@@ -1,6 +1,8 @@
 import * as express from 'express';
 import * as config from 'config';
 import {login_guard} from '../middlewares/authentication';
+import {auth} from './auth';
+import {users} from './users';
 module.exports = (app:express.Express, config:config.IConfig) => {
   // DB設定読み込み
   const sequelize = require('../libs/dbconn')(config);
@@ -16,19 +18,18 @@ module.exports = (app:express.Express, config:config.IConfig) => {
   //   app.post('/devel/sync', sync.all(sequelize));
   // }
 
-  const login = require('./auth')(models);
-  app.use('/auth', login);
+//  const auth = require('./auth')(models);
+  app.use('/auth', auth(models, config));
 
   // let env = app.get('env');
   // if (env !== 'development') {
-    const authentication = require('../middlewares/authentication');
     // ユーザー認証の確認処理
-    app.use(login_guard());
+    app.use(login_guard(config));
   // }
 
   const test = require('./test');
   app.use('/test', test);
 
-  const users = require('./users')(models);
-  app.use('/users', users);
+  // const users = require('./users')(models);
+  app.use('/users', users(models));
 }

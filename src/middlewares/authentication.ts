@@ -1,8 +1,13 @@
 import * as Express from 'express';
+import * as Config from 'config';
 import * as jwt from 'jsonwebtoken';
-const verifyToken = (token:string):Promise<boolean> => {
+
+const verifyToken = (token:string, config:Config.IConfig):Promise<boolean> => {
+  const params = config.get('jwt');
+  const secret_key = params['authentication_secret_key'];
+  const algorithm = params['algorithm'];
   return new Promise((resolve, reject) => {
-    jwt.verify(token, 'tokenSecretKey', (err, decoded) => {
+    jwt.verify(token, secret_key, {algorithms: [algorithm]}, (err, decoded) => {
       if (err) {
         console.log('faild:' + JSON.stringify(decoded));
         resolve(false);
@@ -14,11 +19,11 @@ const verifyToken = (token:string):Promise<boolean> => {
     });
   });
 };
-export const login_guard:(() => Express.RequestHandler) = (() => (req:Express.Request, res:Express.Response, next:Express.NextFunction) => {
+
+export const login_guard:((config:Config.IConfig) => Express.RequestHandler) = ((config) => (req:Express.Request, res:Express.Response, next:Express.NextFunction) => {
   let header_auth = req.headers.authorization;
-  console.log(header_auth);
   const token = header_auth || req.query.token || req.body.token;
-  verifyToken(token)
+  verifyToken(token, config)
     .then((isSuccess:boolean) => {
       if (!isSuccess) {
         return res.status(403).send({error: 'message'});

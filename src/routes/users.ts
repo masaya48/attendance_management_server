@@ -1,7 +1,8 @@
 import * as Express from 'express';
 import * as Sequelize from 'sequelize';
 import * as Employee from 'models/m_employee';
-module.exports = (models:Sequelize.Models) => {
+
+export const users = (models:Sequelize.Models) => {
   let router = Express.Router();
 
   // 全社員情報取得
