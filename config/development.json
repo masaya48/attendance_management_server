@@ -11,5 +11,9 @@
         "maxIdleTime": 30
       }
     }
+  },
+  "jwt": {
+    "authentication_secret_key": "tokenSecretKey",
+    "algorithm": "HS256"
   }
 }
