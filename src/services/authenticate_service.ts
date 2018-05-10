@@ -5,9 +5,9 @@ import * as Employee from "models/m_employee";
 import * as Bluebird from 'bluebird';
 
 export class AuthenticateService {
-  /** 暗号化鍵 */
+  /** 暗号化鍵configから取得 */
   private secret_key:string;
-  /** 暗号化アルゴリズム */
+  /** 暗号化アルゴリズムconfigから取得 */
   private algorithm:string;
 
   /**
@@ -57,6 +57,7 @@ export class AuthenticateService {
    * ログアウト
    */
   public logout = () => {
+    // いる？
   }
 
   /**

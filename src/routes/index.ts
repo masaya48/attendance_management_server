@@ -11,7 +11,7 @@ module.exports = (app:express.Express, config:config.IConfig) => {
   // モデルを設定
   const models:Sequelize.Models = require('../libs/models')(sequelize);
 
-  // 認証
+  // 「/auth」認証
   app.use('/auth', auth(models, config));
 
   // ユーザー認証の確認処理
@@ -20,7 +20,7 @@ module.exports = (app:express.Express, config:config.IConfig) => {
   // 「/test」
   app.use('/test', test());
 
-  // /users
+  // 「/users」
   app.use('/users', users(models));
 
   // ユーザーの権限確認
