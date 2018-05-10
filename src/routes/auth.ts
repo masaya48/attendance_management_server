@@ -5,11 +5,11 @@ import * as jwt from 'jsonwebtoken';
 // import * as bcrypt from 'bcrypt';
 import * as Sequelize from 'sequelize';
 import * as Employee from 'models/m_employee';
-import {authenticate_service} from '../services/authenticate_service';
+import {AuthenticateService} from '../services/authenticate_service';
 
 export const auth = (models:Sequelize.Models, config:IConfig) => {
   let router = Express.Router();
-  const authService = new authenticate_service(config);
+  const authService = new AuthenticateService(config);
 
   /* ログイン認証 */
   router.post(
@@ -27,7 +27,7 @@ export const auth = (models:Sequelize.Models, config:IConfig) => {
       if (!errors.isEmpty()) {
         return res.status(403).json({errors: errors.mapped()});
       }
-      
+
       let req_employee_no:string = req.body.employee_no || null;
       let req_password:string = req.body.password || null;
       const Employee = models.m_employee as Employee.Model;

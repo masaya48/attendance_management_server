@@ -1,10 +1,10 @@
 import * as Express from 'express';
 import * as Config from 'config';
-import {authenticate_service} from '../services/authenticate_service';
+import {AuthenticateService} from '../services/authenticate_service';
 
-export const auth_guard:((config:Config.IConfig) => Express.RequestHandler) = ((config) => (req:Express.Request, res:Express.Response, next:Express.NextFunction) => {
+export const login_guard:((config:Config.IConfig) => Express.RequestHandler) = ((config) => (req:Express.Request, res:Express.Response, next:Express.NextFunction) => {
   // 認証用モジュールの読み込み
-  const authService = new authenticate_service(config);
+  const authService = new AuthenticateService(config);
   let header_auth = req.headers.authorization;
   const token = header_auth || req.query.token || req.body.token;
   authService
@@ -15,4 +15,9 @@ export const auth_guard:((config:Config.IConfig) => Express.RequestHandler) = ((
       }
       next();
     });
+});
+
+export const authority_gurd:(() => Express.RequestHandler) = (() => (req:Express.Request, res:Express.Response, next:Express.NextFunction) => {
+
+  next();
 });

@@ -4,7 +4,7 @@ import * as Sequelize from 'sequelize';
 import * as Employee from "models/m_employee";
 import * as Bluebird from 'bluebird';
 
-export class authenticate_service {
+export class AuthenticateService {
   /** 暗号化鍵 */
   private secret_key:string;
   /** 暗号化アルゴリズム */
