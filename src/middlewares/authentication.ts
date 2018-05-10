@@ -18,6 +18,6 @@ export const login_guard:((config:Config.IConfig) => Express.RequestHandler) = (
 });
 
 export const authority_gurd:(() => Express.RequestHandler) = (() => (req:Express.Request, res:Express.Response, next:Express.NextFunction) => {
-
+  console.log('authority gurd.');
   next();
 });

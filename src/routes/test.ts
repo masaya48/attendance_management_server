@@ -1,5 +1,5 @@
 import * as express from 'express';
-module.exports = () => {
+export const test = () => {
   let router = express.Router();
 
   /* GET home page.*/

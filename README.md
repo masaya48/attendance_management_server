@@ -64,7 +64,7 @@ $ mysql -u user_name -p
 Enter password: *******
 ```
 
-### *初期準備(DB・USERの作成と権限付与)*
+### *初期準備(DB・USERの作成と権限付与)*
 ```sql
 -- rootは任せます。
 -- rootのユーザーでシェルを起動して、指定されたuser名とpasswordでユーザー作成と権限付与
@@ -80,7 +80,7 @@ mysql> CREATE USER user_name IDENTIFIED BY 'password';
 -- 権限付与
 mysql> GRANT ALL ON attendance_management.* TO user_name;
 
--- シェルの終了
+-- シェルの了
 mysql> quit
 
 -- 権限付与の確認

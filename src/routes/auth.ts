@@ -17,9 +17,11 @@ export const auth = (models:Sequelize.Models, config:IConfig) => {
     [
       check('employee_no', 'ユーザーIDを入力して下さい')
         .exists()
+        .trim()
         .isLength({min:1}),
       check('password', 'パスワードを入力して下さい')
         .exists()
+        .trim()
         .isLength({min:1})
     ],
     (req:Express.Request, res:Express.Response, next:Express.NextFunction) => {
