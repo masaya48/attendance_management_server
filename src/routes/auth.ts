@@ -5,9 +5,11 @@ import * as jwt from 'jsonwebtoken';
 // import * as bcrypt from 'bcrypt';
 import * as Sequelize from 'sequelize';
 import * as Employee from 'models/m_employee';
+import {authenticate_service} from '../services/authenticate_service';
 
 export const auth = (models:Sequelize.Models, config:IConfig) => {
   let router = Express.Router();
+  const authService = new authenticate_service(config);
 
   /* ログイン認証 */
   router.post(
@@ -25,29 +27,18 @@ export const auth = (models:Sequelize.Models, config:IConfig) => {
       if (!errors.isEmpty()) {
         return res.status(403).json({errors: errors.mapped()});
       }
+      
       let req_employee_no:string = req.body.employee_no || null;
       let req_password:string = req.body.password || null;
-      const Employee = models.m_employee;
-      Employee.find({
-        where: {
-          employee_no: req_employee_no,
-          password: req_password
-        }
-      })
-      .then((employee:Employee.Instance) => {
-        if (!employee) {
-          return res.status(403).json({error: 'ユーザーIDもしくはパスワードが間違っています。'});
-        } else {
-          const params = config.get('jwt');
-          const secret_key = params['authentication_secret_key'];
-          const algorithm = params['algorithm'];
-          const {employee_no, user_no} = employee;
-          let token = jwt.sign({employee_no, user_no}, secret_key, {algorithm: algorithm});
-          employee.token = token;
-          employee.save();
-          return res.json({token: token});
-        }
-      });
+      const Employee = models.m_employee as Employee.Model;
+      authService
+        .login(Employee, req_employee_no, req_password)
+        .then(body => {
+          if (!body.token) {
+            return res.status(403).json(body);
+          }
+          return res.json(body);
+        });
     }
   );
 

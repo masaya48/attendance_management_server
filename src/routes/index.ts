@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as config from 'config';
-import {login_guard} from '../middlewares/authentication';
+import {auth_guard} from '../middlewares/authentication';
 import {auth} from './auth';
 import {users} from './users';
 module.exports = (app:express.Express, config:config.IConfig) => {
@@ -24,7 +24,7 @@ module.exports = (app:express.Express, config:config.IConfig) => {
   // let env = app.get('env');
   // if (env !== 'development') {
     // ユーザー認証の確認処理
-    app.use(login_guard(config));
+    app.use(auth_guard(config));
   // }
 
   const test = require('./test');

@@ -8,7 +8,7 @@ interface Params {
   entry_date: Date,
   birthday: Date
 }
-interface Model extends Sequelize.Model<Model, Params> {
+interface Model extends Sequelize.Model<Instance, Params> {
   user_no: number,
   employee_no: string,
   employee_name: string,
