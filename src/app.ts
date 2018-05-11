@@ -30,7 +30,7 @@ require('./routes/index')(app, config);
 app.use((req:express.Request, res:express.Response, next:express.NextFunction) => {
   let err = new Error('Not Found');
   Object.defineProperty(err, 'status', 404);
-  next(err);
+  return next(err);
 });
 
 // error handler

@@ -9,6 +9,7 @@
     "sync": "cross-env NODE_ENV=development node ./dist/bin/commands sync",
     "seed": "cross-env NODE_ENV=development node ./dist/bin/commands seed",
     "start": "cross-env NODE_ENV=development node ./bin/www",
+    "start:production": "cross-env NODE_ENV=production node ./dist/cluster",
     "test": "cross-env NODE_ENV=development node ./dist/bin/test"
   },
   "dependencies": {
