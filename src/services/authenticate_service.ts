@@ -40,14 +40,21 @@ export class AuthenticateService {
       .then((employee:Employee.Instance) => {
         return new Bluebird((resolve, reject) => {
           if (!employee) {
+            // 存在せず
             resolve({error: 'ユーザーIDもしくはパスワードが間違っています。'});
             return;
           } else {
+            // tokenの生成
             const {employee_no, user_no} = employee;
             let token:string = jwt.sign({employee_no, user_no}, this.secret_key, {algorithm: this.algorithm});
+            // token保存
             employee.token = token;
-            employee.save();
-            resolve({token: token});
+            employee
+              .save()
+              .then(() => {
+                // tokenを返却
+                return resolve({token: token});
+              });
             return;
           }
         });
@@ -64,17 +71,31 @@ export class AuthenticateService {
   /**
    * トークン複合化
    */
-  public verifyToken = (token:string, config:Config.IConfig):Bluebird<boolean> => {
+  public verifyToken = (Employee:Employee.Model, token:string):Bluebird<boolean> => {
     return new Bluebird((resolve, reject) => {
       jwt.verify(token, this.secret_key, {algorithms: [this.algorithm]}, (err, decoded) => {
         if (err) {
-          console.log('faild:' + JSON.stringify(decoded));
+          // 複合化失敗
           resolve(false);
           return;
         }
-        console.log('success:' + JSON.stringify(decoded));
-        resolve(true);
-        return;
+        return Employee
+          .findOne({
+            where: {
+              token: token,
+              user_no: decoded['user_no']
+            }
+          })
+          .then(employee => {
+            if (!employee) {
+              // 検索できず
+              resolve(false);
+              return;
+            }
+            // 成功
+            resolve(true);
+            return;
+          });
       });
     });
   };

@@ -14,7 +14,7 @@ export const auth = (models:Sequelize.Models, config:IConfig) => {
   /* ログイン認証 */
   router.post(
     '/login',
-    [
+    [ // バリデーションチェック
       check('employee_no', 'ユーザーIDを入力して下さい')
         .exists()
         .trim()
@@ -25,11 +25,13 @@ export const auth = (models:Sequelize.Models, config:IConfig) => {
         .isLength({min:1})
     ],
     (req:Express.Request, res:Express.Response, next:Express.NextFunction) => {
+      // バリデーション結果確認
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(403).json({errors: errors.mapped()});
       }
 
+      // 処理
       let req_employee_no:string = req.body.employee_no || null;
       let req_password:string = req.body.password || null;
       const Employee = models.m_employee as Employee.Model;
