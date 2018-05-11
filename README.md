@@ -35,11 +35,7 @@ $ yarn watch
 
 ### *サーバ起動*
 ```sh
-# for windows
 $ yarn start
-
-# for mac
-$ yarn start_mac
 ```
 
 <br/>
@@ -101,14 +97,10 @@ Database changed
 
 ### *テーブル定義の同期*
 ```sh
-# for windows
 $ yarn sync
-
-# for mac
-$ yarn sync_mac
 ```
 
-### *同期オプション(例はwindows)*
+### *同期オプション*
 ```sh
 # help表示
 $ yarn sync -h
@@ -130,14 +122,10 @@ $ yarn sync -a 1
 
 ### *初期データ投入*
 ```sh
-# for windows
 $ yarn seed
-
-# for mac
-$ yarn seed_mac
 ```
 
-### *投入オプション(例はwindows)*
+### *投入オプション*
 ```sh
 # help表示
 $ yarn seed -h
