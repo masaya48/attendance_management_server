@@ -6,13 +6,10 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "sync": "SET NODE_ENV=development&& node ./dist/bin/commands sync",
-    "seed": "SET NODE_ENV=development&& node ./dist/bin/commands seed",
-    "start": "SET NODE_ENV=development&& node ./bin/www",
-    "sync_mac": "export NODE_ENV=development; node ./dist/bin/commands sync",
-    "seed_mac": "export NODE_ENV=development; node ./dist/bin/commands seed",
-    "start_mac": "export NODE_ENV=development; node ./bin/www",
-    "test": "export NODE_ENV=development; node ./dist/bin/test"
+    "sync": "cross-env NODE_ENV=development node ./dist/bin/commands sync",
+    "seed": "cross-env NODE_ENV=development node ./dist/bin/commands seed",
+    "start": "cross-env NODE_ENV=development node ./bin/www",
+    "test": "cross-env NODE_ENV=development node ./dist/bin/test"
   },
   "dependencies": {
     "bcrypt": "^2.0.1",
@@ -26,6 +23,7 @@
     "helmet": "^3.12.0",
     "jade": "~1.11.0",
     "jsonwebtoken": "^8.2.1",
+    "moment": "^2.22.1",
     "morgan": "~1.9.0",
     "mysql2": "^1.5.2",
     "sequelize": "^4.35.2",
@@ -42,10 +40,12 @@
     "@types/express-validator": "^3.0.0",
     "@types/helmet": "0.0.37",
     "@types/jsonwebtoken": "^7.2.7",
+    "@types/moment": "^2.13.0",
     "@types/morgan": "^1.7.35",
     "@types/mysql": "^2.15.2",
     "@types/node": "^9.4.6",
     "@types/sequelize": "^4.27.12",
+    "cross-env": "^5.1.5",
     "typescript": "^2.7.2"
   }
 }

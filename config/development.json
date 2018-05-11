@@ -9,7 +9,8 @@
       "pool": {
         "maxConnections": 5,
         "maxIdleTime": 30
-      }
+      },
+      "operatorsAliases": false
     }
   },
   "jwt": {

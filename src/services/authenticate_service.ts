@@ -1,4 +1,5 @@
 import * as Config from 'config';
+import * as my_config from 'my-config';
 import * as jwt from 'jsonwebtoken';
 import * as Sequelize from 'sequelize';
 import * as Employee from "models/m_employee";
@@ -14,9 +15,9 @@ export class AuthenticateService {
    * コンストラクタ
    */
   constructor(config:Config.IConfig) {
-    const params = config.get('jwt');
-    const secret_key = params['authentication_secret_key'];
-    const algorithm = params['algorithm'];
+    const params = config.get<my_config.jwt_config>('jwt');
+    const secret_key = params.authentication_secret_key;
+    const algorithm = params.algorithm;
     if (secret_key && algorithm) {
       this.secret_key = secret_key;
       this.algorithm = algorithm;
