@@ -10,6 +10,11 @@
         "maxConnections": 5,
         "maxIdleTime": 30
       },
+      "define": {
+        "freezeTableName": true,
+        "timestamps": true,
+        "underscored": true
+      },
       "operatorsAliases": false
     }
   },
