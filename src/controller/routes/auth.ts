@@ -1,29 +1,28 @@
+// node_modules
 import * as Express from 'express';
-import {check, validationResult} from 'express-validator/check';
-import {IConfig} from 'config';
+import {check, body, validationResult} from 'express-validator/check';
+import * as Config from 'config';
 import * as jwt from 'jsonwebtoken';
 // import * as bcrypt from 'bcrypt';
 import * as Sequelize from 'sequelize';
 import * as Employee from 'models/m_employee';
-import {AuthenticateService} from '../services/authenticate_service';
 
-export const auth = (models:Sequelize.Models, config:IConfig) => {
+// sevices
+import AuthenticateService from '../../services/authenticate_service';
+
+export default function auth(models:Sequelize.Models, config:Config.IConfig) {
   let router = Express.Router();
   const authService = new AuthenticateService(config);
 
-  /* ログイン認証 */
-  router.post(
-    '/login',
-    [ // バリデーションチェック
-      check('employee_no', 'ユーザーIDを入力して下さい')
-        .exists()
-        .trim()
-        .isLength({min:1}),
-      check('password', 'パスワードを入力して下さい')
-        .exists()
-        .trim()
-        .isLength({min:1})
-    ],
+  const login = [ // バリデーションチェック
+    body('employee_no', 'ユーザーIDを入力して下さい')
+      .exists()
+      .trim()
+      .isLength({min:1}),
+    body('password', 'パスワードを入力して下さい')
+      .exists()
+      .trim()
+      .isLength({min:1}),
     (req:Express.Request, res:Express.Response, next:Express.NextFunction) => {
       // バリデーション結果確認
       const errors = validationResult(req);
@@ -44,7 +43,10 @@ export const auth = (models:Sequelize.Models, config:IConfig) => {
           return res.json(body);
         });
     }
-  );
+  ]
+
+  /* ログイン認証 */
+  router.post('/login', login);
 
   return router;
 };

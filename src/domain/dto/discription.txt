@@ -1,0 +1,4 @@
+request/
+  -DTO for Rquest
+response/
+  -DTO for Response

@@ -1,7 +1,7 @@
 import * as Express from 'express';
 import * as Config from 'config';
 import * as Sequelize from 'sequelize';
-import {AuthenticateService} from '../services/authenticate_service';
+import AuthenticateService from '../services/authenticate_service';
 import * as Employee from 'models/m_employee'
 
 const login_guard:((models:Sequelize.Models, config:Config.IConfig) => Express.RequestHandler) = ((models, config) => (req:Express.Request, res:Express.Response, next:Express.NextFunction) => {

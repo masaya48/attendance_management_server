@@ -1,0 +1,5 @@
+routes/
+  -requestを元にdomainのserviceを呼び出し
+  -middlewareの呼び出し
+helper/
+  -routes⇔service間のDTO相互変換(router補助)

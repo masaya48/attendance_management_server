@@ -1,10 +1,12 @@
+// node_modules
 import * as express from 'express';
-export const test = () => {
+
+export default function test() {
   let router = express.Router();
 
   /* GET home page.*/
   router.get('/', (req:express.Request, res:express.Response, next:express.NextFunction) => {
-    res.render('index', {title: 'Express'});
+    return res.render('index', {title: 'Express'});
   });
 
   return router;

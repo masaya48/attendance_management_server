@@ -4,8 +4,9 @@ import * as jwt from 'jsonwebtoken';
 import * as Sequelize from 'sequelize';
 import * as Employee from "models/m_employee";
 import * as Bluebird from 'bluebird';
+import * as Express from 'express';
 
-export class AuthenticateService {
+export default class AuthenticateService {
   /** 暗号化鍵configから取得 */
   private secret_key:string;
   /** 暗号化アルゴリズムconfigから取得 */
@@ -18,14 +19,20 @@ export class AuthenticateService {
     const params = config.get<my_config.jwt_config>('jwt');
     const secret_key = params.authentication_secret_key;
     const algorithm = params.algorithm;
-    if (secret_key && algorithm) {
-      this.secret_key = secret_key;
-      this.algorithm = algorithm;
-    } else {
-      throw new Error('config faild!');
-    }
+    // if (secret_key && algorithm) {
+    this.secret_key = secret_key;
+    this.algorithm = algorithm;
+    // } else {
+    //   throw new Error('config faild!');
+    // }
   }
 
+  public login_tes = (models:Sequelize.Models):Express.RequestHandler => {
+    return (req, res, next) => {
+      const body = req.body;
+      body.password
+    }
+  }
   /**
    * ログイン
    */
@@ -79,6 +86,7 @@ export class AuthenticateService {
           resolve(false);
           return;
         }
+
         return Employee
           .findOne({
             where: {
