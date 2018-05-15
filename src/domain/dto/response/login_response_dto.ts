@@ -1,6 +1,6 @@
-import BaseResponseDTO from './base-response-dto'
+import BaseResponseDTO from './base_response_dto'
 class LoginResponseDTO extends BaseResponseDTO {
-  protected token
+  protected readonly token:string
 
   constructor(status:number, message:string, token:string) {
     super(status, message)

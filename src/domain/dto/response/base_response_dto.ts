@@ -1,9 +1,9 @@
-abstract class BaseResponseDTO implements BaseResponseDTO.IBaseResponseDTO {
-  protected readonly status:number;
-  protected readonly message:string;
+abstract class BaseResponseDTO {
+  protected readonly status:number
+  protected readonly message:string
   public constructor(status:number, message:string) {
-    this.status = status;
-    this.message = message;
+    this.status = status
+    this.message = message
   }
   public getStatus() {
     return this.status;
@@ -30,11 +30,6 @@ declare namespace BaseResponseDTO {
     status: number;
     message: string;
     body: IResponseBody;
-  }
-  interface IBaseResponseDTO {
-    /** get response body */
-    getResponseBody():IResponseBody
-    _getResponseEntity():IResponseEntity
   }
 }
 export default BaseResponseDTO;
