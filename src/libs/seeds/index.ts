@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-module.exports = () => {
+export default function getSeeds() {
   const directory = path.join(__dirname, '..', '..', 'seeds');
   try {
     fs.lstatSync(directory);

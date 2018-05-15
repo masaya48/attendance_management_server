@@ -1,7 +1,12 @@
-import * as Sequelize from 'sequelize';
-import * as Config from 'config';
-import * as Bluebird from 'bluebird';
-// const Connection = require('../connection');
+// node_modules
+import * as Sequelize from 'sequelize'
+import * as Config from 'config'
+import * as Bluebird from 'bluebird'
+
+// libs
+import dbconn from './../../libs/dbconn'
+import getModels from './../../libs/models'
+
 /**
  * 同期主処理
  * 
@@ -9,52 +14,50 @@ import * as Bluebird from 'bluebird';
  * @param tables
  * @param options
  */
-module.exports = (all:boolean, tables:string[], options:Sequelize.SyncOptions):Bluebird<any> => {
-  // connectionを取得
-  // const con = new Connection(Config);
-  // const sequelize:Sequelize.Sequelize = con.getSequelize();
-  // const models:Sequelize.Models = con.getModels();
-  const sequelize:Sequelize.Sequelize = require('../../libs/dbconn')(Config);
-  const models:Sequelize.Models = require('../../libs/models')(sequelize);
+const sync = (all:boolean, tables:string[], options:Sequelize.SyncOptions):Bluebird<any> => {
+  const sequelize:Sequelize.Sequelize = dbconn(Config)
+  const models:Sequelize.Models = getModels(sequelize)
+
   const done = () => {
     return () => {
-      console.log('sync success!');
+      console.log('sync success!')
     }
-  };
+  }
   const dberr = (msg:string) => {
     return (e:Error) => {
-      console.log(msg);
+      console.log(msg)
     }
-  };
+  }
   const connectionClose = () => {
     return sequelize
       .close()
       .then(() => {
-        console.log('connection close.');
+        console.log('connection close.')
       })
-      .error(dberr('close faild.'));
-  };
+      .error(dberr('close faild.'))
+  }
+
   if (all == true || !tables || tables.length === 0) {
     // 全テーブル同期
     return new Bluebird(() => {
       // 同期[sequelize.sync()]の前処理
       sequelize.beforeBulkSync(() => {
         return sequelize
-          .query('SET FOREIGN_KEY_CHECKS = 0;');
-      });
+          .query('SET FOREIGN_KEY_CHECKS = 0;')
+      })
       // 同期[sequelize.sync()]の後処理
       sequelize.afterBulkSync(() => {
         return sequelize
           .query('SET FOREIGN_KEY_CHECKS = 1;')
           .finally(() => {
-            return connectionClose();
-          });
-      });
+            return connectionClose()
+          })
+      })
       // 同期の主処理
       return sequelize
         .sync(options)
         .then(done())
-        .error(dberr('sync faild.'));
+        .error(dberr('sync faild.'))
     })
   } else if (tables && tables.length > 0) {
     // 指定されたテーブルを同期
@@ -63,7 +66,7 @@ module.exports = (all:boolean, tables:string[], options:Sequelize.SyncOptions):B
       .then(() => {
         // 同期の前処理
         return sequelize
-          .query('SET FOREIGN_KEY_CHECKS = 0;');
+          .query('SET FOREIGN_KEY_CHECKS = 0;')
       })
       .then(() => {
         // 同期の主処理
@@ -71,11 +74,11 @@ module.exports = (all:boolean, tables:string[], options:Sequelize.SyncOptions):B
           const model = models[table];
           if (model) {
             return model
-              .sync(options);
+              .sync(options)
           } else {
-            console.log('table ' + table + ' is not found.');
+            console.log('table ' + table + ' is not found.')
           }          
-        }));
+        }))
       })
       .then(done())
       .finally(() => {
@@ -83,12 +86,13 @@ module.exports = (all:boolean, tables:string[], options:Sequelize.SyncOptions):B
         return sequelize
           .query('SET FOREIGN_KEY_CHECKS = 1;')
           .finally(() => {
-            return connectionClose();
-          });
+            return connectionClose()
+          })
       })
-      .error(dberr('sync faild.'));
+      .error(dberr('sync faild.'))
     }
   return new Bluebird(() => {
-    console.log('sync no tables.');
-  });
-};
+    console.log('sync no tables.')
+  })
+}
+export default sync

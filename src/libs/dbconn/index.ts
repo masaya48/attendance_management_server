@@ -9,7 +9,7 @@ import * as my_config from 'my-config'
  *   options:  <Object>
  * }
  */
-module.exports = (config:Config.IConfig) => {
+export default function dbconn(config:Config.IConfig) {
   let params = config.get<my_config.sequelize_config>('sequelize');
   if (!params || !params.options) {
     throw new Error('configration parameters not found.');

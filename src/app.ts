@@ -26,7 +26,7 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, './../public')))
 
 // url mapping
-app.use('/', routes(config))
+app.use('/api/v1', routes(config))
 
 // catch 404 and forward to error handler
 app.use((req:express.Request, res:express.Response, next:express.NextFunction) => {

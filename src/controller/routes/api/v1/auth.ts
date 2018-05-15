@@ -8,7 +8,7 @@ import * as Sequelize from 'sequelize'
 import * as Employee from 'models/m_employee'
 
 // sevices
-import AuthenticateService from '../../../../services/authenticate_service'
+import AuthenticateService from './../../../../services/authenticate_service'
 
 export default function auth(models:Sequelize.Models, config:Config.IConfig) {
   let router = Express.Router()

@@ -1,4 +1,5 @@
-import * as Sequelize from 'sequelize';
+import * as Sequelize from 'sequelize'
+import syncMain from './sync_main'
 /**
  * 同期
  * 
@@ -6,7 +7,6 @@ import * as Sequelize from 'sequelize';
  * @param tables
  * @param options
  */
-module.exports = (all:boolean, tables:string[],options:Sequelize.SyncOptions) => {
-  const sync = require('./sync_main')(all, tables, options);
-  sync.then();
-};
+export default function sync(all:boolean, tables:string[],options:Sequelize.SyncOptions):void {
+  syncMain(all, tables, options).then()
+}

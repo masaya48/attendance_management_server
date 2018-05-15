@@ -11,12 +11,16 @@ import auth from './auth'
 import users from './users'
 import test from './test'
 
+// others
+import dbconn from './../../../../libs/dbconn'
+import getModels from './../../../../libs/models'
+
 export default function routes(config:Config.IConfig) {
   const router = Express.Router()
   // DB設定読み込み
-  const sequelize:Sequelize.Sequelize = require('../libs/dbconn')(config)
+  const sequelize:Sequelize.Sequelize = dbconn(config)
   // モデルを設定
-  const models:Sequelize.Models = require('../libs/models')(sequelize)
+  const models:Sequelize.Models = getModels(sequelize)
 
   // 「/auth」認証
   router.use('/auth', auth(models, config))

@@ -1,23 +1,30 @@
-import * as Commander from 'commander';
-import * as Sequelize from 'sequelize';
+// node_modules
+import * as Commander from 'commander'
+import * as Sequelize from 'sequelize'
+
+// functions
+import sync from './../sync'
+import seed from './../seed'
+
 const types = {
   json: (value:string) => {
-    console.log(value);
-    return JSON.parse(value);
+    console.log(value)
+    return JSON.parse(value)
   },
   csv: (value:string) => {
-    return value.split(',');
+    return value.split(',')
   },
   list: (value:string, list:Array<string>) => {
-    list.push(value);
-    return list;
+    list.push(value)
+    return list
   }
-};
+}
 
-module.exports = (commander:Commander.CommanderStatic) => {
+export default function commandMain(commander:Commander.CommanderStatic) {
   // syncコマンドのバージョン
   commander
-    .version('0.0.1');
+    .version('0.0.1')
+
   // オプション定義[sync]
   commander
     .command('sync [env]')
@@ -27,35 +34,35 @@ module.exports = (commander:Commander.CommanderStatic) => {
     .option('-f, --options-force <n>', 'sync option of force', /^(0|1)$/i, '0')
     .option('-a, --options-alter <n>', 'sync option of alter', /^(0|1)$/i, '1')
     .action((env, options) => {
-      const node_env = process.env.NODE_ENV;
+      const node_env = process.env.NODE_ENV
       if (node_env !== 'development') {
-        return;
+        return
       }
-      const sync_options:Sequelize.SyncOptions = {};
+      const sync_options:Sequelize.SyncOptions = {}
 
       // forceの設定
       if (options.optionsForce && options.optionsForce === '1') {
-        sync_options.force = true;
+        sync_options.force = true
       } else {
-        sync_options.force = false;
+        sync_options.force = false
       }
       // alterの設定
       if (options.optionsAlter && options.optionsAlter === '1') {
-        sync_options.alter = true;
+        sync_options.alter = true
       } else {
-        sync_options.alter = false;
+        sync_options.alter = false
       }
 
       const args = {
         all: options.all,
         tables: options.tables,
         options: sync_options
-      };
-      console.log(JSON.stringify(args));
+      }
+      console.log(JSON.stringify(args))
 
       // 同期処理実行
-      require('../sync')(options.all, options.tables, sync_options);
-    });
+      sync(options.all, options.tables, sync_options)
+    })
 
   // オプション定義[seed]
   commander
@@ -66,37 +73,15 @@ module.exports = (commander:Commander.CommanderStatic) => {
     .option('-u, --update', 'insert or update rows')
     .option('-d, --destroy', 'delete table row')
     .action((env, options) => {
-      const node_env = process.env.NODE_ENV;
+      const node_env = process.env.NODE_ENV
       if (node_env !== 'development') {
-        return;
+        return
       }
-      console.log('seed');
-      require('../seed')(options.all, options.tables, options.update, options.destroy);
-    });
+      console.log('seed')
+      seed(options.all, options.tables, options.update, options.destroy)
+    })
 
   // 使用するオプションにnodeのコマンドライン引数を指定
   commander
-    .parse(process.argv);
-
-  // const options:Sequelize.SyncOptions = {};
-
-  // if (commander.optionsForce && commander.optionsForce === '1') {
-  //   options.force = true;
-  // } else {
-  //   options.force = false;
-  // }
-
-  // if (commander.optionsAlter && commander.optionsAlter === '1') {
-  //   options.alter = true;
-  // } else {
-  //   options.alter = false;
-  // }
-
-  // const sync_options = {
-  //   all: commander.all,
-  //   tables: commander.tables,
-  //   options: options
-  // };
-
-  // return sync_options;
-};
+    .parse(process.argv)
+}

@@ -1,8 +1,7 @@
-// import * as Sequelize from 'sequelize';
+import seedMain from './../seed/seed_main'
 /**
  * 初期データ投入
  */
-module.exports = (all:boolean, tables:string[], update:boolean, destroy:boolean) => {
-  const seed = require('./seed_main')(all, tables, update, destroy);
-  seed.then();
-};
+export default function seed(all:boolean, tables:string[], update:boolean, destroy:boolean):void {
+  seedMain(all, tables, update, destroy).then()
+}

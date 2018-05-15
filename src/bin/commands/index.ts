@@ -1,6 +1,7 @@
-import * as commander from 'commander';
+import * as commander from 'commander'
+import commandMain from './command_main'
 
 // ================================================================
 // コマンドラインオプション設定・取得
 // ================================================================
-require('./command_option')(commander);
+commandMain(commander)
