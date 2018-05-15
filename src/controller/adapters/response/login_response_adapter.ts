@@ -6,7 +6,8 @@ class LoginResponseAdapter implements ResponseAdapter.ResponseAdapter {
     return {
       status: responseDTO.getStatus(),
       message: responseDTO.getMessage(),
-      result: responseDTO.getResponseBody()
+      results: responseDTO.getResponseBody()
     }
   }
 }
+export default LoginResponseAdapter

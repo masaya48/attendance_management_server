@@ -7,7 +7,7 @@ declare namespace ResponseAdapter {
   interface ResponseEntity {
     status: number
     message: string
-    result?: {
+    results?: {
       [indexed: string]: any
     }
   }

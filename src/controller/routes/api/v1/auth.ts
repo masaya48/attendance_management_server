@@ -7,12 +7,20 @@ import * as jwt from 'jsonwebtoken'
 import * as Sequelize from 'sequelize'
 import * as Employee from 'models/m_employee'
 
-// sevices
-import AuthenticateService from './../../../../services/authenticate_service'
+// adapter
+import LoginRequestAdapter from './../../../adapters/request/login_request_adapter'
+import LoginResponseAdapter from './../../../adapters/response/login_response_adapter'
+
+// sevice
+import AuthenticateService from './../../../../domain/services/authenticate_service'
+import AuthenticateService0 from './../../../../services/authenticate_service'
 
 export default function auth(models:Sequelize.Models, config:Config.IConfig) {
-  let router = Express.Router()
-  const authService = new AuthenticateService(config)
+  const router = Express.Router()
+  const authService = new AuthenticateService0(config)
+  const authenticateService = new AuthenticateService()
+  const loginRequestAdapter = new LoginRequestAdapter()
+  const loginResponseAdapter = new LoginResponseAdapter()
 
   const login = [ // バリデーションチェック
     body('employee_no', 'ユーザーIDを入力して下さい')
@@ -27,9 +35,11 @@ export default function auth(models:Sequelize.Models, config:Config.IConfig) {
       // バリデーション結果確認
       const errors = validationResult(req)
       if (!errors.isEmpty()) {
-        return res.status(403).json({errors: errors.mapped()})
+        return res.status(401).json({status:401, message: '認証エラー', results: {errors: errors.mapped()}})
       }
 
+      const responseEntity = loginResponseAdapter.convert(authenticateService.login(loginRequestAdapter.convert(req)))
+     res.status(responseEntity.status).json(responseEntity)
       // 処理
       let req_employee_no:string = req.body.employee_no || null
       let req_password:string = req.body.password || null
