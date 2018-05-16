@@ -11,10 +11,10 @@ if (cluster.isMaster) {
       cluster.fork();
     })
     .on('online', (worker) => {
-      console.log("worker("+worker.id+").online " + worker.process.pid);
+      console.log("worker(" + worker.id + ").online " + worker.process.pid);
     })
     .on('listening', (worker, address) => {
-      console.log("worker("+worker.id+").listening " + address.address + ":" + address.port);
+      console.log("worker(" + worker.id + ").listening " + address.address + ":" + address.port);
     });
 } else {
   console.log('test');

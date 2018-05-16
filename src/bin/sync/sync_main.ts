@@ -4,19 +4,17 @@ import * as Config from 'config'
 import * as Bluebird from 'bluebird'
 
 // libs
-import dbconn from './../../libs/dbconn'
-import getModels from './../../libs/models'
+import sequelize from './../../libs/dbconn'
+import models from './../../libs/models'
 
 /**
  * 同期主処理
- * 
+ *
  * @param all
  * @param tables
  * @param options
  */
 const sync = (all:boolean, tables:string[], options:Sequelize.SyncOptions):Bluebird<any> => {
-  const sequelize:Sequelize.Sequelize = dbconn
-  const models:Sequelize.Models = getModels(sequelize)
 
   const done = () => {
     return () => {
@@ -77,7 +75,7 @@ const sync = (all:boolean, tables:string[], options:Sequelize.SyncOptions):Blueb
               .sync(options)
           } else {
             console.log('table ' + table + ' is not found.')
-          }          
+          }
         }))
       })
       .then(done())

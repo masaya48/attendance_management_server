@@ -4,7 +4,7 @@ import * as path from 'path'
 import * as logger from 'morgan'
 import * as cookieParser from 'cookie-parser'
 import * as bodyParser from 'body-parser'
-import * as config from 'config'
+import config from './utils/config/my_config'
 import * as helmet from 'helmet'
 import routes from './controller/routes/api/v1'
 import {ResponseAdapter, ResponseBody} from './controller/adapters/response/response_adapter'
@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, './../public')))
 
-// url mapping
+// url mappings
 app.use('/api/v1', routes(config))
 
 // catch 404 and forward to error handler
@@ -50,5 +50,8 @@ app.use((err:ResponseBody, req:express.Request, res:express.Response, next:expre
   res.status(err.status || 500)
   res.send(err.message || 'Internal Server Error')
 })
+
+// wwwを使わないようにしないと失敗しかねない
+// app.listen(config.server.port || 3000)
 
 module.exports = app

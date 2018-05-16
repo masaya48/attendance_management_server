@@ -21,5 +21,8 @@
   "jwt": {
     "authentication_secret_key": "tokenSecretKey",
     "algorithm": "HS256"
+  },
+  "server": {
+    "port": 3030
   }
 }

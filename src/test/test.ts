@@ -1,5 +1,6 @@
 import * as Config from 'config'
 import S from './../libs/dbconn'
+import S2 from './../libs/dbconn'
 
-const seq1 = S
-export default seq1
+S2['aaaaaa'] = 'test'
+console.log(S['aaaaaa'])

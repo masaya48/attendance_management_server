@@ -1,15 +1,14 @@
-import * as config from 'config'
+import config from './../../utils/config/my_config'
 import * as Sequelize from 'sequelize'
-import * as my_config from 'my-config'
 /**
  * config.sequelize = {
  *   database: <String>,
  *   username: <String>,
  *   password: <String>,
- *   options:  <Object>
+ *   options:  <Sequelize.Options>
  * }
  */
-let params = config.get<my_config.sequelize_config>('sequelize')
+let params = config.sequelize
 if (!params || !params.options) {
   throw new Error('configration parameters not found.')
 }

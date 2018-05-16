@@ -2,7 +2,7 @@ import * as Config from 'config';
 import * as my_config from 'my-config';
 import * as jwt from 'jsonwebtoken';
 import * as Sequelize from 'sequelize';
-import * as Employee from "models/m_employee";
+import Employee from "models/m_employee";
 import * as Bluebird from 'bluebird';
 import * as Express from 'express';
 

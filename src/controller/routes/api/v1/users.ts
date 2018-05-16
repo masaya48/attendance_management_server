@@ -3,7 +3,7 @@ import * as Express from 'express';
 import * as Sequelize from 'sequelize';
 
 // mytypes
-import * as Employee from 'models/m_employee';
+import Employee from 'models/m_employee';
 
 export default function users(models:Sequelize.Models) {
   let router = Express.Router();
@@ -15,21 +15,12 @@ export default function users(models:Sequelize.Models) {
       res.send(column);
     });
   });
-/*
-{
-   where: Sequelize.and(
-     { name: 'a project' },
-     Sequelize.or(
-       { id: [1,2,3] },
-       { id: { gt: 10 } }
-     )
-   )
-}
-*/
+
   // アクセスURL返すだけ
   router.get('/url', (req:Express.Request, res:Express.Response, next:Express.NextFunction) => {
     res.send(req.baseUrl + ' + ' + req.url + ' → ' + req.originalUrl);
   });
+
   router.post('/test', (req:Express.Request, res:Express.Response, next:Express.NextFunction) => {
     const Employee = models.m_employee;
     Employee.findById(1).then((employee:Employee.Instance) => {

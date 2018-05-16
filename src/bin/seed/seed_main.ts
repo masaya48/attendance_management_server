@@ -2,14 +2,11 @@ import * as Sequelize from 'sequelize'
 import * as Config from 'config'
 import * as Bluebird from 'bluebird'
 // const Connection = require('../connection')
-import dbconn from './../../libs/dbconn'
-import getModels from './../../libs/models'
-import getSeeds from './../../libs/seeds'
+import sequelize from './../../libs/dbconn'
+import models from './../../libs/models'
+import seeds from './../../libs/seeds'
 
 export default function seedMain(all:boolean, tables:string[], update:boolean, destroy:boolean):Bluebird<any> {
-  const sequelize:Sequelize.Sequelize = dbconn
-  const models:Sequelize.Models = getModels(sequelize)
-  const seeds = getSeeds()
 
   const done = () => {
     return () => {
