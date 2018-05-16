@@ -9,8 +9,35 @@ interface ResponseBody {
   message: string
   results?: ResponseResults
 }
+interface ErrorResponseBody extends ResponseBody {
+  results?: {
+    errors: any
+  }
+}
+class ErrorResponse {
+  private body: ErrorResponseBody
+  public constructor(status: number, message: string, errors?: any) {
+    this.body = {
+      status: status,
+      message: message,
+      results: {
+        errors: errors
+      }
+    }
+  }
+  public getBody() {
+    return this.body
+  }
+  public getStatus() {
+    return this.body.status
+  }
+  public getMessage() {
+    return this.body.message
+  }
+}
 export {
   ResponseAdapter,
   ResponseBody,
-  ResponseResults
+  ResponseResults,
+  ErrorResponse
 }

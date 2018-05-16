@@ -1,5 +1,7 @@
 routes/
   -requestを元にdomainのserviceを呼び出し
   -middlewareの呼び出し
-helper/
+adapters/
   -routes⇔service間のDTO相互変換(router補助)
+validator/
+  -requestパラメーターのバリデーション
