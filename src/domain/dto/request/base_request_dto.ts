@@ -7,7 +7,4 @@ abstract class BaseRequestDTO {
     return this.token
   }
 }
-declare namespace BaseRequestDTO {
-  interface IRequestBody {}
-}
 export default BaseRequestDTO

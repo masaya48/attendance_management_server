@@ -3,15 +3,15 @@ import * as Express from 'express'
 import {check, body, validationResult} from 'express-validator/check'
 import * as Config from 'config'
 import * as jwt from 'jsonwebtoken'
-// import * as bcrypt from 'bcrypt'
 import * as Sequelize from 'sequelize'
 import * as Employee from 'models/m_employee'
-
-// adapter
+/* import * as bcrypt from 'bcrypt' */
+// adapters
+import RequestAdapter from './../../../adapters/request/request_adapter'
+import {ResponseAdapter} from './../../../adapters/response/response_adapter'
 import LoginRequestAdapter from './../../../adapters/request/login_request_adapter'
 import LoginResponseAdapter from './../../../adapters/response/login_response_adapter'
-
-// sevice
+// sevices
 import AuthenticateService from './../../../../domain/services/authenticate_service'
 import AuthenticateService0 from './../../../../services/authenticate_service'
 
@@ -39,7 +39,7 @@ export default function auth(models:Sequelize.Models, config:Config.IConfig) {
       }
 
       const responseEntity = loginResponseAdapter.convert(authenticateService.login(loginRequestAdapter.convert(req)))
-     res.status(responseEntity.status).json(responseEntity)
+      res.status(responseEntity.status).json(responseEntity)
       // 処理
       let req_employee_no:string = req.body.employee_no || null
       let req_password:string = req.body.password || null

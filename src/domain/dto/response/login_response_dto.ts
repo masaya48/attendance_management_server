@@ -6,17 +6,9 @@ class LoginResponseDTO extends BaseResponseDTO {
     super(status, message)
     this.token = token
   }
-
-  public getResponseBody(): LoginResponseDTO.IResponseBody {
-    return {
-      token: this.token
-    }
+  public getToken() {
+    return this.token
   }
-}
-declare namespace LoginResponseDTO {
-  interface IResponseBody extends BaseResponseDTO.IResponseBody {
-    token:string;
-  }
-}
 
+}
 export default LoginResponseDTO

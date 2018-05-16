@@ -18,7 +18,7 @@ import getModels from './../../../../libs/models'
 export default function routes(config:Config.IConfig) {
   const router = Express.Router()
   // DB設定読み込み
-  const sequelize:Sequelize.Sequelize = dbconn(config)
+  const sequelize:Sequelize.Sequelize = dbconn/*(config)*/
   // モデルを設定
   const models:Sequelize.Models = getModels(sequelize)
 
@@ -37,5 +37,6 @@ export default function routes(config:Config.IConfig) {
   // ユーザーの権限確認(今は何もしていない)
   router.use('/manager', authority_gurd())
   router.use('/manager', (req, res, next) => {})
+
   return router
 }

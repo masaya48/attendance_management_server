@@ -11,25 +11,5 @@ abstract class BaseResponseDTO {
   public getMessage() {
     return this.message;
   }
-
-  /**
-   * @const
-   */
-  public _getResponseEntity():BaseResponseDTO.IResponseEntity {
-    return {
-      status: this.status,
-      message: this.message,
-      body: this.getResponseBody()
-    }
-  }
-  abstract getResponseBody():BaseResponseDTO.IResponseBody
 }
-declare namespace BaseResponseDTO {
-  interface IResponseBody {}
-  interface IResponseEntity {
-    status: number;
-    message: string;
-    body: IResponseBody;
-  }
-}
-export default BaseResponseDTO;
+export default BaseResponseDTO

@@ -1,15 +1,16 @@
 import * as Express from 'express'
 import BaseResponseDTO from './../../../domain/dto/response/base_response_dto'
-declare namespace ResponseAdapter {
-  interface ResponseAdapter {
-    convert(responseDTO: BaseResponseDTO): ResponseEntity
-  }
-  interface ResponseEntity {
-    status: number
-    message: string
-    results?: {
-      [indexed: string]: any
-    }
-  }
+interface ResponseAdapter {
+  convert(responseDTO: BaseResponseDTO): ResponseBody
 }
-export default ResponseAdapter
+interface ResponseResults {}
+interface ResponseBody {
+  status: number
+  message: string
+  results?: ResponseResults
+}
+export {
+  ResponseAdapter,
+  ResponseBody,
+  ResponseResults
+}
