@@ -7,7 +7,7 @@ import getModels from './../../libs/models'
 import getSeeds from './../../libs/seeds'
 
 export default function seedMain(all:boolean, tables:string[], update:boolean, destroy:boolean):Bluebird<any> {
-  const sequelize:Sequelize.Sequelize = dbconn(Config)
+  const sequelize:Sequelize.Sequelize = dbconn
   const models:Sequelize.Models = getModels(sequelize)
   const seeds = getSeeds()
 

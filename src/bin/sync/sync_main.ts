@@ -15,7 +15,7 @@ import getModels from './../../libs/models'
  * @param options
  */
 const sync = (all:boolean, tables:string[], options:Sequelize.SyncOptions):Bluebird<any> => {
-  const sequelize:Sequelize.Sequelize = dbconn(Config)
+  const sequelize:Sequelize.Sequelize = dbconn
   const models:Sequelize.Models = getModels(sequelize)
 
   const done = () => {
