@@ -1,10 +1,19 @@
 import * as Express from 'express';
-import * as Config from 'config';
 import * as Sequelize from 'sequelize';
+import {validationResult} from 'express-validator/check'
+import config from './../libs/config';
+import validator from './../controller/validator'
 import AuthenticateService from '../services/authenticate_service';
+import models from './../libs/models'
 import Employee from 'models/m_employee'
 
-const login_guard:((models:Sequelize.Models, config:Config.IConfig) => Express.RequestHandler) = ((models, config) => (req:Express.Request, res:Express.Response, next:Express.NextFunction) => {
+const login_guard:(() => Express.RequestHandler) = (() => (req:Express.Request, res:Express.Response, next:Express.NextFunction) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const errorResponse = validator.getErrorResponse(400, 'リクエストエラー', errors)
+    return res.status(errorResponse.getStatus()).json(errorResponse.getBody())
+  }
+
   // 認証用モジュールの読み込み
   const authService = new AuthenticateService(config);
   let header_auth = req.headers.authorization;

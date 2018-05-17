@@ -4,7 +4,7 @@ import {check, body, validationResult} from 'express-validator/check'
 import * as jwt from 'jsonwebtoken'
 /* import * as bcrypt from 'bcrypt' */
 // config
-import config from './../../../../utils/config/my_config'
+import config from './../../../../libs/config'
 // validator
 import validator from './../../../validator'
 // dto

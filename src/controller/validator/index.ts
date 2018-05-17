@@ -14,5 +14,10 @@ export default {
       .exists()
       .trim()
       .isLength({min: 1})
+  ],
+  login_guard: [
+    header('Authenticato', 'tokenチェックエラー')
+      .trim()
+      .isLength({min: 1})
   ]
 }

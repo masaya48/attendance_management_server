@@ -1,4 +1,4 @@
-import config from './../../utils/config/my_config'
+import config from './../config'
 import * as Sequelize from 'sequelize'
 /**
  * config.sequelize = {

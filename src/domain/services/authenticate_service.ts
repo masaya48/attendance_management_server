@@ -2,7 +2,7 @@
 import * as Bluebird from 'bluebird'
 import * as jwt from 'jsonwebtoken'
 // config
-import config from './../../utils/config/my_config'
+import config from './../../libs/config'
 // dto
 import BaseResponseDTO from './../dto/response/base_response_dto'
 import LoginRequestDTO from './../dto/request/login_request_dto'
