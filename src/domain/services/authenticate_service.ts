@@ -4,6 +4,7 @@ import * as jwt from 'jsonwebtoken'
 // config
 import config from './../../utils/config/my_config'
 // dto
+import BaseResponseDTO from './../dto/response/base_response_dto'
 import LoginRequestDTO from './../dto/request/login_request_dto'
 import LoginResponseDTO from './../dto/response/login_response_dto'
 import ErrorResponseDTO from './../dto/response/error_response_dto'
@@ -39,6 +40,38 @@ class AuthenticateService {
       .error(() => {
         reject(new ErrorResponseDTO(500, 'サーバーエラー'))
       })
+    })
+  }
+
+  // よくわかりゃん…
+  public verifyToken(token): Bluebird<boolean> {
+    const Employee = models.m_employee as Employee.Model
+    return new Bluebird((resolve, reject) => {
+      jwt.verify(token, config.jwt.authentication_secret_key, {algorithms: [config.jwt.algorithm]}, (err, decoded) => {
+        if (err) {
+          // 複合化失敗
+          resolve(false);
+          return;
+        }
+
+        return Employee
+          .findOne({
+            where: {
+              token: token,
+              user_no: decoded['user_no']
+            }
+          })
+          .then(employee => {
+            if (!employee) {
+              // 検索できず
+              resolve(false);
+              return;
+            }
+            // 成功
+            resolve(true);
+            return;
+          });
+      });
     })
   }
 }

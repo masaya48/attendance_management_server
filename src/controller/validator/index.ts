@@ -1,5 +1,5 @@
 import {check, header, body, query, param} from 'express-validator/check'
-import { ErrorResponse } from '../adapters/response/response_adapter';
+import { ErrorResponse } from '../adapters/response/response_adapter'
 
 export default {
   getErrorResponse: (status: number, message: string, errors: any) => {

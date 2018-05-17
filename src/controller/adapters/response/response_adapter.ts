@@ -11,7 +11,7 @@ interface ResponseBody {
 }
 interface ErrorResponseBody extends ResponseBody {
   results?: {
-    errors: any
+    errors?: any
   }
 }
 class ErrorResponse {

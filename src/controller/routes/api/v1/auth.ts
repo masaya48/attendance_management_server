@@ -57,20 +57,22 @@ const loginResponseAdapter = new LoginResponseAdapter()
 
 /* ログイン認証 */
 router.post('/login', validator.login, (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
-  const errors = validationResult(req)
+  // バリデーションチェック
+  const errors = validationResult<{aaa:string,bbb:boolean}>(req)
   if (!errors.isEmpty()) {
     const errorResponse = validator.getErrorResponse(400, 'リクエストエラー', errors.mapped())
     return res.status(errorResponse.getStatus()).json(errorResponse.getBody())
   }
 
+  // ログイン認証処理
   return authenticateService
     .login(loginRequestAdapter.convert(req))
     .then(
-      requestDto => {
+      ( requestDto ) => {
         const responseEntity = loginResponseAdapter.convert(requestDto)
         return res.status(responseEntity.status).json(responseEntity)
       },
-      (err: ErrorResponseDTO) => {
+      ( err: ErrorResponseDTO ) => {
         return res.status(err.getStatus()).json({message: err.getMessage()})
       }
     )
