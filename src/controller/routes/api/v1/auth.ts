@@ -7,6 +7,8 @@ import * as jwt from 'jsonwebtoken'
 import config from './../../../../utils/config/my_config'
 // validator
 import validator from './../../../validator'
+// dto
+import ErrorResponseDTO from './../../../../domain/dto/response/error_response_dto'
 // adapters
 import RequestAdapter from './../../../adapters/request/request_adapter'
 import {ResponseAdapter} from './../../../adapters/response/response_adapter'
@@ -57,12 +59,21 @@ const loginResponseAdapter = new LoginResponseAdapter()
 router.post('/login', validator.login, (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    const errorResponse = validator.getErrorResponse(403, 'リクエストエラー', errors.mapped())
+    const errorResponse = validator.getErrorResponse(400, 'リクエストエラー', errors.mapped())
     return res.status(errorResponse.getStatus()).json(errorResponse.getBody())
   }
 
-  const responseEntity = loginResponseAdapter.convert(authenticateService.login(loginRequestAdapter.convert(req)))
-  return res.status(responseEntity.status).json(responseEntity)
+  return authenticateService
+    .login(loginRequestAdapter.convert(req))
+    .then(
+      requestDto => {
+        const responseEntity = loginResponseAdapter.convert(requestDto)
+        return res.status(responseEntity.status).json(responseEntity)
+      },
+      (err: ErrorResponseDTO) => {
+        return res.status(err.getStatus()).json({message: err.getMessage()})
+      }
+    )
 })
 
 export default router
