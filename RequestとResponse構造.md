@@ -21,7 +21,7 @@ Content-Type: application/json
 
 {
   "status": 200,
-  "message": "global-message",
+  "message": "message",
   "results"?: {
     "param1": "value1",
     "param2": "value2",

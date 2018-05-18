@@ -11,7 +11,7 @@ try {
 } catch (e) {
   fs.mkdirSync(directory)
 }
-const models = {}
+const models: Sequelize.Models = {}
 
 // model定義読み込み
 fs
@@ -33,12 +33,9 @@ Object.keys(models).forEach(modelName => {
   }
 })
 
-models['sequelize'] = sequelize
-models['Sequelize'] = Sequelize
+// sequelizeインスタンスの保存
+// models['sequelize'] = sequelize
+// models['Sequelize'] = Sequelize
 
-export default models as Models
-interface Models {
-  sequelize: Sequelize.Sequelize
-  Sequelize: Sequelize.SequelizeStatic
-  [index: string]: Sequelize.Sequelize | Sequelize.SequelizeStatic | Sequelize.Model<any, any>
-}
+export default models
+export { models, sequelize, Sequelize }
