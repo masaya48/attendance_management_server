@@ -10,7 +10,7 @@ import Employee from 'models/m_employee'
 const login_guard:(() => Express.RequestHandler) = (() => (req:Express.Request, res:Express.Response, next:Express.NextFunction) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    const errorResponse = validator.getErrorResponse(400, 'リクエストエラー', errors)
+    const errorResponse = validator.getValidateErrorResponse(400, 'リクエストエラー', errors)
     return res.status(errorResponse.getStatus()).json(errorResponse.getBody())
   }
 
