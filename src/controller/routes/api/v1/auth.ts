@@ -58,9 +58,9 @@ const loginResponseAdapter = new LoginResponseAdapter()
 /* ログイン認証 */
 router.post('/login', validator.login, (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
   // バリデーションチェック
-  const errors = validationResult<{aaa:string,bbb:boolean}>(req)
+  const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    const errorResponse = validator.getErrorResponse(400, 'リクエストエラー', errors.mapped())
+    const errorResponse = validator.getValidateErrorResponse(400, 'リクエストエラー', errors)
     return res.status(errorResponse.getStatus()).json(errorResponse.getBody())
   }
 

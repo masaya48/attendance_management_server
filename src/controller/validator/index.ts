@@ -1,9 +1,9 @@
 import {check, header, body, query, param} from 'express-validator/check'
-import { ErrorResponse } from '../adapters/response/response_adapter'
+import { ValidationErrorResponse } from '../adapters/response/response_adapter'
 
 export default {
-  getErrorResponse: (status: number, message: string, errors: any) => {
-    return new ErrorResponse(status, message, errors)
+  getValidateErrorResponse: (status: number, message: string, errors: any) => {
+    return new ValidationErrorResponse(status, message, errors)
   },
   login: [
     body('employee_no', 'ユーザーIDを入力して下さい')
