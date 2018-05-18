@@ -33,8 +33,12 @@ Object.keys(models).forEach(modelName => {
   }
 })
 
-// いるの？
 models['sequelize'] = sequelize
 models['Sequelize'] = Sequelize
 
-export default models as Sequelize.Models
+export default models as Models
+interface Models {
+  sequelize: Sequelize.Sequelize
+  Sequelize: Sequelize.SequelizeStatic
+  [index: string]: Sequelize.Sequelize | Sequelize.SequelizeStatic | Sequelize.Model<any, any>
+}
