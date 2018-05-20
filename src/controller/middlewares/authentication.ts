@@ -18,7 +18,7 @@ const authService = new AuthenticateService()
 const login_guard:(() => Express.RequestHandler) = (() => (req:Express.Request, res:Express.Response, next:Express.NextFunction) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    const errorResponse = new ErrorResponse(401, '認証エラー', ErrorCode.test1)
+    const errorResponse = new ErrorResponse(401, '認証エラー', ErrorCode.authError)
     return res.status(errorResponse.getStatus()).json(errorResponse.getBody())
   }
 
@@ -36,7 +36,7 @@ const login_guard:(() => Express.RequestHandler) = (() => (req:Express.Request, 
         next()
       },
       ( err: ErrorResponseDTO ) => {
-        const errorResponse = errorResponseAdapter.convert(err, ErrorCode.test1)
+        const errorResponse = errorResponseAdapter.convert(err, ErrorCode.authError)
         return res.status(errorResponse.getStatus()).json(errorResponse.getBody())
       }
     )
