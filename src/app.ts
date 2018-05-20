@@ -6,7 +6,7 @@ import * as cookieParser from 'cookie-parser'
 import * as bodyParser from 'body-parser'
 import * as helmet from 'helmet'
 import routes from './controller/routes/api/v1'
-import {ResponseAdapter, ResponseBody} from './controller/adapters/response/response_adapter'
+import ResponseAdapter from './controller/adapters/response/response_adapter'
 
 let app = express()
 
@@ -30,7 +30,7 @@ app.use('/api/v1', routes())
 
 // catch 404 and forward to error handler
 app.use((req:express.Request, res:express.Response, next:express.NextFunction) => {
-  const entity: ResponseBody = {
+  const entity = {
     status: 404,
     message: 'Not Found'
   }
@@ -40,7 +40,7 @@ app.use((req:express.Request, res:express.Response, next:express.NextFunction) =
 });
 
 // error handler
-app.use((err:ResponseBody, req:express.Request, res:express.Response, next:express.NextFunction) => {
+app.use((err, req:express.Request, res:express.Response, next:express.NextFunction) => {
   // set locals, only providing error in development
   res.locals.message = err.message
   res.locals.error = req.app.get('env') === 'development' ? err : {}
@@ -50,7 +50,6 @@ app.use((err:ResponseBody, req:express.Request, res:express.Response, next:expre
   res.send(err.message || 'Internal Server Error')
 })
 
-// wwwを使わないようにしないと失敗しかねない
 // app.listen(config.server.port || 3000)
 
 module.exports = app

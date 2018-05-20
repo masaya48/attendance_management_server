@@ -1,22 +1,20 @@
 import {check, header, body, query, param} from 'express-validator/check'
-import { ValidationErrorResponse } from '../adapters/response/response_adapter'
+import ValidationErrorResponse from './../http_entity/response/validation_error_response'
 
 export default {
-  getValidateErrorResponse: (status: number, message: string, errors: any) => {
-    return new ValidationErrorResponse(status, message, errors)
+  getValidateErrorResponse: (errors: any) => {
+    return new ValidationErrorResponse(errors)
   },
   login: [
     body('employee_no', 'ユーザーIDを入力して下さい')
-      .exists()
       .trim()
       .isLength({min: 1}),
     body('password', 'パスワードを入力して下さい')
-      .exists()
       .trim()
       .isLength({min: 1})
   ],
   login_guard: [
-    header('Authenticato', 'tokenチェックエラー')
+    header('Authorization', 'tokenチェックエラー')
       .trim()
       .isLength({min: 1})
   ]

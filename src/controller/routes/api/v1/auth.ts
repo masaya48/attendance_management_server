@@ -33,7 +33,7 @@ router.post('/login', validator.login, (req: Express.Request, res: Express.Respo
   // バリデーションチェック
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    const errorResponse = validator.getValidateErrorResponse(400, 'リクエストエラー', errors)
+    const errorResponse = validator.getValidateErrorResponse(errors)
     return res.status(errorResponse.getStatus()).json(errorResponse.getBody())
   }
 
@@ -42,8 +42,9 @@ router.post('/login', validator.login, (req: Express.Request, res: Express.Respo
     .login(loginRequestAdapter.convert(req))
     .then(
       ( requestDto ) => {
-        const responseEntity = loginResponseAdapter.convert(requestDto)
-        return res.status(responseEntity.status).json(responseEntity)
+        console.log('test')
+        const response = loginResponseAdapter.convert(requestDto)
+        return res.status(response.getStatus()).json(response.getBody())
       },
       ( err: ErrorResponseDTO ) => {
         return res.status(err.getStatus()).json({message: err.getMessage()})

@@ -4,7 +4,7 @@ import * as Config from 'config'
 // utils
 import config from './../../../../libs/config'
 // middlewares
-import {login_guard, authority_gurd} from '../../../../middlewares/authentication'
+import {login_guard, authority_gurd} from './../../../../domain/middlewares/authentication'
 // routes
 import auth from './auth'
 import users from './users'
