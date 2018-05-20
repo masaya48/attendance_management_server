@@ -1,19 +1,15 @@
 // node_modules
 import * as Express from 'express'
-import * as Config from 'config'
-// utils
-import config from './../../../../libs/config'
 // middlewares
-import {login_guard, authority_gurd} from './../../../../domain/middlewares/authentication'
+import {login_guard, authority_gurd} from './../../../middlewares/authentication'
+// others
+import models from './../../../../libs/models'
+//
+import validator from './../../../validator'
 // routes
 import auth from './auth'
 import users from './users'
 import test from './test'
-// others
-import sequelize from './../../../../libs/dbconn'
-import models from './../../../../libs/models'
-
-import validator from './../../../validator'
 
 export default function routes() {
   const router = Express.Router()

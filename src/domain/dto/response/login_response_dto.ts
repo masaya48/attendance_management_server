@@ -3,7 +3,7 @@ class LoginResponseDTO extends BaseResponseDTO {
   protected readonly token:string
 
   constructor(status:number, message:string, token:string) {
-    super(true, status, message)
+    super(status, message)
     this.token = token
   }
   public getToken() {

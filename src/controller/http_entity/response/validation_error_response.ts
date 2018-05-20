@@ -1,11 +1,11 @@
 import {Result} from 'express-validator/check'
-import {ErrorResponse, ErrorCodes} from './error_response'
+import {ErrorResponse, ErrorCode} from './error_response'
 
 class ValidationErrorResponse extends ErrorResponse {
   protected body: ValidationErrorResponse.ValidationErrorResponseBody
-  public constructor(errors?: Result) {
-    const errorMessage = ErrorCodes.getMessage(ErrorCodes.validationError)
-    super(400, errorMessage, ErrorCodes.validationError)
+  public constructor(status: number = 400, code: ErrorCode = ErrorCode.validationError, errors?: Result) {
+    const errorMessage = ErrorCode.getMessage(code)
+    super(status, errorMessage, code)
     if (!errors) {
       return
     }
@@ -33,7 +33,7 @@ declare namespace ValidationErrorResponse {
   }
   interface ValidationErrorResponseBody extends ErrorResponse.ErrorResponseBody {
     errors?: {
-      errorCode: ErrorCodes
+      errorCode: ErrorCode
       params?: ValidationErrorParam[]
     }
   }

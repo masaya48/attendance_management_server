@@ -2,36 +2,36 @@ import BaseResponse from './base_response'
 
 class ErrorResponse extends BaseResponse {
   protected body: ErrorResponse.ErrorResponseBody
-  public constructor(status: number, message: string, errorCode: ErrorCodes) {
+  public constructor(status: number, message: string, code: ErrorCode) {
     super(status, message)
     this.body.errors = {
-      errorCode: errorCode
+      errorCode: code
     }
   }
 }
 declare namespace ErrorResponse {
   interface ErrorResponseBody extends BaseResponse.BaseResponseBody {
     errors?: {
-      errorCode: ErrorCodes
+      errorCode: ErrorCode
     }
   }
 }
-enum ErrorCodes {
+enum ErrorCode {
   validationError = 1923487,
-  test1 = 91327846,
-  test2 = 9786918234,
+  authError = 91327846,
+  serverError = 9786918234,
   test3 = 0980014
 }
-namespace ErrorCodes {
-  export function getMessage(code: ErrorCodes): string {
+namespace ErrorCode {
+  export function getMessage(code: ErrorCode): string {
     switch (code) {
-      case ErrorCodes.validationError:
+      case ErrorCode.validationError:
         return 'validation error'
-      case ErrorCodes.test1:
-        return 'TEST1'
-      case ErrorCodes.test2:
-        return 'TEST2'
-      case ErrorCodes.test3:
+      case ErrorCode.authError:
+        return 'authentication error'
+      case ErrorCode.serverError:
+        return 'server error'
+      case ErrorCode.test3:
         return 'TEST3'
     }
   }
@@ -39,5 +39,5 @@ namespace ErrorCodes {
 export default ErrorResponse
 export {
   ErrorResponse,
-  ErrorCodes
+  ErrorCode
 }

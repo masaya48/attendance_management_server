@@ -1,10 +1,7 @@
 // node_modules
 import * as Express from 'express'
-import {check, body, validationResult} from 'express-validator/check'
-import * as jwt from 'jsonwebtoken'
+import {validationResult} from 'express-validator/check'
 /* import * as bcrypt from 'bcrypt' */
-// config
-import config from './../../../../libs/config'
 // validator
 import validator from './../../../validator'
 // dto
@@ -14,10 +11,6 @@ import LoginRequestAdapter from './../../../adapters/request/login_request_adapt
 import LoginResponseAdapter from './../../../adapters/response/login_response_adapter'
 // sevices
 import AuthenticateService from './../../../../domain/services/authenticate_service'
-// DB(sequelize[mysql])
-import sequelize from './../../../../libs/dbconn'
-import models from './../../../../libs/models'
-import Employee from 'models/m_employee'
 
 // ========================================================================================
 // 処理開始

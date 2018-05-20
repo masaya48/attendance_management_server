@@ -11,11 +11,12 @@ import ErrorResponseDTO from './../dto/response/error_response_dto'
 // DB
 import models from './../../libs/models'
 import Employee from 'models/m_employee'
+import { ErrorCode } from '../../controller/http_entity/response/error_response';
 
 class AuthenticateService {
   public login(requestDTO: LoginRequestDTO): Bluebird<LoginResponseDTO> {
-    const Employee = models.m_employee as Employee.Model
     return new Bluebird((resolve, reject) => {
+      const Employee = models.m_employee as Employee.Model
       return Employee.findOne({
         where: {
           employee_no: requestDTO.getEmployeeNo(),
@@ -24,7 +25,7 @@ class AuthenticateService {
       })
       .then(employee => {
         if (!employee) {
-          reject(new ErrorResponseDTO(401, '認証エラー'))
+          reject(new ErrorResponseDTO(401, '認証エラー', ErrorCode.authError))
           return
         }
         const {employee_no, user_no} = employee
@@ -38,22 +39,22 @@ class AuthenticateService {
           })
       })
       .error(() => {
-        reject(new ErrorResponseDTO(500, 'サーバーエラー'))
+        reject(new ErrorResponseDTO(500, 'サーバーエラー', ErrorCode.serverError))
       })
     })
   }
 
   // よくわかりゃん…
-  public verifyToken(token): Bluebird<boolean> {
-    const Employee = models.m_employee as Employee.Model
+  public verifyToken(token): Bluebird<void> {
     return new Bluebird((resolve, reject) => {
       jwt.verify(token, config.jwt.authentication_secret_key, {algorithms: [config.jwt.algorithm]}, (err, decoded) => {
         if (err) {
           // 複合化失敗
-          resolve(false);
-          return;
+          reject(new ErrorResponseDTO(401, '認証エラー', ErrorCode.authError))
+          return
         }
 
+        const Employee = models.m_employee as Employee.Model
         return Employee
           .findOne({
             where: {
@@ -64,14 +65,18 @@ class AuthenticateService {
           .then(employee => {
             if (!employee) {
               // 検索できず
-              resolve(false);
-              return;
+              reject(new ErrorResponseDTO(401, '認証エラー', ErrorCode.authError))
+              return
             }
             // 成功
-            resolve(true);
-            return;
-          });
-      });
+            resolve()
+            return
+          })
+          .error(() => {
+            reject(new ErrorResponseDTO(500, 'サーバーエラー', ErrorCode.serverError))
+            return
+          })
+      })
     })
   }
 }
