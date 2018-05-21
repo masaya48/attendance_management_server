@@ -2,8 +2,8 @@ import BaseResponse from './base_response'
 
 class ErrorResponse extends BaseResponse {
   protected body: ErrorResponse.ErrorResponseBody
-  public constructor(status: number, message: string, code: ErrorCode) {
-    super(status, message)
+  public constructor(code: ErrorCode) {
+    super(ErrorCode.getStatus(code), ErrorCode.getMessage(code))
     this.body.errors = {
       errorCode: code
     }
@@ -17,25 +17,35 @@ declare namespace ErrorResponse {
   }
 }
 enum ErrorCode {
-  validationError = 1923487,
-  authError = 91327846,
-  serverError = 9786918234,
-  test3 = 0980014
+  ValidationError = '0001',
+  AuthError = '0002',
+  ServerError = '0003'
 }
 namespace ErrorCode {
-  export function getMessage(code: ErrorCode): string {
+  export function getMessage(code: ErrorCode) {
     switch (code) {
-      case ErrorCode.validationError:
+      case ErrorCode.ValidationError:
         return 'validation error'
-      case ErrorCode.authError:
+      case ErrorCode.AuthError:
         return 'authentication error'
-      case ErrorCode.serverError:
+      case ErrorCode.ServerError:
+      default:
         return 'server error'
-      case ErrorCode.test3:
-        return 'TEST3'
+    }
+  }
+  export function getStatus(code: ErrorCode) {
+    switch (code) {
+      case ErrorCode.ValidationError:
+        return 400
+      case ErrorCode.AuthError:
+        return 401
+      case ErrorCode.ServerError:
+      default:
+        return 500
     }
   }
 }
+
 export default ErrorResponse
 export {
   ErrorResponse,

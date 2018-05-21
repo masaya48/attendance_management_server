@@ -4,7 +4,7 @@ import { ErrorCode } from '../http_entity/response/error_response';
 
 export default {
   getValidateErrorResponse: (errors: Result<any>) => {
-    return new ValidationErrorResponse(400, ErrorCode.validationError, errors)
+    return new ValidationErrorResponse(400, ErrorCode.ValidationError, errors)
   },
   login: [
     body('employee_no', 'ユーザーIDを入力して下さい')

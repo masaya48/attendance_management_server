@@ -3,9 +3,8 @@ import {ErrorResponse, ErrorCode} from './error_response'
 
 class ValidationErrorResponse extends ErrorResponse {
   protected body: ValidationErrorResponse.ValidationErrorResponseBody
-  public constructor(status: number = 400, code: ErrorCode = ErrorCode.validationError, errors?: Result) {
-    const errorMessage = ErrorCode.getMessage(code)
-    super(status, errorMessage, code)
+  public constructor(status: number = 400, code: ErrorCode = ErrorCode.ValidationError, errors?: Result) {
+    super(code)
     if (!errors) {
       return
     }

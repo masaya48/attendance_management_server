@@ -18,7 +18,7 @@ const authService = new AuthenticateService()
 const login_guard:(() => Express.RequestHandler) = (() => (req:Express.Request, res:Express.Response, next:Express.NextFunction) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    const errorResponse = new ErrorResponse(401, '認証エラー', ErrorCode.authError)
+    const errorResponse = new ErrorResponse(ErrorCode.AuthError)
     return res.status(errorResponse.getStatus()).json(errorResponse.getBody())
   }
 
@@ -29,14 +29,12 @@ const login_guard:(() => Express.RequestHandler) = (() => (req:Express.Request, 
     .verifyToken(token)
     .then(
       () => {
-        // if (!isSuccess) {
-        //   const errorResponse = new ErrorResponse(400, 'tokenチェックエラー', ErrorCodes.validationError)
-        //   return res.status(errorResponse.getStatus()).json(errorResponse.getBody())
-        // }
+        // 認証成功
         next()
       },
       ( err: ErrorResponseDTO ) => {
-        const errorResponse = errorResponseAdapter.convert(err, ErrorCode.authError)
+        // 認証エラー
+        const errorResponse = errorResponseAdapter.convert(err)
         return res.status(errorResponse.getStatus()).json(errorResponse.getBody())
       }
     )

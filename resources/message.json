@@ -1,0 +1,16 @@
+{
+  "errors": {
+    "request": {
+      "message": "リクエストが不正です。",
+      "status": 400
+    },
+    "authentication": {
+      "message": "認証に失敗しました。",
+      "status": 401
+    },
+    "server": {
+      "message": "サーバーエラー",
+      "status": 500
+    }
+  }
+}

@@ -25,7 +25,7 @@ class AuthenticateService {
       })
       .then(employee => {
         if (!employee) {
-          reject(new ErrorResponseDTO(401, '認証エラー', ErrorCode.authError))
+          reject(new ErrorResponseDTO(401, '認証エラー', ErrorCode.AuthError))
           return
         }
         const {employee_no, user_no} = employee
@@ -39,7 +39,7 @@ class AuthenticateService {
           })
       })
       .error(() => {
-        reject(new ErrorResponseDTO(500, 'サーバーエラー', ErrorCode.serverError))
+        reject(new ErrorResponseDTO(500, 'サーバーエラー', ErrorCode.ServerError))
       })
     })
   }
@@ -50,7 +50,7 @@ class AuthenticateService {
       jwt.verify(token, config.jwt.authentication_secret_key, {algorithms: [config.jwt.algorithm]}, (err, decoded) => {
         if (err) {
           // 複合化失敗
-          reject(new ErrorResponseDTO(401, '認証エラー', ErrorCode.authError))
+          reject(new ErrorResponseDTO(401, '認証エラー', ErrorCode.AuthError))
           return
         }
 
@@ -65,7 +65,7 @@ class AuthenticateService {
           .then(employee => {
             if (!employee) {
               // 検索できず
-              reject(new ErrorResponseDTO(401, '認証エラー', ErrorCode.authError))
+              reject(new ErrorResponseDTO(401, '認証エラー', ErrorCode.AuthError))
               return
             }
             // 成功
@@ -73,7 +73,7 @@ class AuthenticateService {
             return
           })
           .error(() => {
-            reject(new ErrorResponseDTO(500, 'サーバーエラー', ErrorCode.serverError))
+            reject(new ErrorResponseDTO(500, 'サーバーエラー', ErrorCode.ServerError))
             return
           })
       })
