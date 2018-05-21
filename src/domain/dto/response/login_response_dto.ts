@@ -2,8 +2,8 @@ import BaseResponseDTO from './base_response_dto'
 class LoginResponseDTO extends BaseResponseDTO {
   protected readonly token:string
 
-  constructor(status:number, message:string, token:string) {
-    super(status, message)
+  constructor(token:string) {
+    super()
     this.token = token
   }
   public getToken() {

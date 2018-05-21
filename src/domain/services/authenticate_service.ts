@@ -3,15 +3,16 @@ import * as Bluebird from 'bluebird'
 import * as jwt from 'jsonwebtoken'
 // config
 import config from './../../libs/config'
+// error
+import ApplicationError from './../../libs/errors/application_error'
 // dto
 import BaseResponseDTO from './../dto/response/base_response_dto'
 import LoginRequestDTO from './../dto/request/login_request_dto'
 import LoginResponseDTO from './../dto/response/login_response_dto'
-import ErrorResponseDTO from './../dto/response/error_response_dto'
 // DB
 import models from './../../libs/models'
 import Employee from 'models/m_employee'
-import { ErrorCode } from '../../controller/http_entity/response/error_response';
+import ErrorCode from './../../utils/constants/error_code';
 
 class AuthenticateService {
   public login(requestDTO: LoginRequestDTO): Bluebird<LoginResponseDTO> {
@@ -25,7 +26,7 @@ class AuthenticateService {
       })
       .then(employee => {
         if (!employee) {
-          reject(new ErrorResponseDTO(401, '認証エラー', ErrorCode.AuthError))
+          reject(new ApplicationError(ErrorCode.AuthError))
           return
         }
         const {employee_no, user_no} = employee
@@ -34,12 +35,13 @@ class AuthenticateService {
         return employee
           .save()
           .then(() => {
-            resolve(new LoginResponseDTO(200, 'login success!', token))
+            resolve(new LoginResponseDTO(token))
             return
           })
       })
       .error(() => {
-        reject(new ErrorResponseDTO(500, 'サーバーエラー', ErrorCode.ServerError))
+        console.log('test')
+        reject(new ApplicationError(ErrorCode.ServerError))
       })
     })
   }
@@ -50,7 +52,7 @@ class AuthenticateService {
       jwt.verify(token, config.jwt.authentication_secret_key, {algorithms: [config.jwt.algorithm]}, (err, decoded) => {
         if (err) {
           // 複合化失敗
-          reject(new ErrorResponseDTO(401, '認証エラー', ErrorCode.AuthError))
+          reject(new ApplicationError(ErrorCode.AuthError))
           return
         }
 
@@ -65,7 +67,7 @@ class AuthenticateService {
           .then(employee => {
             if (!employee) {
               // 検索できず
-              reject(new ErrorResponseDTO(401, '認証エラー', ErrorCode.AuthError))
+              reject(new ApplicationError(ErrorCode.AuthError))
               return
             }
             // 成功
@@ -73,7 +75,7 @@ class AuthenticateService {
             return
           })
           .error(() => {
-            reject(new ErrorResponseDTO(500, 'サーバーエラー', ErrorCode.ServerError))
+            reject(new ApplicationError(ErrorCode.ServerError))
             return
           })
       })

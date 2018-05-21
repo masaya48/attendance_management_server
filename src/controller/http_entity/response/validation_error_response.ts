@@ -1,9 +1,10 @@
 import {Result} from 'express-validator/check'
-import {ErrorResponse, ErrorCode} from './error_response'
+import ErrorResponse from './error_response'
+import ErrorCode from './../../../utils/constants/error_code'
 
 class ValidationErrorResponse extends ErrorResponse {
   protected body: ValidationErrorResponse.ValidationErrorResponseBody
-  public constructor(status: number = 400, code: ErrorCode = ErrorCode.ValidationError, errors?: Result) {
+  public constructor(status: number = 400, code: ErrorCode = ErrorCode.RequestError, errors?: Result) {
     super(code)
     if (!errors) {
       return

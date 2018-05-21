@@ -11,6 +11,10 @@ import LoginRequestAdapter from './../../../adapters/request/login_request_adapt
 import LoginResponseAdapter from './../../../adapters/response/login_response_adapter'
 // sevices
 import AuthenticateService from './../../../../domain/services/authenticate_service'
+import ErrorResponse from '../../../http_entity/response/error_response'
+import ErrorCode from './../../../../utils/constants/error_code'
+import ErrorResponseAdapter from '../../../adapters/response/error_response_adapter';
+import ApplicationError from '../../../../libs/errors/application_error';
 
 // ========================================================================================
 // 処理開始
@@ -20,7 +24,7 @@ const router = Express.Router()
 const authenticateService = new AuthenticateService()
 const loginRequestAdapter = new LoginRequestAdapter()
 const loginResponseAdapter = new LoginResponseAdapter()
-
+const errorResponseAdapter = new ErrorResponseAdapter()
 /* ログイン認証 */
 router.post('/login', validator.login, (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
   // バリデーションチェック
@@ -33,16 +37,15 @@ router.post('/login', validator.login, (req: Express.Request, res: Express.Respo
   // ログイン認証処理
   return authenticateService
     .login(loginRequestAdapter.convert(req))
-    .then(
-      ( requestDto ) => {
-        console.log('test')
-        const response = loginResponseAdapter.convert(requestDto)
-        return res.status(response.getStatus()).json(response.getBody())
-      },
-      ( err: ErrorResponseDTO ) => {
-        return res.status(err.getStatus()).json({message: err.getMessage()})
-      }
-    )
+    .then(( requestDto ) => {
+      const response = loginResponseAdapter.convert(requestDto)
+      return res.status(response.getStatus()).json(response.getBody())
+    })
+    .catch(( err: ApplicationError ) => {
+      console.log('teststest')
+      const errorResponse = errorResponseAdapter.convert(err)
+      return res.status(errorResponse.getStatus()).json(errorResponse.getBody())
+    })
 })
 
 export default router

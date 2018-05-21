@@ -1,9 +1,10 @@
 import BaseResponseDTO from './base_response_dto'
-import { ErrorCode } from '../../../controller/http_entity/response/error_response';
+import ErrorCode from './../../../utils/constants/error_code'
+
 class ErrorResponseDTO extends BaseResponseDTO {
   protected errorCode: ErrorCode
-  constructor(status: number, message: string, errorCode: ErrorCode) {
-    super(status, message)
+  constructor(errorCode: ErrorCode) {
+    super()
     this.errorCode = errorCode
   }
   public getErrorCode() {

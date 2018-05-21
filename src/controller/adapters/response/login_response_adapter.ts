@@ -4,7 +4,7 @@ import ResponseAdapter from './response_adapter'
 import LoginResponse from './../../http_entity/response/login_response'
 class LoginResponseAdapter implements ResponseAdapter {
   public convert(responseDTO: LoginResponseDTO): LoginResponse {
-    return new LoginResponse(responseDTO.getStatus(), responseDTO.getMessage(), responseDTO.getToken())
+    return new LoginResponse(200, '認証成功', responseDTO.getToken())
   }
 }
 export default LoginResponseAdapter
