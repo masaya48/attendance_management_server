@@ -1,6 +1,8 @@
-import {getResources} from './../resource_util'
+import {getResourceData} from './../resource_util'
 
-const errors = getResources('message.json').errors
+// エラーリソースを取得
+const errors = getResourceData('message.json').errors
+
 export enum ErrorCode {
   RequestError = '0001',
   AuthError = '0002',
