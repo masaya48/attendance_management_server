@@ -30,29 +30,20 @@ module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) 
       // その他option
     }
   )
-  // model.sync = async function (options?: Sequelize.Options) {
-
-  //     const viewPath = pathResolve(__dirname, './../../sql/create_v_test.sql')
-  //     const viewSource = await promisify(fs.readFile.__promisify__)(viewPath, { encoding: 'utf-8' }) as string
-  //     await sequelize.query(viewSource, {
-  //       logging: options.logging
-  //     })
-  //     return this as any
-  //   }
-  model.sync = (options?: Sequelize.Options) => {
-    const viewPath = pathResolve(__dirname, './../../sql/create_v_test.sql')
+  model.sync = (options?: Sequelize.SyncOptions) => {
+    const viewPath = pathResolve(__dirname, './../../sql/view/create_v_test.sql')
     return Bluebird
-    .resolve()
-    .then(() => {
-      const a = promisify(fs.readFile) as any
-      return a(viewPath, { encoding: 'utf8' }) as string
-    })
-    .then(viewSource => {
-      sequelize.query(viewSource, {
-        logging: options.logging
+      .resolve()
+      .then(() => {
+        const a = promisify(fs.readFile) as any
+        return a(viewPath, { encoding: 'utf8' }) as string
       })
-      return this
-    })
+      .then(viewSource => {
+        sequelize.query(viewSource, {
+          logging: options.logging
+        })
+        return this
+      })
   }
   return model
 }

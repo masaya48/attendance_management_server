@@ -39,8 +39,7 @@ class AuthenticateService {
             return
           })
       })
-      .error(() => {
-        console.log('test')
+      .catch(() => {
         reject(new ApplicationError(ErrorCode.ServerError))
       })
     })

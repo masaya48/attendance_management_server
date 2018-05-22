@@ -10,6 +10,10 @@ module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) 
         autoIncrement: true,
         allowNull: false
       },
+      test1_id: {
+        type: DataTypes.BIGINT,
+        allowNull: false
+      },
       column3: {
         type: DataTypes.STRING(100)
       },
