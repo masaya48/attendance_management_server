@@ -1,13 +1,8 @@
 // node_modules
 import * as Express from 'express'
-import * as Sequelize from 'sequelize'
 import { validationResult } from 'express-validator/check'
 // config
-import validator from './../../controller/validator'
 import AuthenticateService from './../../domain/services/authenticate_service'
-import models from './../../libs/models'
-import Employee from 'models/m_employee'
-import ErrorResponseDTO from './../../domain/dto/response/error_response_dto'
 import ErrorResponse from '../../controller/http_entity/response/error_response'
 import ErrorCode from './../../utils/constants/error_code'
 import ErrorResponseAdapter from './../../controller/adapters/response/error_response_adapter'

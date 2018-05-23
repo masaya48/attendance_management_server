@@ -1,5 +1,5 @@
 {
-  "errors": {
+  "http_status": {
     "request": {
       "message": "リクエストが不正です。",
       "status": 400

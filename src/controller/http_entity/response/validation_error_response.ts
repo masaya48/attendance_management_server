@@ -4,7 +4,7 @@ import ErrorCode from './../../../utils/constants/error_code'
 
 class ValidationErrorResponse extends ErrorResponse {
   protected body: ValidationErrorResponse.ValidationErrorResponseBody
-  public constructor(status: number = 400, code: ErrorCode = ErrorCode.RequestError, errors?: Result) {
+  public constructor(code: ErrorCode = ErrorCode.RequestError, errors?: Result) {
     super(code)
     if (!errors) {
       return

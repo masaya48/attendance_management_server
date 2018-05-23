@@ -1,7 +1,7 @@
-import {getResourceData} from './../resource_util'
+import { getResourceData } from './../resource_util'
 
-// エラーリソースを取得
-const errors = getResourceData('message.json').errors
+// HTTPステータス用リソースを取得
+const http_status = getResourceData('message.json').http_status
 
 export enum ErrorCode {
   RequestError = '0001',
@@ -9,27 +9,39 @@ export enum ErrorCode {
   ServerError = '0003'
 }
 export namespace ErrorCode {
+  /**
+   * エラーメッセージ取得
+   *
+   * @param code ErrorCode
+   */
   export function getMessage(code: ErrorCode): string {
     switch (code) {
       case ErrorCode.RequestError:
-        return errors.request.message
+        return http_status.request.message
       case ErrorCode.AuthError:
-        return errors.authentication.message
+        return http_status.authentication.message
       case ErrorCode.ServerError:
       default:
-        return errors.server.message
+        return http_status.server.message
     }
   }
+
+  /**
+   * HTTPステータスコード取得
+   *
+   * @param code ErrorCode
+   */
   export function getStatus(code: ErrorCode): number {
     switch (code) {
       case ErrorCode.RequestError:
-        return errors.request.status
+        return http_status.request.status
       case ErrorCode.AuthError:
-        return errors.authentication.status
+        return http_status.authentication.status
       case ErrorCode.ServerError:
       default:
-        return errors.server.status
+        return http_status.server.status
     }
   }
 }
+
 export default ErrorCode

@@ -8,7 +8,7 @@ import * as helmet from 'helmet'
 import routes from './controller/routes/api/v1'
 import ResponseAdapter from './controller/adapters/response/response_adapter'
 
-let app = express()
+const app = express()
 
 // helmet(セキュリティー関連)
 app.use(helmet())
@@ -37,7 +37,7 @@ app.use((req:express.Request, res:express.Response, next:express.NextFunction) =
   // let err = new Error('Not Found')
   // err['status'] = 404
   return next(entity)
-});
+})
 
 // error handler
 app.use((err, req:express.Request, res:express.Response, next:express.NextFunction) => {

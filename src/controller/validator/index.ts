@@ -3,8 +3,8 @@ import ValidationErrorResponse from './../http_entity/response/validation_error_
 import ErrorCode from './../../utils/constants/error_code';
 
 export default {
-  getValidateErrorResponse: (errors: Result<any>) => {
-    return new ValidationErrorResponse(400, ErrorCode.RequestError, errors)
+  getValidateErrorResponse: (errors: Result<any>, code: ErrorCode = ErrorCode.RequestError) => {
+    return new ValidationErrorResponse(code, errors)
   },
   login: [
     body('employee_no', 'ユーザーIDを入力して下さい')

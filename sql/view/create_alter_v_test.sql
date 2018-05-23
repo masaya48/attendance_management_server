@@ -12,4 +12,3 @@ FROM
     INNER JOIN
     test1 AS t1 ON
     t1.id = t2.test1_id;
-

@@ -13,4 +13,3 @@ export const getQuery = (path: string) => {
 export const execQueryFile = (path) => {
   return sequelize.query(getQuery(path))
 }
-

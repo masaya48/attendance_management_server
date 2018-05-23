@@ -31,8 +31,9 @@ module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) 
       // その他option
     }
   )
+  // syncメソッドをビュー用に上書き
   model.sync = (options?: Sequelize.SyncOptions) => {
-    const viewPath = pathResolve(__dirname, './../../sql/view/create_v_test.sql')
+    const viewPath = pathResolve(__dirname, './../../sql/view/create_alter_v_test.sql')
     return execQueryFile(viewPath)
       .then(() => {
         return this
