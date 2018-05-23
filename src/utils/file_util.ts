@@ -1,10 +1,11 @@
 import * as fs from 'fs'
-import * as Bluebird from 'bluebird'
+import {promisify} from 'util'
 
 /**
  * ファイルの存在確認
+ *   ※同期処理用
  *
- * @param path 該当ファイルまでのパス
+ * @param path ファイルパス
  */
 export const existFileSync = (path: string): boolean => {
   try {
@@ -15,8 +16,6 @@ export const existFileSync = (path: string): boolean => {
   }
 }
 
-// export const existFile = (path: string) => {
-// }
 /**
  * stringでファイル情報を取得する
  *   ※同期処理用
@@ -32,19 +31,32 @@ export const readFileSync = (path: string, encoding: string = 'utf8'): string =>
 }
 
 /**
+ * ファイルの存在確認
+ *   ※非同期処理用
+ *
+ * @param path ファイルパス
+ */
+export const existFile = (path: string) => {
+  const stat = promisify(fs.stat)
+  return stat(path)
+    .then(() => { return true })
+    .catch(() => { return false })
+}
+
+/**
  * stringでファイル情報を取得する
  *   ※非同期処理用
  *
  * @param path ファイルパス
  * @param encoding ファイルエンコード:基本指定しない
  */
-export const readFile = (path: string, encoding: string = 'utf8'): Bluebird<string> => {
-  const readFile = Bluebird.promisify(fs.readFile) as any
-  return new Bluebird((resolve, reject) => {
-    if (!existFileSync(path)) {
-      return reject(new Error('File not found.'))
+export const readFile = (path: string, encoding: string = 'utf8'): Promise<string> => {
+  const readFile = promisify(fs.readFile)
+  return existFile(path)
+  .then(exist => {
+    if (!exist) {
+      return ''
     }
-    return resolve(readFileSync(path, encoding))
-//    return readFile(path, { encoding: encoding}) as string
+    return readFile(path, {encoding:encoding})
   })
 }

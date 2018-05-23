@@ -2,7 +2,7 @@ import * as jsonUtil from './json_util'
 import * as path from 'path'
 
 /**
- * リソースデータを取得する
+ * リソースからjsonデータを取得する
  *
  * @param fileName リソースファイル名
  */

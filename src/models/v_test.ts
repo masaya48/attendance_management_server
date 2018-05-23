@@ -1,8 +1,9 @@
 import * as Sequelize from 'sequelize'
 import * as Bluebird from 'bluebird'
 import * as fs from 'fs'
-import { promisify } from 'bluebird'
+import { promisify } from 'util'
 import { resolve as pathResolve } from 'path'
+import { execQueryFile } from './../utils/sql_util'
 module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) => {
   const model = sequelize.define(
     'v_test',
@@ -32,16 +33,8 @@ module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) 
   )
   model.sync = (options?: Sequelize.SyncOptions) => {
     const viewPath = pathResolve(__dirname, './../../sql/view/create_v_test.sql')
-    return Bluebird
-      .resolve()
+    return execQueryFile(viewPath)
       .then(() => {
-        const a = promisify(fs.readFile) as any
-        return a(viewPath, { encoding: 'utf8' }) as string
-      })
-      .then(viewSource => {
-        sequelize.query(viewSource, {
-          logging: options.logging
-        })
         return this
       })
   }
