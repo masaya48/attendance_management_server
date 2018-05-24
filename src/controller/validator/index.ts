@@ -1,6 +1,7 @@
 import {check, header, body, query, param, Result} from 'express-validator/check'
 import ValidationErrorResponse from './../http_entity/response/validation_error_response'
-import ErrorCode from './../../utils/constants/error_code';
+import ErrorCode from './../../utils/constants/error_code'
+import {login_guard} from './../middlewares/authentication'
 
 export default {
   getValidateErrorResponse: (errors: Result<any>, code: ErrorCode = ErrorCode.RequestError) => {
@@ -17,6 +18,7 @@ export default {
   login_guard: [
     header('Authorization')
       .trim()
-      .isLength({min: 1})
+      .isLength({min: 1}),
+    login_guard()
   ]
 }

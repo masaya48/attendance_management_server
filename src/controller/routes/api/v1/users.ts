@@ -1,11 +1,12 @@
 // node_modules
 import * as Express from 'express';
 import * as Sequelize from 'sequelize';
-
+// models
+import models from './../../../../libs/models'
 // mytypes
 import Employee from 'models/m_employee';
 
-export default function users(models:Sequelize.Models) {
+export default function users() {
   let router = Express.Router();
 
   // 全社員情報取得

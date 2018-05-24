@@ -2,8 +2,6 @@
 import * as Express from 'express'
 // middlewares
 import {login_guard, authority_gurd} from './../../../middlewares/authentication'
-// others
-import models from './../../../../libs/models'
 //
 import validator from './../../../validator'
 // routes
@@ -18,17 +16,19 @@ export default function routes() {
   router.use('/auth', auth)
 
   // ユーザー認証の確認処理
-  router.use(validator.login_guard, login_guard())
+  // router.use(validator.login_guard, login_guard())
 
   // 「/test」
-  router.use('/test', test())
+  router.use('/test', validator.login_guard, test())
 
   // 「/users」
-  router.use('/users', users(models))
+  router.use('/users', validator.login_guard, users())
 
   // ユーザーの権限確認(今は何もしていない)
   router.use('/manager', authority_gurd())
-  router.use('/manager', (req, res, next) => {})
+  router.use('/manager', (req, res, next) => {
+    return res.status(200).json('にゃー')
+  })
 
   return router
 }

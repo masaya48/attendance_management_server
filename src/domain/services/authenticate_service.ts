@@ -12,7 +12,7 @@ import LoginResponseDTO from './../dto/response/login_response_dto'
 // DB
 import models from './../../libs/models'
 import Employee from 'models/m_employee'
-import ErrorCode from './../../utils/constants/error_code';
+import ErrorCode from './../../utils/constants/error_code'
 
 class AuthenticateService {
   public login(requestDTO: LoginRequestDTO): Bluebird<LoginResponseDTO> {
@@ -46,12 +46,12 @@ class AuthenticateService {
   }
 
   // よくわかりゃん…
-  public verifyToken(token): Bluebird<void> {
-    return new Bluebird((resolve, reject) => {
-      jwt.verify(token, config.jwt.authentication_secret_key, {algorithms: [config.jwt.algorithm]}, (err, decoded) => {
+  public verifyToken( token ): Bluebird<void> {
+    return new Bluebird(( resolve, reject ) => {
+      jwt.verify(token, config.jwt.authentication_secret_key, { algorithms: [config.jwt.algorithm] }, ( err, decoded ) => {
         if (err) {
           // 複合化失敗
-          reject(new ApplicationError(ErrorCode.AuthError))
+          reject( new ApplicationError( ErrorCode.AuthError ) )
           return
         }
 
@@ -74,7 +74,7 @@ class AuthenticateService {
             return
           })
           .error(() => {
-            reject(new ApplicationError(ErrorCode.ServerError))
+            reject(new ApplicationError(ErrorCode.AuthError))
             return
           })
       })
