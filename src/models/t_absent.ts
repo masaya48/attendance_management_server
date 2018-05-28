@@ -1,5 +1,6 @@
-import * as Sequelize from 'sequelize';
-module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) => {
+import * as Sequelize from 'sequelize'
+const U_KEY_02 = 'uq_t_absent_02'
+module.exports = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes) => {
   const model = sequelize.define(
     't_absent',
     {
@@ -13,12 +14,12 @@ module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) 
       attendance_no: {
         type: DataTypes.BIGINT,
         allowNull: false,
-        unique: 'uq_t_absent_02'
+        unique: U_KEY_02
       },
       absent_code: {
         type: DataTypes.BIGINT,
         allowNull: false,
-        unique: 'uq_t_absent_02'
+        unique: U_KEY_02
       },
       reason: {
         type: DataTypes.STRING,
@@ -36,15 +37,15 @@ module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) 
     }, {
       // その他option
     }
-  );
-  model.associate = (models:Sequelize.Models) => {
-    const m_absent = models.m_absent;
-    const t_attendance = models.t_attendance;
-    const t_absent = models.t_absent;
+  )
+  model.associate = (models: Sequelize.Models) => {
+    const m_absent = models.m_absent
+    const t_attendance = models.t_attendance
+    const t_absent = models.t_absent
     t_absent
-      .belongsTo(t_attendance, {foreignKey: 'attendance_no', targetKey: 'attendance_no'});
+      .belongsTo(t_attendance, {foreignKey: 'attendance_no', targetKey: 'attendance_no'})
     t_absent
-      .belongsTo(m_absent, {foreignKey: 'absent_code', targetKey: 'absent_code'});
-  };
-  return model;
-};
+      .belongsTo(m_absent, {foreignKey: 'absent_code', targetKey: 'absent_code'})
+  }
+  return model
+}

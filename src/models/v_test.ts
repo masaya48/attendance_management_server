@@ -4,7 +4,7 @@ import * as fs from 'fs'
 import { promisify } from 'util'
 import { resolve as pathResolve } from 'path'
 import { execQueryFile } from './../utils/sql_util'
-module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) => {
+module.exports = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes) => {
   const model = sequelize.define(
     'v_test',
     {

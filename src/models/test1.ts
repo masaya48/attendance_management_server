@@ -1,5 +1,5 @@
 import * as Sequelize from 'sequelize'
-module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) => {
+module.exports = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes) => {
   const model = sequelize.define(
     'test1',
     {
@@ -20,7 +20,7 @@ module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) 
       // その他option
     }
   )
-  model.associate = (models:Sequelize.Models) => {
+  model.associate = (models: Sequelize.Models) => {
     const test1 = models.test1
     const test2 = models.test2
     test1

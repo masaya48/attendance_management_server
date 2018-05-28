@@ -6,7 +6,6 @@ import * as cookieParser from 'cookie-parser'
 import * as bodyParser from 'body-parser'
 import * as helmet from 'helmet'
 import routes from './controller/routes/api/v1'
-import ResponseAdapter from './controller/adapters/response/response_adapter'
 
 const app = express()
 
@@ -26,7 +25,7 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, './../public')))
 
 // url mappings
-app.use('/api/v1', routes())
+app.use('/api', routes())
 
 // catch 404 and forward to error handler
 app.use((req:express.Request, res:express.Response, next:express.NextFunction) => {

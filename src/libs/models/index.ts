@@ -3,6 +3,8 @@ import * as path from 'path'
 import * as Sequelize from 'sequelize'
 import sequelize from './../dbconn'
 
+import MyModels from 'my_models'
+
 const directory = path.join(__dirname, '..', '..', 'models')
 
 // directoryの存在確認と作成
@@ -11,7 +13,7 @@ try {
 } catch (e) {
   fs.mkdirSync(directory)
 }
-const models: Sequelize.Models = {}
+const models = {} as MyModels
 
 // model定義読み込み
 fs

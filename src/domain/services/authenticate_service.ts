@@ -11,7 +11,7 @@ import LoginRequestDTO from './../dto/request/login_request_dto'
 import LoginResponseDTO from './../dto/response/login_response_dto'
 // DB
 import models from './../../libs/models'
-import Employee from 'models/m_employee'
+import Employee from 'm_employee'
 import ErrorCode from './../../utils/constants/error_code'
 
 class AuthenticateService {

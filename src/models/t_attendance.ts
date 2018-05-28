@@ -1,5 +1,5 @@
-import * as Sequelize from 'sequelize';
-module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) => {
+import * as Sequelize from 'sequelize'
+module.exports = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes) => {
   const model = sequelize.define(
     't_attendance',
     {
@@ -54,12 +54,12 @@ module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) 
     }, {
       // その他option
     }
-  );
-  model.associate = (models:Sequelize.Models) => {
-    const m_employee = models.m_employee;
-    const t_attendance = models.t_attendance;
+  )
+  model.associate = (models: Sequelize.Models) => {
+    const m_employee = models.m_employee
+    const t_attendance = models.t_attendance
     t_attendance
-      .belongsTo(m_employee, {foreignKey: 'user_no', targetKey: 'user_no'});
-  };
-  return model;
-};
+      .belongsTo(m_employee, {foreignKey: 'user_no', targetKey: 'user_no'})
+  }
+  return model
+}

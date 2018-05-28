@@ -1,15 +1,10 @@
-import {sequelize, Sequelize, models} from './../libs/models'
-import * as Bluebird from 'bluebird'
-import {promisify} from 'bluebird'
-import * as fs from 'fs'
-import {resolve as pathResolve} from 'path'
+import { sequelize, Sequelize, models } from './../libs/models'
+import { readFileSync } from './file_util'
 
-import { readFile, readFileSync } from './file_util'
-
-export const getQuery = (path: string) => {
-  return readFileSync(path)
+export const getQuery = ( path: string ) => {
+  return readFileSync( path )
 }
 
-export const execQueryFile = (path) => {
-  return sequelize.query(getQuery(path))
+export const execQueryFile = ( path ) => {
+  return sequelize.query( getQuery( path ) )
 }

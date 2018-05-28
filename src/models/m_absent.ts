@@ -1,5 +1,5 @@
-import * as Sequelize from 'sequelize';
-module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) => {
+import * as Sequelize from 'sequelize'
+module.exports = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes) => {
   const model = sequelize.define(
     'm_absent',
     {
@@ -20,12 +20,12 @@ module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) 
     }, {
       // その他option
     }
-  );
-  model.associate = (models:Sequelize.Models) => {
-    const m_absent_type = models.m_absent_type;
-    const m_absent = models.m_absent;
+  )
+  model.associate = (models: Sequelize.Models) => {
+    const m_absent_type = models.m_absent_type
+    const m_absent = models.m_absent
     m_absent
-      .belongsTo(m_absent_type, {foreignKey: 'absent_type', targetKey: 'absent_type'});
-  };
-  return model;
-};
+      .belongsTo(m_absent_type, {foreignKey: 'absent_type', targetKey: 'absent_type'})
+  }
+  return model
+}

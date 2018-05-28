@@ -34,4 +34,4 @@ module.exports = {
       birthday: '1993-09-29'
     }
   ]
-};
+}

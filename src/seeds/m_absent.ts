@@ -12,4 +12,4 @@ module.exports = {
       reason: '理由２'
     }
   ]
-};
+}

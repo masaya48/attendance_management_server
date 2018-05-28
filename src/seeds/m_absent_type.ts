@@ -10,5 +10,5 @@ module.exports = {
       absent_name: '種類２'
     }
   ]
-};
+}
   

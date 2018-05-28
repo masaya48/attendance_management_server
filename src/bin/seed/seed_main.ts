@@ -91,7 +91,7 @@ export default function seedMain(all:boolean, tables:string[], update:boolean, d
                   return model
                     .truncate()
                 } else {
-                  console.log('model not destroyed.')
+                  console.log('model [' + tableName + '] is not destroyed.')
                 }
               })
               .then(() => {
@@ -106,7 +106,7 @@ export default function seedMain(all:boolean, tables:string[], update:boolean, d
                 }
               })
           } else {
-            console.log('seed ' + tableName + ' is not found.')
+            console.log('seed [' + tableName + '] is not found.')
           }
         }))
       })

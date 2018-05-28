@@ -20,4 +20,4 @@ module.exports = {
       project_short_name: 'テスト3'
     }
   ]
-};
+}

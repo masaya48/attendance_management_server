@@ -1,5 +1,5 @@
-import * as Sequelize from 'sequelize';
-module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) => {
+import * as Sequelize from 'sequelize'
+module.exports = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes) => {
   const model = sequelize.define(
     'm_employee',
     {
@@ -35,6 +35,6 @@ module.exports = (sequelize:Sequelize.Sequelize, DataTypes:Sequelize.DataTypes) 
     }, {
         // その他option
     }
-  );
-  return model;
+  )
+  return model
 }

@@ -6,7 +6,7 @@ import * as path from 'path'
  *
  * @param fileName リソースファイル名
  */
-export const getResourceData = (fileName: string) => {
-  const filePath = path.join(__dirname, '..', '..', 'resources', fileName)
-  return jsonUtil.getJsonFileData<any>(filePath)
+export const getResourceData = ( fileName: string ) => {
+  const filePath = path.join( __dirname, '..', '..', 'resources', fileName )
+  return jsonUtil.getJsonFileData<any>( filePath )
 }
