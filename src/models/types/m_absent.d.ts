@@ -1,15 +1,15 @@
 import * as Sequelize from 'sequelize';
-declare namespace AbsentType {
+declare namespace MAbsentType {
   interface Params {
     absent_code: number
     absent_type: number
     reason: string
   }
   interface Instance extends Sequelize.Instance<Params>, Params {
-  }
-  interface Model extends Sequelize.Model<Instance, Params>, Params {
     created_at: string
     updated_at: string
   }
+  interface Model extends Sequelize.Model<Instance, Params> {
+  }
 }
-export default AbsentType
+export default MAbsentType

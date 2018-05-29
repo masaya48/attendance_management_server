@@ -9,10 +9,10 @@ declare namespace TAbsent {
     update_user_no: number
   }
   interface Instance extends Sequelize.Instance<Params>, Params {
-  }
-  interface Model extends Sequelize.Model<Instance, Params>, Params {
     created_at: string
     updated_at: string
+  }
+  interface Model extends Sequelize.Model<Instance, Params> {
   }
 }
 export default TAbsent
