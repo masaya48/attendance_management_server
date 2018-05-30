@@ -9,9 +9,11 @@ declare namespace MEmployee {
     entry_date: Date
     birthday: Date
   }
-  interface Instance extends Sequelize.Instance<Params>, Params {
+  interface InstanceParams {
     created_at: string
     updated_at: string
+  }
+  interface Instance extends Sequelize.Instance<InstanceParams & Params>, Params {
   }
   interface Model extends Sequelize.Model<Instance, Params> {
   }
