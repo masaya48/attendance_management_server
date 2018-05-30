@@ -5,12 +5,16 @@ import * as logger from 'morgan'
 import * as cookieParser from 'cookie-parser'
 import * as bodyParser from 'body-parser'
 import * as helmet from 'helmet'
+import * as cors from 'cors'
 import routes from './controller/routes/api/v1'
 
 const app = express()
 
 // helmet(セキュリティー関連)
-// app.use(helmet())
+app.use(helmet())
+
+// cors
+app.use(cors())
 
 // view engine setup
 app.set('views', path.join(__dirname, './../views'))
@@ -23,6 +27,13 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, './../public')))
+
+// 
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "*")
+//   // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+//   next()
+// })
 
 // url mappings
 app.use('/api', routes())
