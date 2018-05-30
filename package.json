@@ -30,6 +30,7 @@
     "mysql2": "^1.5.2",
     "sequelize": "^4.35.2",
     "serve-favicon": "~2.4.5",
+    "xlsx": "^0.12.13",
     "tslint": "^5.10.0"
   },
   "devDependencies": {
@@ -49,6 +50,7 @@
     "@types/mysql": "^2.15.2",
     "@types/node": "^9.4.6",
     "@types/sequelize": "^4.27.12",
+    "@types/xlsx": "0.0.36",
     "cross-env": "^5.1.5",
     "typescript": "^2.7.2"
   }
