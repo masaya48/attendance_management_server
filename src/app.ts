@@ -10,7 +10,7 @@ import routes from './controller/routes/api/v1'
 const app = express()
 
 // helmet(セキュリティー関連)
-app.use(helmet())
+// app.use(helmet())
 
 // view engine setup
 app.set('views', path.join(__dirname, './../views'))
