@@ -6,7 +6,8 @@ const http_status = getResourceData('message.json').http_status
 export enum ErrorCode {
   RequestError = '0001',
   AuthError = '0002',
-  ServerError = '0003'
+  ServerError = '0003',
+  NotFound = '0004'
 }
 export namespace ErrorCode {
   /**
@@ -20,6 +21,8 @@ export namespace ErrorCode {
         return http_status.request.message
       case ErrorCode.AuthError:
         return http_status.authentication.message
+      case ErrorCode.NotFound:
+        return http_status.notFound.message
       case ErrorCode.ServerError:
       default:
         return http_status.server.message
@@ -37,6 +40,8 @@ export namespace ErrorCode {
         return http_status.request.status
       case ErrorCode.AuthError:
         return http_status.authentication.status
+      case ErrorCode.NotFound:
+        return http_status.notFound.status
       case ErrorCode.ServerError:
       default:
         return http_status.server.status

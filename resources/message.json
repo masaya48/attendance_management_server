@@ -8,6 +8,10 @@
       "message": "認証に失敗しました。",
       "status": 401
     },
+    "notFound": {
+      "message": "",
+      "status": 404
+    },
     "server": {
       "message": "サーバーエラー",
       "status": 500

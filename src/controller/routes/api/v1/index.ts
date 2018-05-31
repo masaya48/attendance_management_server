@@ -1,7 +1,7 @@
 // node_modules
 import * as Express from 'express'
 // middlewares
-import {login_guard, authority_gurd} from './../../../middlewares/authentication'
+import { login_guard, authority_gurd } from './../../../middlewares/authentication'
 //
 import validator from './../../../validator'
 // routes
@@ -12,8 +12,8 @@ import test from './test'
 export default function routes() {
   const router = Express.Router()
 
-  // 「/auth」認証
-  router.use('/auth', auth)
+  // 「/public」認証
+  router.use('/public', auth)
 
   // ユーザー認証の確認処理
   // router.use(validator.login_guard, login_guard())
