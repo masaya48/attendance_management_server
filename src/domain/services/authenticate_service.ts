@@ -35,7 +35,7 @@ class AuthenticateService {
         return employee
           .save()
           .then(() => {
-            resolve(new LoginResponseDTO(token))
+            resolve(new LoginResponseDTO(token, employee))
             return
           })
       })
