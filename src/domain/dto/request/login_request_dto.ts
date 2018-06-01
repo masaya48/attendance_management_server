@@ -14,5 +14,4 @@ class LoginRequestDTO extends BaseRequestDTO {
     return this.password
   }
 }
-declare namespace LoginRequestDTO {}
 export default LoginRequestDTO
