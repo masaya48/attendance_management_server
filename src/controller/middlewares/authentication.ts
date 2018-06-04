@@ -7,11 +7,12 @@ import ErrorResponse from '../../controller/http_entity/response/error_response'
 import ErrorCode from './../../utils/constants/error_code'
 import ErrorResponseAdapter from './../../controller/adapters/response/error_response_adapter'
 import ApplicationError from '../../libs/errors/application_error';
+import MEmployee from 'm_employee';
 
 const errorResponseAdapter = new ErrorResponseAdapter()
 const authService = new AuthenticateService()
 
-const login_guard: (() => Express.RequestHandler) = (() => (req:Express.Request, res:Express.Response, next:Express.NextFunction) => {
+const login_guard: (() => Express.RequestHandler) = (() => (req:Request, res:Express.Response, next:Express.NextFunction) => {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
     const errorResponse = new ErrorResponse(ErrorCode.AuthError)
@@ -23,7 +24,8 @@ const login_guard: (() => Express.RequestHandler) = (() => (req:Express.Request,
   const token = header_auth
   authService
     .verifyToken(token)
-    .then(() => {
+    .then(employee => {
+      req.user = employee
       // 認証成功
       next()
     })
@@ -44,4 +46,7 @@ const authority_gurd:(() => Express.RequestHandler) = (() => (req:Express.Reques
   next()
 })
 
+interface Request extends Express.Request {
+  user: MEmployee.Instance
+}
 export { login_guard, authority_gurd }
