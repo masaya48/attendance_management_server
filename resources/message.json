@@ -9,11 +9,11 @@
       "status": 401
     },
     "notFound": {
-      "message": "",
+      "message": "お探しのページは見つかりませんでした。",
       "status": 404
     },
     "server": {
-      "message": "サーバーエラー",
+      "message": "エラー",
       "status": 500
     }
   }

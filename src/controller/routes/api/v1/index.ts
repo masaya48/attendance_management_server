@@ -8,6 +8,7 @@ import validator from './../../../validator'
 import auth from './auth'
 import users from './users'
 import test from './test'
+import office_hours from './office_hours'
 
 export default function routes() {
   const router = Express.Router()
@@ -17,6 +18,9 @@ export default function routes() {
 
   // ユーザー認証の確認処理
   // router.use(validator.login_guard, login_guard())
+
+  // 「office_hours」認証
+  router.use('/office_hours', validator.login_guard, office_hours)
 
   // 「/test」
   router.use('/test', validator.login_guard, test())
