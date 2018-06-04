@@ -9,6 +9,7 @@ import LoginRequestAdapter from './../../../adapters/request/login_request_adapt
 import LoginResponseAdapter from './../../../adapters/response/login_response_adapter'
 // sevices
 import AuthenticateService from './../../../../domain/services/authenticate_service'
+// error
 import ErrorResponseAdapter from '../../../adapters/response/error_response_adapter';
 import ApplicationError from '../../../../libs/errors/application_error';
 

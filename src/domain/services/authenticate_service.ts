@@ -46,7 +46,7 @@ class AuthenticateService {
   }
 
   // よくわかりゃん…
-  public verifyToken( token ): Bluebird<void> {
+  public verifyToken( token ): Bluebird<Employee.Instance> {
     return new Bluebird(( resolve, reject ) => {
       jwt.verify(token, config.jwt.authentication_secret_key, { algorithms: [config.jwt.algorithm] }, ( err, decoded ) => {
         if (err) {
@@ -70,7 +70,7 @@ class AuthenticateService {
               return
             }
             // 成功
-            resolve()
+            resolve(employee)
             return
           })
           .error(() => {
