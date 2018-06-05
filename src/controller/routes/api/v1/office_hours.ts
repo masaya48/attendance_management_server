@@ -16,7 +16,24 @@ const officeHoursServicce = new OfficeHoursService()
 const registAtWorkRequestAdapter = new RegistAtWorkRequestAdapter()
 const errorResponseAdapter = new ErrorResponseAdapter()
 
-router.post('', validator.office_hours.regist_at_work, (res, req, next) => {
-  
+router.post('/regist/at_work', validator.office_hours.regist_at_work, (res, req, next) => {
+  // バリデーションチェック
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const errorResponse = validator.getValidateErrorResponse(errors)
+    return res.status(errorResponse.getStatus()).json(errorResponse.getBody())
+  }
+  console.log('aaaa:' + req.user)
+
+  return officeHoursServicce
+    .atWork(registAtWorkRequestAdapter.convert(req))
+    .then(() => {
+       return res.status(200).json({status: 200, message: '成功'})
+    })
+    .catch((err: ApplicationError) => {
+      const response = errorResponseAdapter.convert(err)
+      return res.status(response.getStatus()).json(response.getBody())
+    })
 })
 
+export default router
