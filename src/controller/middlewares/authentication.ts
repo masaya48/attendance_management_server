@@ -13,6 +13,7 @@ const errorResponseAdapter = new ErrorResponseAdapter()
 const authService = new AuthenticateService()
 
 const login_guard: (() => Express.RequestHandler) = (() => (req:Request, res:Express.Response, next:Express.NextFunction) => {
+  console.log(req.headers)
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
     const errorResponse = new ErrorResponse(ErrorCode.AuthError)

@@ -16,7 +16,7 @@ const officeHoursServicce = new OfficeHoursService()
 const registAtWorkRequestAdapter = new RegistAtWorkRequestAdapter()
 const errorResponseAdapter = new ErrorResponseAdapter()
 
-router.post('/regist/at_work', validator.office_hours.regist_at_work, (res, req, next) => {
+router.post('/regist/at_work', validator.office_hours.regist_at_work, (req, res, next) => {
   // バリデーションチェック
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
@@ -28,7 +28,7 @@ router.post('/regist/at_work', validator.office_hours.regist_at_work, (res, req,
   return officeHoursServicce
     .atWork(registAtWorkRequestAdapter.convert(req))
     .then(() => {
-       return res.status(200).json({status: 200, message: '成功'})
+      return res.status(200).json({status: 200, message: '成功'})
     })
     .catch((err: ApplicationError) => {
       const response = errorResponseAdapter.convert(err)
