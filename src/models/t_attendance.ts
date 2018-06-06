@@ -27,7 +27,7 @@ module.exports = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes
       },
       rest_time: {
         type: DataTypes.TIME,
-        defaultValue: '01:00:00'
+        defaultValue: '00:00:00'
       },
       remarks: {
         type: DataTypes.STRING(100)
