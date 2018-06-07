@@ -43,6 +43,10 @@ app.use((req, res, next) => {
 // url mappings
 app.use('/api', routes())
 
+app.options('*', function (req, res) {
+  res.sendStatus(200)
+})
+
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   const err = new ApplicationError(ErrorCode.NotFound)
