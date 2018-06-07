@@ -1,14 +1,14 @@
 import BaseRequestDTO from './base_request_dto'
 class LoginRequestDTO extends BaseRequestDTO {
-  private readonly employee_no:string
+  private readonly employeeNo:string
   private readonly password:string
-  constructor(employee_no:string, password:string) {
+  constructor(employeeNo:string, password:string) {
     super()
-    this.employee_no = employee_no
+    this.employeeNo = employeeNo
     this.password = password
   }
   public getEmployeeNo() {
-    return this.employee_no
+    return this.employeeNo
   }
   public getPassword() {
     return this.password

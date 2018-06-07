@@ -1,17 +1,17 @@
 import BaseRequestDTO from './../base_request_dto'
-class RegistLeaveWorkDTO extends BaseRequestDTO {
-  private readonly employee_no:string
-  private readonly password:string
-  constructor(employee_no:string, password:string) {
+class RegistLeaveWorRequestkDTO extends BaseRequestDTO {
+  private readonly attendanceNo: number
+  private readonly leaveTime: Date
+  constructor(attendanceNo: number, leaveTime: Date) {
     super()
-    this.employee_no = employee_no
-    this.password = password
+    this.attendanceNo = attendanceNo
+    this.leaveTime = leaveTime
   }
-  public getEmployeeNo() {
-    return this.employee_no
+  public getAttendanceNo() {
+    return this.attendanceNo
   }
-  public getPassword() {
-    return this.password
+  public getLeaveTime() {
+    return this.leaveTime
   }
 }
-export default RegistLeaveWorkDTO
+export default RegistLeaveWorRequestkDTO

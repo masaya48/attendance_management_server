@@ -1,17 +1,17 @@
 import BaseRequestDTO from './../base_request_dto'
 class RegistAtWorkDTO extends BaseRequestDTO {
-  private readonly user_no: number
-  private readonly attendance_time: Date
-  constructor(user_no: number, attendance_time: Date) {
+  private readonly userNo: number
+  private readonly attendanceTime: Date
+  constructor(userNo: number, attendanceTime: Date) {
     super()
-    this.user_no = user_no
-    this.attendance_time = attendance_time
+    this.userNo = userNo
+    this.attendanceTime = attendanceTime
   }
   public getUserNo() {
-    return this.user_no
+    return this.userNo
   }
   public getAttendanceTime() {
-    return this.attendance_time
+    return this.attendanceTime
   }
 }
 export default RegistAtWorkDTO

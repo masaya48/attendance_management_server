@@ -5,6 +5,7 @@ import {validationResult} from 'express-validator/check'
 import validator from './../../../validator'
 // adapter
 import RegistAtWorkRequestAdapter from './../../../adapters/request/office_hours/regist_at_work'
+import RegistAtWorkResponseAdapter from './../../../adapters/response/office_hours/regist_at_work'
 // service
 import OfficeHoursService from './../../../../domain/services/office_hours_service'
 // error
@@ -14,6 +15,7 @@ import ApplicationError from '../../../../libs/errors/application_error';
 const router = Express.Router()
 const officeHoursServicce = new OfficeHoursService()
 const registAtWorkRequestAdapter = new RegistAtWorkRequestAdapter()
+const registAtWorkResponseAdapter = new RegistAtWorkResponseAdapter()
 const errorResponseAdapter = new ErrorResponseAdapter()
 
 router.post('/regist/at_work', validator.office_hours.regist_at_work, (req, res, next) => {
@@ -26,9 +28,10 @@ router.post('/regist/at_work', validator.office_hours.regist_at_work, (req, res,
   console.log('aaaa:' + req.user)
 
   return officeHoursServicce
-    .atWork(registAtWorkRequestAdapter.convert(req))
-    .then(() => {
-      return res.status(200).json({status: 200, message: '成功'})
+    .registAtWork(registAtWorkRequestAdapter.convert(req))
+    .then(responceDTO => {
+      const response = registAtWorkResponseAdapter.convert(responceDTO)
+      return res.status(response.getStatus()).json(response.getBody())
     })
     .catch((err: ApplicationError) => {
       const response = errorResponseAdapter.convert(err)
