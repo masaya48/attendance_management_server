@@ -11,13 +11,27 @@ import ApplicationError from '../../libs/errors/application_error'
 import { ErrorCode } from '../../utils/constants/error_code'
 
 const Attendance = models.t_attendance
-const {} = Sequelize.Op
+const Op = Sequelize.Op
+const {ne} = Sequelize.Op
 
 class OfficeHoursService {
 
   public checkAttendance(userNo: number): Bluebird<any> {
-    Attendance.find({where: {user_no: userNo, }})
-    return
+    return Attendance.find<number>({
+      where: {
+        user_no: userNo,
+        attendance_no: {
+          [Op.in]: [Sequelize.literal('SELECT MAX(attendance_no) FROM t_attendance WHERE end_time IS NULL GROUP BY user_no')]
+        }
+      }
+    })
+    .then(attendance => {
+      const attendanceNo = attendance.attendance_no
+      console.log(attendanceNo)
+    })
+    .catch(() => {
+      console.log('error')
+    })
   }
 
   public registAtWork(requestDTO: RegistAtWorkRequestDTO): Bluebird<RegistAtWorkResponseDTO> {
