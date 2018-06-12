@@ -8,6 +8,7 @@ import MProject from 'm_project'
 import TAbsent from 't_absent'
 import TAttendance from 't_attendance'
 import TWorkingTime from 't_working_time'
+import VExistArrival from 'v_exist_arrival'
 
 interface MyModels extends Sequelize.Models {
   m_absent_type: MAbsentType.Model
@@ -17,6 +18,7 @@ interface MyModels extends Sequelize.Models {
   t_absent: TAbsent.Model
   t_attendance: TAttendance.Model
   t_working_time: TWorkingTime.Model
+  v_exist_arrival: VExistArrival.Model
 }
 
 export default MyModels

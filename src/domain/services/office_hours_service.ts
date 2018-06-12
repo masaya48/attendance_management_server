@@ -1,36 +1,41 @@
 // node_modules
 import * as Bluebird from 'bluebird'
 //
-import {models, Sequelize} from './../../libs/models'
+import {models, Sequelize, sequelize} from './../../libs/models'
 // dto
 import RegistAtWorkRequestDTO from './../dto/request/office_hours/regist_at_work'
 import RegistLeaveWorkRequestDTO from './../dto/request/office_hours/regist_leave_work'
 import RegistAtWorkResponseDTO from './../dto/response/office_hours/regist_at_work'
+import CheckAttendanceRequestDTO from './../dto/request/office_hours/check_attendance'
+import CheckAttendanceResponseDTO from './../dto/response/office_hours/check_attendance'
 // adapter
 import ApplicationError from '../../libs/errors/application_error'
 import { ErrorCode } from '../../utils/constants/error_code'
 
 const Attendance = models.t_attendance
-const Op = Sequelize.Op
-const {ne} = Sequelize.Op
+const ExistArrival = models.v_exist_arrival
 
 class OfficeHoursService {
 
-  public checkAttendance(userNo: number): Bluebird<any> {
-    return Attendance.find<number>({
-      where: {
-        user_no: userNo,
-        attendance_no: {
-          [Op.in]: [Sequelize.literal('SELECT MAX(attendance_no) FROM t_attendance WHERE end_time IS NULL GROUP BY user_no')]
+  public checkAttendance(userNo: number): Bluebird<CheckAttendanceResponseDTO> {
+    console.log('test')
+    return new Bluebird((resolve, reject) => {
+      ExistArrival.find({
+        where: {
+          user_no: userNo
         }
-      }
-    })
-    .then(attendance => {
-      const attendanceNo = attendance.attendance_no
-      console.log(attendanceNo)
-    })
-    .catch(() => {
-      console.log('error')
+      })
+      .then(existArrival => {
+        if (!existArrival) {
+          return resolve(new CheckAttendanceResponseDTO(0, false))
+        }
+        const attendanceNo = existArrival.attendance_no
+        return resolve(new CheckAttendanceResponseDTO(attendanceNo, true))
+      })
+      .catch(e => {
+        console.log(e)
+        return reject(new ApplicationError(ErrorCode.ServerError))
+      })
     })
   }
 
