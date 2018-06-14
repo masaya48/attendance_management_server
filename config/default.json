@@ -15,7 +15,8 @@
         "timestamps": true,
         "underscored": true
       },
-      "operatorsAliases": false
+      "operatorsAliases": false,
+      "timezone": "Asia/Tokyo"
     }
   },
   "jwt": {
