@@ -9,6 +9,7 @@ import auth from './auth'
 import users from './users'
 import test from './test'
 import office_hours from './office_hours'
+import monthly_data from './monthly_data'
 
 export default function routes() {
   const router = Express.Router()
@@ -21,6 +22,9 @@ export default function routes() {
 
   // 「office_hours」認証
   router.use('/office_hours', validator.login_guard, office_hours)
+
+  //「monthly_data」
+  router.use('/monthly_data', validator.login_guard, monthly_data)
 
   // 「/test」
   router.use('/test', validator.login_guard, test())
