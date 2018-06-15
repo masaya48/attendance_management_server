@@ -3,11 +3,11 @@ import * as Bluebird from 'bluebird'
 //
 import {models, Sequelize, sequelize} from './../../libs/models'
 // dto
-import RegistAtWorkRequestDTO from './../dto/request/office_hours/regist_at_work'
-import RegistLeaveWorkRequestDTO from './../dto/request/office_hours/regist_leave_work'
-import RegistAtWorkResponseDTO from './../dto/response/office_hours/regist_at_work'
-import CheckAttendanceRequestDTO from './../dto/request/office_hours/check_attendance'
-import CheckAttendanceResponseDTO from './../dto/response/office_hours/check_attendance'
+// import RegistLeaveWorkRequestDTO from './../dto/request/office_hours/regist_leave_work'
+// import RegistAtWorkResponseDTO from './../dto/response/office_hours/regist_at_work'
+import * as OfficeHoursRequest from '../dto/request/office_hours_request'
+import * as OfficeHoursResponse from '../dto/response/office_hours_response'
+// import CheckAttendanceResponseDTO from './../dto/response/office_hours/check_attendance'
 // adapter
 import ApplicationError from '../../libs/errors/application_error'
 import { ErrorCode } from '../../utils/constants/error_code'
@@ -17,7 +17,7 @@ const ExistArrival = models.v_exist_arrival
 
 class OfficeHoursService {
 
-  public checkAttendance(userNo: number): Bluebird<CheckAttendanceResponseDTO> {
+  public checkAttendance(userNo: number): Bluebird<OfficeHoursResponse.CheckAttendanceResponseDTO> {
     console.log('test')
     return new Bluebird((resolve, reject) => {
       ExistArrival.find({
@@ -27,10 +27,10 @@ class OfficeHoursService {
       })
       .then(existArrival => {
         if (!existArrival) {
-          return resolve(new CheckAttendanceResponseDTO(0, false))
+          return resolve(new OfficeHoursResponse.CheckAttendanceResponseDTO(0, false))
         }
         const attendanceNo = existArrival.attendance_no
-        return resolve(new CheckAttendanceResponseDTO(attendanceNo, true))
+        return resolve(new OfficeHoursResponse.CheckAttendanceResponseDTO(attendanceNo, true))
       })
       .catch(e => {
         console.log(e)
@@ -38,8 +38,13 @@ class OfficeHoursService {
       })
     })
   }
-
-  public registAtWork(requestDTO: RegistAtWorkRequestDTO): Bluebird<RegistAtWorkResponseDTO> {
+  private a(): number {
+    return 0
+  }
+  public readonly regist = {
+    a: this.a
+  }
+  public registAtWork(requestDTO: OfficeHoursRequest.Regist.AtWorkRequestDTO): Bluebird<OfficeHoursResponse.Regist.AtWorkResponseDTO> {
     const userNo = requestDTO.getUserNo()
     const attendanceTime = requestDTO.getAttendanceTime()
     return new Bluebird((resolve, reject) => {
@@ -51,7 +56,7 @@ class OfficeHoursService {
         update_user_no: userNo
       })
       .then(attendance => {
-        return resolve(new RegistAtWorkResponseDTO(attendance.attendance_no))
+        return resolve(new OfficeHoursResponse.Regist.AtWorkResponseDTO(attendance.attendance_no))
       })
       .catch(() => {
         return reject(new ApplicationError(ErrorCode.ServerError))
@@ -59,7 +64,7 @@ class OfficeHoursService {
     })
   }
 
-  public registLeaveWork(requestDTO: RegistLeaveWorkRequestDTO) {
+  public registLeaveWork(requestDTO: OfficeHoursRequest.Regist.LeaveWorkRequestDTO) {
 
     return new Bluebird((resolve, reject) => {
       

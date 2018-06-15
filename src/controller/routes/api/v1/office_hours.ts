@@ -4,9 +4,9 @@ import {validationResult} from 'express-validator/check'
 // validator
 import validator from './../../../validator'
 // adapter
-import RegistAtWorkRequestAdapter from './../../../adapters/request/office_hours/regist_at_work'
-import RegistAtWorkResponseAdapter from './../../../adapters/response/office_hours/regist_at_work'
-import CheckAttendanceResponseAdapter from './../../../adapters/response/office_hours/check_attendance'
+import officeHoursRequestAdapter from './../../../adapters/request/office_hours'
+import officeHoursResponseAdapter from './../../../adapters/response/office_hours'
+import {} from '../../../adapters/response/office_hours'
 // service
 import OfficeHoursService from './../../../../domain/services/office_hours_service'
 // error
@@ -15,16 +15,16 @@ import ApplicationError from '../../../../libs/errors/application_error';
 
 const router = Express.Router()
 const officeHoursServicce = new OfficeHoursService()
-const registAtWorkRequestAdapter = new RegistAtWorkRequestAdapter()
-const registAtWorkResponseAdapter = new RegistAtWorkResponseAdapter()
-const checkAttendanceResponseAdapter = new CheckAttendanceResponseAdapter()
+// const registAtWorkRequestAdapter = new RegistAtWorkRequestAdapter()
+// const registAtWorkResponseAdapter = new RegistAtWorkResponseAdapter()
+// const checkAttendanceResponseAdapter = new CheckAttendanceResponseAdapter()
 const errorResponseAdapter = new ErrorResponseAdapter()
 
 router.post('/check/attendance', (req: any, res, next) => {
   return officeHoursServicce
     .checkAttendance(req.user.user_no)
     .then(responseDTO => {
-      const response = checkAttendanceResponseAdapter.convert(responseDTO)
+      const response = officeHoursResponseAdapter.check.attendanceTimeConvert(responseDTO)
       return res.status(response.getStatus()).json(response.getBody())
     })
     .catch((err: ApplicationError) => {
@@ -42,9 +42,9 @@ router.post('/regist/at_work', validator.office_hours.regist_at_work, (req, res,
   }
 
   return officeHoursServicce
-    .registAtWork(registAtWorkRequestAdapter.convert(req))
+    .registAtWork(officeHoursRequestAdapter.regist.atWorkConvert(req))
     .then(responceDTO => {
-      const response = registAtWorkResponseAdapter.convert(responceDTO)
+      const response = officeHoursResponseAdapter.regist.atWorkConvert(responceDTO)
       return res.status(response.getStatus()).json(response.getBody())
     })
     .catch((err: ApplicationError) => {
