@@ -38,12 +38,7 @@ class OfficeHoursService {
       })
     })
   }
-  private a(): number {
-    return 0
-  }
-  public readonly regist = {
-    a: this.a
-  }
+
   public registAtWork(requestDTO: OfficeHoursRequest.Regist.AtWorkRequestDTO): Bluebird<OfficeHoursResponse.Regist.AtWorkResponseDTO> {
     const userNo = requestDTO.getUserNo()
     const attendanceTime = requestDTO.getAttendanceTime()
@@ -64,10 +59,37 @@ class OfficeHoursService {
     })
   }
 
-  public registLeaveWork(requestDTO: OfficeHoursRequest.Regist.LeaveWorkRequestDTO) {
-
+  public registLeaveWork(requestDTO: OfficeHoursRequest.Regist.LeaveWorkRequestDTO): Bluebird<OfficeHoursResponse.Regist.LeaveWorkResponseDTO> {
+    const userNo = requestDTO.getUserNo()
+    const leaveTime = requestDTO.getLeaveTime()
     return new Bluebird((resolve, reject) => {
-      
+      ExistArrival.find({
+        where: {
+          user_no: userNo
+        }
+      })
+      .then(attendance => {
+        if (!attendance) {
+          return reject(new ApplicationError(ErrorCode.NotFound))
+        }
+        const attendanceNo = attendance.attendance_no
+        return Attendance
+          .find({where: {attendance_no: attendanceNo}})
+          .then(attendance => {
+            attendance.end_time = leaveTime
+            return attendance
+              .save()
+              .then(() => {
+                return resolve(new OfficeHoursResponse.Regist.LeaveWorkResponseDTO(attendanceNo))
+              })
+          })
+          .catch(() => {
+            return reject(new ApplicationError(ErrorCode.ServerError))
+          })
+      })
+      .catch(() => {
+        return reject(new ApplicationError(ErrorCode.ServerError))
+      })
     })
   }
 }

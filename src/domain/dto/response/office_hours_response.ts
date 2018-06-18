@@ -26,6 +26,17 @@ export namespace Regist {
       return this.attendanceNo
     }
   }
+  export class LeaveWorkResponseDTO extends BaseResponseDTO {
+    protected readonly attendanceNo: number
+
+    constructor(attendanceNo: number) {
+      super()
+      this.attendanceNo = attendanceNo
+    }
+    public getAttendanceNo() {
+      return this.attendanceNo
+    }
+  }
 }
 export default {
   CheckAttendanceResponseDTO,
