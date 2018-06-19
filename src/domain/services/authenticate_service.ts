@@ -6,7 +6,6 @@ import config from './../../libs/config'
 // error
 import ApplicationError from './../../libs/errors/application_error'
 // dto
-import BaseResponseDTO from './../dto/response/base_response_dto'
 import LoginRequestDTO from './../dto/request/login_request_dto'
 import LoginResponseDTO from './../dto/response/login_response_dto'
 // DB
@@ -29,6 +28,7 @@ class AuthenticateService {
           reject(new ApplicationError(ErrorCode.AuthError))
           return
         }
+
         const {employee_no, user_no} = employee
         let token:string = jwt.sign({employee_no, user_no}, config.jwt.authentication_secret_key, {algorithm: config.jwt.algorithm})
         employee.token = token
@@ -41,6 +41,7 @@ class AuthenticateService {
       })
       .catch(() => {
         reject(new ApplicationError(ErrorCode.ServerError))
+        return
       })
     })
   }

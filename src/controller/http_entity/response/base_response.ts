@@ -1,4 +1,4 @@
-class BaseResponse {
+export class BaseResponse {
   protected body: BaseResponse.BaseResponseBody
   public constructor(status: number, message: string) {
     this.body = {
@@ -16,7 +16,7 @@ class BaseResponse {
     return this.body.message
   }
 }
-declare namespace BaseResponse {
+export declare namespace BaseResponse {
   interface BaseResponseResults {}
   interface BaseResponseBody {
     status: number
@@ -25,6 +25,3 @@ declare namespace BaseResponse {
   }
 }
 export default BaseResponse
-export {
-  BaseResponse
-}
