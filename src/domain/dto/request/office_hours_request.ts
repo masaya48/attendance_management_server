@@ -1,4 +1,5 @@
 import BaseRequestDTO from './base_request_dto'
+import * as moment from 'moment';
 export class CheckAttendanceRequestDTO extends BaseRequestDTO {
   private readonly userNo: number
   constructor(userNo: number) {
@@ -12,8 +13,8 @@ export class CheckAttendanceRequestDTO extends BaseRequestDTO {
 export namespace Regist {
   export class AtWorkRequestDTO extends BaseRequestDTO {
     private readonly userNo: number
-    private readonly attendanceTime: Date
-    constructor(userNo: number, attendanceTime: Date) {
+    private readonly attendanceTime: moment.Moment
+    constructor(userNo: number, attendanceTime: moment.Moment) {
       super()
       this.userNo = userNo
       this.attendanceTime = attendanceTime
@@ -27,8 +28,8 @@ export namespace Regist {
   }
   export class LeaveWorkRequestDTO extends BaseRequestDTO {
     private readonly userNo: number
-    private readonly leaveTime: Date
-    constructor(userNo: number, leaveTime: Date) {
+    private readonly leaveTime: moment.Moment
+    constructor(userNo: number, leaveTime: moment.Moment) {
       super()
       this.userNo = userNo
       this.leaveTime = leaveTime

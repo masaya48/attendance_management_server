@@ -34,23 +34,5 @@ export default {
       .trim()
       .isLength({min: 1}),
     login_guard()
-  ],
-  office_hours: {
-    regist_at_work: [
-      body('attendance_time', '必須：出勤時間')
-        .trim()
-        .isLength({min: 1}),
-      body('attendance_time', '出勤時間が不正です')
-        .custom(custom.isDate)
-        .customSanitizer(customSanitizer.parseDate)
-    ],
-    regist_leave_work: [
-      body('leave_time', '必須：退勤時間')
-        .trim()
-        .isLength({min: 1}),
-      body('leave_time', '退勤時間が不正です')
-        .custom(custom.isDate)
-        .customSanitizer(customSanitizer.parseDate)
-    ]
-  }
+  ]
 }

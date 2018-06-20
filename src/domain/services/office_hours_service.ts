@@ -3,11 +3,8 @@ import * as Bluebird from 'bluebird'
 //
 import {models, Sequelize, sequelize} from './../../libs/models'
 // dto
-// import RegistLeaveWorkRequestDTO from './../dto/request/office_hours/regist_leave_work'
-// import RegistAtWorkResponseDTO from './../dto/response/office_hours/regist_at_work'
 import * as OfficeHoursRequest from '../dto/request/office_hours_request'
 import * as OfficeHoursResponse from '../dto/response/office_hours_response'
-// import CheckAttendanceResponseDTO from './../dto/response/office_hours/check_attendance'
 // adapter
 import ApplicationError from '../../libs/errors/application_error'
 import { ErrorCode } from '../../utils/constants/error_code'
@@ -18,7 +15,7 @@ const ExistArrival = models.v_exist_arrival
 class OfficeHoursService {
 
   public checkAttendance(userNo: number): Bluebird<OfficeHoursResponse.CheckAttendanceResponseDTO> {
-    console.log('test')
+
     return new Bluebird((resolve, reject) => {
       ExistArrival.find({
         where: {
@@ -41,7 +38,7 @@ class OfficeHoursService {
 
   public registAtWork(requestDTO: OfficeHoursRequest.Regist.AtWorkRequestDTO): Bluebird<OfficeHoursResponse.Regist.AtWorkResponseDTO> {
     const userNo = requestDTO.getUserNo()
-    const attendanceTime = requestDTO.getAttendanceTime()
+    const attendanceTime = requestDTO.getAttendanceTime().toDate()
     return new Bluebird((resolve, reject) => {
       Attendance.create({
         user_no: userNo,
@@ -76,7 +73,8 @@ class OfficeHoursService {
         return Attendance
           .find({where: {attendance_no: attendanceNo}})
           .then(attendance => {
-            attendance.end_time = leaveTime
+            attendance.end_time = leaveTime.toDate()
+            console.log(Object.prototype.toString.call(leaveTime))
             return attendance
               .save()
               .then(() => {

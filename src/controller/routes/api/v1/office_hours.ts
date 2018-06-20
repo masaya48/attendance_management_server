@@ -15,9 +15,6 @@ import ApplicationError from '../../../../libs/errors/application_error';
 
 const router = Express.Router()
 const officeHoursServicce = new OfficeHoursService()
-// const registAtWorkRequestAdapter = new RegistAtWorkRequestAdapter()
-// const registAtWorkResponseAdapter = new RegistAtWorkResponseAdapter()
-// const checkAttendanceResponseAdapter = new CheckAttendanceResponseAdapter()
 const errorResponseAdapter = new ErrorResponseAdapter()
 
 router.post('/check/attendance', (req: any, res, next) => {
@@ -33,7 +30,7 @@ router.post('/check/attendance', (req: any, res, next) => {
     })
 })
 
-router.post('/regist/at_work', validator.office_hours.regist_at_work, (req, res, next) => {
+router.post('/regist/at_work', (req, res, next) => {
   // バリデーションチェック
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
@@ -53,7 +50,7 @@ router.post('/regist/at_work', validator.office_hours.regist_at_work, (req, res,
     })
 })
 
-router.post('/regist/leave_work', validator.office_hours.regist_leave_work, (req, res, next) => {
+router.post('/regist/leave_work', (req, res, next) => {
   // バリデーションチェック
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
