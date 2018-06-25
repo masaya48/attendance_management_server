@@ -15,7 +15,7 @@ module.exports = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes
         allowNull: false
       },
       subject: {
-        type: DataTypes.STRING(400),
+        type: DataTypes.STRING(100),
         allowNull: false,
         defaultValue: ''
       },

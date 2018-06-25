@@ -62,7 +62,6 @@ router.post('/regist/leave_work', (req, res, next) => {
     .registLeaveWork(officeHoursRequestAdapter.regist.leaveWorkConvert(req))
     .then(responceDTO => {
       const response = officeHoursResponseAdapter.regist.leaveWorkConvert(responceDTO)
-      console.log(response)
       return res.status(response.getStatus()).json(response.getBody())
     })
     .catch((err: ApplicationError) => {
