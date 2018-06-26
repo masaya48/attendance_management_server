@@ -6,19 +6,16 @@ import validator from './../../../validator'
 // adapter
 import officeHoursRequestAdapter from './../../../adapters/request/office_hours'
 import officeHoursResponseAdapter from './../../../adapters/response/office_hours'
-import {} from '../../../adapters/response/office_hours'
 // service
-import OfficeHoursService from './../../../../domain/services/office_hours_service'
+import officeHoursService from './../../../../domain/services/office_hours_service'
 // error
-import ErrorResponseAdapter from '../../../adapters/response/error_response_adapter';
+import errorResponseAdapter from '../../../adapters/response/error_response_adapter';
 import ApplicationError from '../../../../libs/errors/application_error';
 
 const router = Express.Router()
-const officeHoursServicce = new OfficeHoursService()
-const errorResponseAdapter = new ErrorResponseAdapter()
 
 router.post('/check/attendance', (req: any, res, next) => {
-  return officeHoursServicce
+  return officeHoursService
     .checkAttendance(req.user.user_no)
     .then(responseDTO => {
       const response = officeHoursResponseAdapter.check.attendanceTimeConvert(responseDTO)
@@ -38,7 +35,7 @@ router.post('/regist/at_work', (req, res, next) => {
     return res.status(errorResponse.getStatus()).json(errorResponse.getBody())
   }
 
-  return officeHoursServicce
+  return officeHoursService
     .registAtWork(officeHoursRequestAdapter.regist.atWorkConvert(req))
     .then(responceDTO => {
       const response = officeHoursResponseAdapter.regist.atWorkConvert(responceDTO)
@@ -58,7 +55,7 @@ router.post('/regist/leave_work', (req, res, next) => {
     return res.status(errorResponse.getStatus()).json(errorResponse.getBody())
   }
 
-  return officeHoursServicce
+  return officeHoursService
     .registLeaveWork(officeHoursRequestAdapter.regist.leaveWorkConvert(req))
     .then(responceDTO => {
       const response = officeHoursResponseAdapter.regist.leaveWorkConvert(responceDTO)

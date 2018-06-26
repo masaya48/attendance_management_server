@@ -18,10 +18,10 @@ class OfficeHoursService {
 
     return new Bluebird((resolve, reject) => {
       ExistArrival.find({
-        where: {
-          user_no: userNo
-        }
-      })
+          where: {
+            user_no: userNo
+          }
+        })
         .then(existArrival => {
           if (!existArrival) {
             return resolve(new OfficeHoursResponse.CheckAttendanceResponseDTO(0, false))
@@ -61,6 +61,7 @@ class OfficeHoursService {
     const userNo = requestDTO.getUserNo()
     const attendanceTime = requestDTO.getAttendanceTime().toDate()
     return new Bluebird((resolve, reject) => {
+      //  存在確認
       return ExistArrival.find({
           where: {
             user_no: userNo
@@ -68,15 +69,18 @@ class OfficeHoursService {
         })
         .then(existArrival => {
           if (existArrival) {
+            // 出勤済み
             return reject(new ApplicationError(ErrorCode.RequestError))
           }
+
+          // 新規レコード作成(出勤)
           return Attendance.create({
-            user_no: userNo,
-            working_date: attendanceTime,
-            start_time: attendanceTime,
-            create_user_no: userNo,
-            update_user_no: userNo
-          })
+              user_no: userNo,
+              working_date: attendanceTime,
+              start_time: attendanceTime,
+              create_user_no: userNo,
+              update_user_no: userNo
+            })
             .then(attendance => {
               return resolve(new OfficeHoursResponse.Regist.AtWorkResponseDTO(attendance.attendance_no))
             })
@@ -118,4 +122,4 @@ class OfficeHoursService {
     return Bluebird.reject(new ApplicationError(ErrorCode.ServerError))
   }
 }
-export default OfficeHoursService
+export default new OfficeHoursService()

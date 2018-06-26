@@ -82,4 +82,4 @@ class AuthenticateService {
     })
   }
 }
-export default AuthenticateService
+export default new AuthenticateService()

@@ -2,15 +2,12 @@
 import * as Express from 'express'
 import { validationResult } from 'express-validator/check'
 // config
-import AuthenticateService from './../../domain/services/authenticate_service'
+import authenticateService from './../../domain/services/authenticate_service'
 import ErrorResponse from '../../controller/http_entity/response/error_response'
 import ErrorCode from './../../utils/constants/error_code'
-import ErrorResponseAdapter from './../../controller/adapters/response/error_response_adapter'
+import errorResponseAdapter from './../../controller/adapters/response/error_response_adapter'
 import ApplicationError from '../../libs/errors/application_error';
 import MEmployee from 'm_employee';
-
-const errorResponseAdapter = new ErrorResponseAdapter()
-const authService = new AuthenticateService()
 
 const login_guard: (() => Express.RequestHandler) = (() => (req:Request, res:Express.Response, next:Express.NextFunction) => {
   if (req.method === 'OPTIONS') {
@@ -27,7 +24,7 @@ const login_guard: (() => Express.RequestHandler) = (() => (req:Request, res:Exp
   // 認証用モジュールの読み込み
   let header_auth = req.headers.authorization
   const token = header_auth
-  authService
+  authenticateService
     .verifyToken(token)
     .then(employee => {
       req.user = employee

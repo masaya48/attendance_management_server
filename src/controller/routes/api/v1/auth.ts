@@ -5,12 +5,12 @@ import {validationResult} from 'express-validator/check'
 // validator
 import validator from './../../../validator'
 // adapters
-import LoginRequestAdapter from './../../../adapters/request/login_request_adapter'
-import LoginResponseAdapter from './../../../adapters/response/login_response_adapter'
+import loginRequestAdapter from './../../../adapters/request/login_request_adapter'
+import loginResponseAdapter from './../../../adapters/response/login_response_adapter'
 // sevices
-import AuthenticateService from './../../../../domain/services/authenticate_service'
+import authenticateService from './../../../../domain/services/authenticate_service'
 // error
-import ErrorResponseAdapter from '../../../adapters/response/error_response_adapter';
+import errorResponseAdapter from '../../../adapters/response/error_response_adapter';
 import ApplicationError from '../../../../libs/errors/application_error';
 
 // ========================================================================================
@@ -18,10 +18,6 @@ import ApplicationError from '../../../../libs/errors/application_error';
 // ========================================================================================
 const router = Express.Router()
 
-const authenticateService = new AuthenticateService()
-const loginRequestAdapter = new LoginRequestAdapter()
-const loginResponseAdapter = new LoginResponseAdapter()
-const errorResponseAdapter = new ErrorResponseAdapter()
 /* ログイン認証 */
 router.post('/login', validator.login, (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
   // バリデーションチェック

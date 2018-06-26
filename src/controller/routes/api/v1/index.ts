@@ -6,8 +6,6 @@ import { login_guard, authority_gurd } from './../../../middlewares/authenticati
 import validator from './../../../validator'
 // routes
 import auth from './auth'
-import users from './users'
-import test from './test'
 import office_hours from './office_hours'
 import monthly_data from './monthly_data'
 
@@ -25,12 +23,6 @@ export default function routes() {
 
   //「monthly_data」
   router.use('/monthly_data', validator.login_guard, monthly_data)
-
-  // 「/test」
-  router.use('/test', validator.login_guard, test())
-
-  // 「/users」
-  router.use('/users', validator.login_guard, users())
 
   // ユーザーの権限確認(今は何もしていない)
   router.use('/manager', authority_gurd())

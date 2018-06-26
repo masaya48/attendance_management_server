@@ -17,4 +17,4 @@ interface LoginRequest extends Express.Request {
     password: string,
   }
 }
-export default LoginRequestAdapter
+export default new LoginRequestAdapter()
