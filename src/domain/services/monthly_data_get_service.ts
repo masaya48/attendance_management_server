@@ -1,6 +1,6 @@
 // node_modules
 import * as Bluebird from 'bluebird'
-
+import * as Sequelize from 'sequelize'
 // config
 import config from './../../libs/config'
 // error
@@ -14,16 +14,19 @@ import models from './../../libs/models'
 import Employee from 'm_employee'
 import Attendance from 't_attendance'
 import ErrorCode from './../../utils/constants/error_code'
+import * as moment from 'moment';
 
 class MonthlyDataGetService {
   public getMonthlyData(requestDTO: MonthlyDataGetRequestDTO): Bluebird<MonthlyDataGetResponseDTO> {
     return new Bluebird((resolve, reject) => {
+      const Op = Sequelize.Op
       const Attendance = models.t_attendance as Attendance.Model
       const reqMonth = requestDTO.getAttendanceMonth()
+      const stMonth = moment(new Date('2018-06-05')).toDate();
       return Attendance.findAll({
         where: {
           user_no: requestDTO.getUserNo(),
-          working_date: reqMonth
+          working_date: {[Op.between]: [stMonth, reqMonth]}
         }
       })
       .then(monthly_data => {
@@ -31,15 +34,12 @@ class MonthlyDataGetService {
           reject(new ApplicationError(ErrorCode.AuthError))
           return
         }
-        //const {employee_no, user_no} = monthly_data
-        //let token:string = jwt.sign({employee_no, user_no}, config.jwt.authentication_secret_key, {algorithm: config.jwt.algorithm})
-        //employee.token = token
-        const t = new MonthlyDataGetResponseDTO(monthly_data)
+        console.log('dbdbdbdbdbdbd')
+        console.log(monthly_data)
         return resolve(new MonthlyDataGetResponseDTO(monthly_data))
       })
     })
   }
 
-  // よくわかりゃん…
 }
-export default MonthlyDataGetService
+export default new MonthlyDataGetService()

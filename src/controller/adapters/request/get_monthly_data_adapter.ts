@@ -1,9 +1,9 @@
 // node_modules
 import * as Express from 'express'
 
-import RequestAdapter from './../request_adapter'
-import MonthlyDataRequestDTO from './../../../../domain/dto/request/monthly_data/monthly_data_get_request'
-import BaseRequestDTO from './../../../../domain/dto/request/base_request_dto'
+import RequestAdapter from './request_adapter'
+import MonthlyDataRequestDTO from './../../../domain/dto/request/monthly_data/monthly_data_get_request'
+import BaseRequestDTO from './../../../domain/dto/request/base_request_dto'
 import MyLoginRequest from 'my_request'
 import { compareSync } from 'bcrypt';
 class MonthlyDataRequestAdapter implements RequestAdapter {
