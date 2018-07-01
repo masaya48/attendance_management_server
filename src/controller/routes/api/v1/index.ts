@@ -1,7 +1,7 @@
 // node_modules
 import * as Express from 'express'
 // middlewares
-import { login_guard, authority_gurd } from './../../../middlewares/authentication'
+import { authority_gurd } from './../../../middlewares/authentication'
 //
 import validator from './../../../validator'
 // routes

@@ -3,7 +3,6 @@ import * as Express from 'express'
 
 import RequestAdapter from './request_adapter'
 import LoginRequestDTO from './../../../domain/dto/request/login_request_dto'
-import BaseRequestDTO from './../../../domain/dto/request/base_request_dto'
 class LoginRequestAdapter implements RequestAdapter {
   public convert(req: LoginRequest): LoginRequestDTO {
     const employee_no = req.body.employee_no

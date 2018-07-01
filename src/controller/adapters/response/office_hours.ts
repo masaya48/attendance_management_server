@@ -6,7 +6,7 @@ import MyLoginRequest from 'my_request'
 
 export const check = {
   attendanceTimeConvert: (responseDTO: OfficeHoursResponseDTO.CheckAttendanceResponseDTO) => {
-    return new CheckAttendanceResponse(200, '成功', responseDTO.getAttendanceNo(), responseDTO.isAttendance())
+    return new CheckAttendanceResponse(200, '成功', responseDTO.getAttendanceNo(), responseDTO.getStartTime(), responseDTO.getEndTime(), responseDTO.isAttendance())
   }
 }
 export const regist = {
