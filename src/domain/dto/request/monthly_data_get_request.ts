@@ -1,4 +1,4 @@
-import BaseRequestDTO from './../base_request_dto'
+import BaseRequestDTO from './base_request_dto'
 class MonthlyDataGetDTO extends BaseRequestDTO {
   private readonly user_no: number
   private readonly month: Date

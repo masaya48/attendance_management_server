@@ -1,4 +1,4 @@
-import BaseResponseDTO from '../base_response_dto'
+import BaseResponseDTO from './base_response_dto'
 //import Employee from 'm_employee'
 import Attendance from 't_attendance'
 class MonthlyDataResponseDTO extends BaseResponseDTO {
