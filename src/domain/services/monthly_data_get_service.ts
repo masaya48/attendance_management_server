@@ -7,8 +7,8 @@ import config from './../../libs/config'
 import ApplicationError from './../../libs/errors/application_error'
 // dto
 import BaseResponseDTO from './../dto/response/base_response_dto'
-import MonthlyDataGetRequestDTO from './../dto/request/monthly_data/monthly_data_get_request'
-import MonthlyDataGetResponseDTO from './../dto/response/monthly_data/monthly_data_get_response'
+import MonthlyDataGetRequestDTO from './../dto/request/monthly_data_get_request'
+import MonthlyDataGetResponseDTO from './../dto/response/monthly_data_get_response'
 // DB
 import models from './../../libs/models'
 import Employee from 'm_employee'
@@ -22,11 +22,12 @@ class MonthlyDataGetService {
       const Op = Sequelize.Op
       const Attendance = models.t_attendance as Attendance.Model
       const reqMonth = requestDTO.getAttendanceMonth()
-      const stMonth = moment(new Date('2018-06-05')).toDate();
+      // const beginMonth = reqMonth.getFullYear() + '-' + (reqMonth.getMonth() + 1) + '-' + '01'
+      // const endMonth = reqMonth.getFullYear() + '-' + (reqMonth.getMonth() + 1 )+ '-' + '31'
       return Attendance.findAll({
         where: {
           user_no: requestDTO.getUserNo(),
-          working_date: {[Op.between]: [stMonth, reqMonth]}
+          working_date: {[Op.between]: ['2018-07-01', '2018-07-31']}
         }
       })
       .then(monthly_data => {
@@ -34,8 +35,6 @@ class MonthlyDataGetService {
           reject(new ApplicationError(ErrorCode.AuthError))
           return
         }
-        console.log('dbdbdbdbdbdbd')
-        console.log(monthly_data)
         return resolve(new MonthlyDataGetResponseDTO(monthly_data))
       })
     })
