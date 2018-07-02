@@ -2,7 +2,7 @@
 import * as Bluebird from 'bluebird'
 import * as moment from 'moment'
 //
-import { models, Sequelize, sequelize } from './../../libs/models'
+import { models, Sequelize } from './../../libs/models'
 // dto
 import * as OfficeHoursRequest from '../dto/request/office_hours_request'
 import * as OfficeHoursResponse from '../dto/response/office_hours_response'
@@ -11,23 +11,25 @@ import ApplicationError from '../../libs/errors/application_error'
 import { ErrorCode } from '../../utils/constants/error_code'
 
 const Attendance = models.t_attendance
-const ExistArrival = models.v_exist_arrival
-
 const Op = Sequelize.Op
 
+/**
+ * 出退勤用サービスクラス
+ */
 class OfficeHoursService {
 
+  /** 出勤確認 */
   public async checkAttendance(userNo: number): Promise<OfficeHoursResponse.CheckAttendanceResponseDTO> {
     // 出勤有無
     let isAttendance = false
     // 出退勤情報を取得
-    let attendance = await this.existsArrival(userNo)
+    let attendance = await this.existsAttendance(userNo)
     if (attendance) {
       // 出勤情報がある場合
       isAttendance = true
     } else {
       // 出勤情報がない場合当日の最新の情報を取得
-      attendance = await this.getTodaysRecentlyArrival(userNo)
+      attendance = await this.getTodaysRecentlyAttendance(userNo)
       isAttendance = false
     }
 
@@ -39,104 +41,76 @@ class OfficeHoursService {
     return new OfficeHoursResponse.CheckAttendanceResponseDTO(attendance.attendance_no, attendance.start_time, attendance.end_time, isAttendance)
   }
 
-  // public async registAtWork(requestDTO: OfficeHoursRequest.Regist.AtWorkRequestDTO): Promise<OfficeHoursResponse.Regist.AtWorkResponseDTO> {
-  //   const userNo = requestDTO.getUserNo()
-  //   const attendanceTime = requestDTO.getAttendanceTime().toDate()
-  //   const existArrival = await ExistArrival.find({
-  //     where: {
-  //       user_no: userNo
-  //     }
-  //   })
-  //   if (existArrival) {
-  //     return Bluebird.reject(new ApplicationError(ErrorCode.RequestError))
-  //   }
-  //   const attendance = await Attendance.create({
-  //     user_no: userNo,
-  //     working_date: attendanceTime,
-  //     start_time: attendanceTime,
-  //     create_user_no: userNo,
-  //     update_user_no: userNo
-  //   })
-  //   return Bluebird.resolve(new OfficeHoursResponse.Regist.AtWorkResponseDTO(attendance.attendance_no))
-  // }
-
-  public registAtWork(requestDTO: OfficeHoursRequest.Regist.AtWorkRequestDTO): Bluebird<OfficeHoursResponse.Regist.AtWorkResponseDTO> {
+  /** 出勤処理 */
+  public async registAtWork(requestDTO: OfficeHoursRequest.Regist.AtWorkRequestDTO): Promise<OfficeHoursResponse.Regist.AtWorkResponseDTO> {
     const userNo = requestDTO.getUserNo()
     const attendanceTime = requestDTO.getAttendanceTime().toDate()
-    return new Bluebird((resolve, reject) => {
-      //  存在確認
-      return ExistArrival.find({
-          where: {
-            user_no: userNo
-          }
-        })
-        .then(existArrival => {
-          if (existArrival) {
-            // 出勤済み
-            return reject(new ApplicationError(ErrorCode.RequestError))
-          }
 
-          // 新規レコード作成(出勤)
-          return Attendance.create({
-              user_no: userNo,
-              working_date: attendanceTime,
-              start_time: attendanceTime,
-              create_user_no: userNo,
-              update_user_no: userNo
-            })
-            .then(attendance => {
-              return resolve(new OfficeHoursResponse.Regist.AtWorkResponseDTO(attendance.attendance_no))
-            })
-        })
-        .catch(() => {
-          return reject(new ApplicationError(ErrorCode.ServerError))
-        })
-    })
+    // 出勤の確認
+    const existsAttendance = await this.existsAttendance(userNo)
+    if (existsAttendance) {
+      return Bluebird.reject(new ApplicationError(ErrorCode.RequestError))
+    }
+
+    // 出勤登録
+    const attendance = await Attendance.create({
+        user_no: userNo,
+        working_date: attendanceTime,
+        start_time: attendanceTime,
+        create_user_no: userNo,
+        update_user_no: userNo
+      })
+    if (!attendance) {
+      return Bluebird.reject(new ApplicationError(ErrorCode.ServerError))
+    }
+
+    return Bluebird.resolve(new OfficeHoursResponse.Regist.AtWorkResponseDTO(attendance.attendance_no))
   }
 
+  /** 退勤処理 */
   public async registLeaveWork(requestDTO: OfficeHoursRequest.Regist.LeaveWorkRequestDTO): Promise<OfficeHoursResponse.Regist.LeaveWorkResponseDTO> {
     const userNo = requestDTO.getUserNo()
     const leaveTime = requestDTO.getLeaveTime().toDate()
 
     // 出勤の確認
-    const existAttendance = await ExistArrival.find({
-        where: {
-          user_no: userNo
-        }
-      })
-    if (!existAttendance) {
+    const attendance = await this.existsAttendance(userNo)
+    if (!attendance) {
       return Bluebird.reject(new ApplicationError(ErrorCode.NotFound))
     }
 
     // 退勤時間登録
-    const attendanceNo = existAttendance.attendance_no
-    const updateInfo = await Attendance.update({
-        end_time: leaveTime
-      }, {
-        where: {
-          attendance_no: attendanceNo
-        }
-      })
-    const count = updateInfo[0]
-    if (count > 0) {
-      return Bluebird.resolve(new OfficeHoursResponse.Regist.LeaveWorkResponseDTO(attendanceNo))
-    }
+    await attendance.update({end_time: leaveTime})
 
-    return Bluebird.reject(new ApplicationError(ErrorCode.ServerError))
+    // 完了
+    return Bluebird.resolve(new OfficeHoursResponse.Regist.LeaveWorkResponseDTO(attendance.attendance_no))
   }
 
-  public async existsArrival(userNo: number) {
+  // ============================================================================================
+  // SQL
+  // ============================================================================================
+  /**
+   * 退勤時間登録のない出勤情報を取得する
+   * @param userNo ユーザー番号
+   */
+  public async existsAttendance(userNo: number) {
     const attendance = await Attendance.find({
         where: {
           user_no: userNo,
           end_time: null
-        }
+        },
+        order: [
+          ['start_time', 'DESC']
+        ]
       })
 
     return attendance
   }
 
-  public async getTodaysRecentlyArrival(userNo: number) {
+  /**
+   * 本日の最新の出退勤情報を取得する
+   * @param userNo ユーザー番号
+   */
+  public async getTodaysRecentlyAttendance(userNo: number) {
     const now = moment()
     const attendance = await Attendance.find({
         where: {
@@ -158,4 +132,5 @@ class OfficeHoursService {
     return attendance
   }
 }
+
 export default new OfficeHoursService()
