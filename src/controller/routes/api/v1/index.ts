@@ -8,6 +8,7 @@ import validator from './../../../validator'
 import auth from './auth'
 import office_hours from './office_hours'
 import monthly_data from './monthly_data'
+import holiday from './holiday'
 
 export default function routes() {
   const router = Express.Router()
@@ -18,11 +19,14 @@ export default function routes() {
   // ユーザー認証の確認処理
   // router.use(validator.login_guard, login_guard())
 
-  // 「office_hours」認証
+  // 「office_hours」
   router.use('/office_hours', validator.login_guard, office_hours)
 
   //「monthly_data」
   router.use('/monthly_data', validator.login_guard, monthly_data)
+
+  //「holiday」
+  router.use('/holiday', validator.login_guard, holiday)
 
   // ユーザーの権限確認(今は何もしていない)
   router.use('/manager', authority_gurd())
