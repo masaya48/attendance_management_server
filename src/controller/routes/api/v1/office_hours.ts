@@ -4,8 +4,8 @@ import {validationResult} from 'express-validator/check'
 // validator
 import validator from './../../../validator'
 // adapter
-import officeHoursRequestAdapter from './../../../adapters/request/office_hours'
-import officeHoursResponseAdapter from './../../../adapters/response/office_hours'
+import officeHoursRequestAdapter from '../../../adapters/request/office_hours_adapter'
+import officeHoursResponseAdapter from '../../../adapters/response/office_hours_adapter'
 // service
 import officeHoursService from './../../../../domain/services/office_hours_service'
 // error
