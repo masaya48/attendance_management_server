@@ -1,6 +1,6 @@
 // node_modules
 import * as Bluebird from 'bluebird'
-import * as moment from 'moment'
+import moment from './../../libs/moment'
 //
 import { models, Sequelize } from './../../libs/models'
 // dto
@@ -91,7 +91,7 @@ class OfficeHoursService {
     const diff = leaveTime.diff(startTime, 'minutes')
     return this.calcRestTimeMain(diff)
   }
-  public calcRestTimeMain(diffMinutes: number) {
+  private calcRestTimeMain(diffMinutes: number) {
     let restTime: number = 60
     if (diffMinutes <= 360) {
       // 6時間以下の場合休憩「0時間」

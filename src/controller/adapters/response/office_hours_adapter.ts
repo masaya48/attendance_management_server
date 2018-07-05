@@ -2,7 +2,6 @@ import * as OfficeHoursResponseDTO from '../../../domain/dto/response/office_hou
 import CheckAttendanceResponse from './../../http_entity/response/office_hours/check_attendance'
 import RegistAtWorkResponse from './../../http_entity/response/office_hours/regist_at_work'
 import RegistLeaveWorkResponse from './../../http_entity/response/office_hours/regist_leave_work'
-import MyLoginRequest from 'my_request'
 
 export const check = {
   attendanceTimeConvert: (responseDTO: OfficeHoursResponseDTO.CheckAttendanceResponseDTO) => {
