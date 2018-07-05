@@ -1,5 +1,2 @@
-// import Service from './../domain/services/office_hours_service'
-// const service = new Service()
-
-// const A = service.checkAttendance(1)
-
+import Service from './../domain/services/office_hours_service'
+console.log(Service.calcRestTimeMain(60 * 11 + 1))

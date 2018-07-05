@@ -70,7 +70,7 @@ class OfficeHoursService {
   /** 退勤処理 */
   public async registLeaveWork(requestDTO: OfficeHoursRequest.Regist.LeaveWorkRequestDTO): Promise<OfficeHoursResponse.Regist.LeaveWorkResponseDTO> {
     const userNo = requestDTO.getUserNo()
-    const leaveTime = requestDTO.getLeaveTime().toDate()
+    const leaveTime = requestDTO.getLeaveTime()
 
     // 出勤の確認
     const attendance = await this.existsAttendance(userNo)
@@ -78,11 +78,41 @@ class OfficeHoursService {
       return Bluebird.reject(new ApplicationError(ErrorCode.NotFound))
     }
 
+    // 出勤時間
+    const startTime = moment(attendance.start_time)
+
     // 退勤時間登録
-    await attendance.update({end_time: leaveTime})
+    await attendance.update({end_time: leaveTime.toDate()})
 
     // 完了
     return Bluebird.resolve(new OfficeHoursResponse.Regist.LeaveWorkResponseDTO(attendance.attendance_no))
+  }
+  public calcRestTime(startTime: moment.Moment, leaveTime: moment.Moment) {
+    const diff = leaveTime.diff(startTime, 'minutes')
+    return this.calcRestTimeMain(diff)
+  }
+  public calcRestTimeMain(diffMinutes: number) {
+    let restTime: number = 60
+    if (diffMinutes <= 360) {
+      // 6時間以下の場合休憩「0時間」
+      restTime = 0
+    } else {
+      restTime = 60
+      if (diffMinutes > 540) {
+        // 9時間以上の場合余りの勤務時間から追加の休憩時間を計算
+        let extDiff = diffMinutes - 540
+        console.log ('extDiff:' + extDiff)
+        const extRestCount = Math.floor(extDiff / 135)
+        console.log ('extRestCount:' + extRestCount)
+        restTime = restTime + extRestCount * 15
+        const amari = extDiff - extRestCount * 135
+        console.log ('amari:' + amari)
+        if (amari > 120) {
+          restTime = restTime + amari - 120
+        }
+      }
+    }
+    return restTime
   }
 
   // ============================================================================================
