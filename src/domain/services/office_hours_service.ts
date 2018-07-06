@@ -3,6 +3,7 @@ import * as Bluebird from 'bluebird'
 import moment from './../../libs/moment'
 //
 import { models, Sequelize } from './../../libs/models'
+import * as timeUtil from './../../utils/time_util'
 // dto
 import * as OfficeHoursRequest from '../dto/request/office_hours_request'
 import * as OfficeHoursResponse from '../dto/response/office_hours_response'
@@ -80,17 +81,33 @@ class OfficeHoursService {
 
     // 出勤時間
     const startTime = moment(attendance.start_time)
+    const restMinutes = this.calcRestTime(startTime, leaveTime)
+    const restTime = timeUtil.getTime(restMinutes)
 
     // 退勤時間登録
-    await attendance.update({end_time: leaveTime.toDate()})
+    await attendance.update({
+      end_time: leaveTime.toDate(),
+      rest_time: restTime
+    })
 
     // 完了
     return Bluebird.resolve(new OfficeHoursResponse.Regist.LeaveWorkResponseDTO(attendance.attendance_no))
   }
+  /**
+   * 休憩時間算出
+   * 
+   * @param startTime 出勤時間
+   * @param leaveTime 退勤時間
+   */
   public calcRestTime(startTime: moment.Moment, leaveTime: moment.Moment) {
     const diff = leaveTime.diff(startTime, 'minutes')
     return this.calcRestTimeMain(diff)
   }
+  /**
+   * 休憩時間算出
+   * 
+   * @param diffMinutes 勤務時間(分)※休憩時間を含む
+   */
   private calcRestTimeMain(diffMinutes: number) {
     let restTime: number = 60
     if (diffMinutes <= 360) {
@@ -101,12 +118,9 @@ class OfficeHoursService {
       if (diffMinutes > 540) {
         // 9時間以上の場合余りの勤務時間から追加の休憩時間を計算
         let extDiff = diffMinutes - 540
-        console.log ('extDiff:' + extDiff)
         const extRestCount = Math.floor(extDiff / 135)
-        console.log ('extRestCount:' + extRestCount)
         restTime = restTime + extRestCount * 15
         const amari = extDiff - extRestCount * 135
-        console.log ('amari:' + amari)
         if (amari > 120) {
           restTime = restTime + amari - 120
         }

@@ -6,7 +6,7 @@ declare namespace TAttendance {
     working_date: Date
     start_time: Date
     end_time?: Date
-    rest_time?: Date
+    rest_time?: string
     remarks?: string
     additional_status?: number
     modified_start_time?: Date
