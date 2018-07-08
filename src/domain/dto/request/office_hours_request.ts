@@ -1,5 +1,5 @@
 import BaseRequestDTO from './base_request_dto'
-import moment from './../../../libs/moment';
+import * as moment from './../../../libs/moment';
 export class CheckAttendanceRequestDTO extends BaseRequestDTO {
   private readonly userNo: number
   constructor(userNo: number) {

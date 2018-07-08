@@ -13,9 +13,13 @@ export type sequelize = {
 export type server = {
   port: number
 }
+export type moment = {
+  timezone: string
+}
 interface MyConfig extends config.IConfig {
   sequelize: sequelize,
   jwt: jwt,
-  server: server
+  server: server,
+  moment: moment
 }
 export default config as MyConfig

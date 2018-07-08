@@ -2,7 +2,7 @@ import {check, header, body, query, param, Result} from 'express-validator/check
 import ValidationErrorResponse from './../http_entity/response/validation_error_response'
 import ErrorCode from './../../utils/constants/error_code'
 import {login_guard} from './../middlewares/authentication'
-import moment from './../../libs/moment'
+import * as moment from './../../libs/moment'
 
 const custom = {
   isDate: (value) => {

@@ -25,5 +25,8 @@
   },
   "server": {
     "port": 3030
+  },
+  "moment": {
+    "timezone": "Asia/Tokyo"
   }
 }
