@@ -9,6 +9,9 @@ import errorResponseAdapter from './../../controller/adapters/response/error_res
 import ApplicationError from '../../libs/errors/application_error';
 import MEmployee from 'm_employee';
 
+/**
+ * tokenチェック用 middleware
+ */
 const login_guard: (() => Express.RequestHandler) = (() => (req:Request, res:Express.Response, next:Express.NextFunction) => {
   if (req.method === 'OPTIONS') {
     return next()

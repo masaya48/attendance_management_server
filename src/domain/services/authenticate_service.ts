@@ -45,6 +45,28 @@ class AuthenticateService {
       })
     })
   }
+  /**
+   * 初回ログイン処理
+   * @param requestDTO
+   */
+  public async login2(requestDTO: LoginRequestDTO): Promise<LoginResponseDTO> {
+    const Employee = models.m_employee
+    const employee = await Employee.findOne({
+      where: {
+        employee_no: requestDTO.getEmployeeNo(),
+        password: requestDTO.getPassword()
+      }
+    })
+
+    if (!employee) {
+      return Bluebird.reject(new ApplicationError(ErrorCode.AuthError))
+    }
+
+    const {employee_no, user_no} = employee
+    const token = jwt.sign({employee_no, user_no}, config.jwt.authentication_secret_key, {algorithm: config.jwt.algorithm})
+    await employee.update({token: token})
+    return new LoginResponseDTO(token, employee)
+  }
 
   // よくわかりゃん…
   public verifyToken( token ): Bluebird<Employee.Instance> {
