@@ -8,7 +8,6 @@ import MProject from 'm_project'
 import TAbsent from 't_absent'
 import TAttendance from 't_attendance'
 import TWorkingTime from 't_working_time'
-import VExistArrival from 'v_exist_arrival'
 import TModificationRequest from 't_modification_request'
 import TRequestRoute from 't_request_route'
 import TAttendanceModification from 't_attendance_modification'
@@ -26,7 +25,6 @@ interface MyModels extends Sequelize.Models {
   t_request_route: TRequestRoute.Model
   t_attendance_modification: TAttendanceModification.Model
   // ビュー
-  v_exist_arrival: VExistArrival.Model
 }
 
 export default MyModels
