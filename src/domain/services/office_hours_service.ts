@@ -1,6 +1,6 @@
 // node_modules
 import * as Bluebird from 'bluebird'
-import moment from './../../libs/moment'
+import * as moment from './../../libs/moment'
 //
 import { models, Sequelize } from './../../libs/models'
 import * as timeUtil from './../../utils/time_util'

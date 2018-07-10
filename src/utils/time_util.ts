@@ -1,4 +1,4 @@
-import moment from './../libs/moment'
+import * as moment from './../libs/moment'
 
 export const now:(() => moment.Moment) = () => {
   return moment()
