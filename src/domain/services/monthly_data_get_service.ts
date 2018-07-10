@@ -20,14 +20,14 @@ class MonthlyDataGetService {
   public getMonthlyData(requestDTO: MonthlyDataGetRequestDTO): Bluebird<MonthlyDataGetResponseDTO> {
     return new Bluebird((resolve, reject) => {
       const Op = Sequelize.Op
-      const Attendance = models.t_attendance as Attendance.Model
+      const Attendance = models.t_attendance
       const reqMonth = requestDTO.getAttendanceMonth()
-      // const beginMonth = reqMonth.getFullYear() + '-' + (reqMonth.getMonth() + 1) + '-' + '01'
-      // const endMonth = reqMonth.getFullYear() + '-' + (reqMonth.getMonth() + 1 )+ '-' + '31'
+      const beginMonth = reqMonth.getFullYear() + '-' + (reqMonth.getMonth() + 1) + '-' + '01'
+      const endMonth = reqMonth.getFullYear() + '-' + (reqMonth.getMonth() + 1 )+ '-' + '31'
       return Attendance.findAll({
         where: {
           user_no: requestDTO.getUserNo(),
-          working_date: {[Op.between]: ['2018-07-01', '2018-07-31']}
+          working_date: {[Op.between]: [beginMonth, endMonth]}
         }
       })
       .then(monthly_data => {
