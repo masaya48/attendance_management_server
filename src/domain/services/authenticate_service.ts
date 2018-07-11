@@ -14,42 +14,11 @@ import Employee from 'm_employee'
 import ErrorCode from './../../utils/constants/error_code'
 
 class AuthenticateService {
-  public login(requestDTO: LoginRequestDTO): Bluebird<LoginResponseDTO> {
-    return new Bluebird((resolve, reject) => {
-      const Employee = models.m_employee as Employee.Model
-      return Employee.findOne({
-        where: {
-          employee_no: requestDTO.getEmployeeNo(),
-          password: requestDTO.getPassword()
-        }
-      })
-      .then(employee => {
-        if (!employee) {
-          reject(new ApplicationError(ErrorCode.AuthError))
-          return
-        }
-
-        const {employee_no, user_no} = employee
-        let token:string = jwt.sign({employee_no, user_no}, config.jwt.authentication_secret_key, {algorithm: config.jwt.algorithm})
-        employee.token = token
-        return employee
-          .save()
-          .then(() => {
-            resolve(new LoginResponseDTO(token, employee))
-            return
-          })
-      })
-      .catch(() => {
-        reject(new ApplicationError(ErrorCode.ServerError))
-        return
-      })
-    })
-  }
   /**
    * 初回ログイン処理
    * @param requestDTO
    */
-  public async login2(requestDTO: LoginRequestDTO): Promise<LoginResponseDTO> {
+  public async login(requestDTO: LoginRequestDTO): Promise<LoginResponseDTO> {
     const Employee = models.m_employee
     const employee = await Employee.findOne({
       where: {
@@ -62,8 +31,12 @@ class AuthenticateService {
       return Bluebird.reject(new ApplicationError(ErrorCode.AuthError))
     }
 
-    const {employee_no, user_no} = employee
-    const token = jwt.sign({employee_no, user_no}, config.jwt.authentication_secret_key, {algorithm: config.jwt.algorithm})
+    const {employee_no: employeeNo, user_no: userNo} = employee
+    const payload: payload = {
+      employee_no: employeeNo,
+      user_no: userNo
+    }
+    const token = jwt.sign(payload, config.jwt.authentication_secret_key, {algorithm: config.jwt.algorithm})
     await employee.update({token: token})
     return new LoginResponseDTO(token, employee)
   }
@@ -71,7 +44,7 @@ class AuthenticateService {
   // よくわかりゃん…
   public verifyToken( token ): Bluebird<Employee.Instance> {
     return new Bluebird(( resolve, reject ) => {
-      jwt.verify(token, config.jwt.authentication_secret_key, { algorithms: [config.jwt.algorithm] }, ( err, decoded ) => {
+      jwt.verify(token, config.jwt.authentication_secret_key, { algorithms: [config.jwt.algorithm] }, ( err, decoded: payload ) => {
         if (err) {
           // 複合化失敗
           reject( new ApplicationError( ErrorCode.AuthError ) )
@@ -83,7 +56,7 @@ class AuthenticateService {
           .findOne({
             where: {
               token: token,
-              user_no: decoded['user_no']
+              user_no: decoded.user_no
             }
           })
           .then(employee => {
@@ -103,5 +76,21 @@ class AuthenticateService {
       })
     })
   }
+  public async verifyToken2( token ): Promise<Employee.Instance> {
+    const a = await Bluebird.promisifyAll(jwt.verify)(token, config.jwt.authentication_secret_key, { algorithms: [config.jwt.algorithm] }) as payload
+    console.log(a)
+
+    jwt.verify(token, config.jwt.authentication_secret_key, { algorithms: [config.jwt.algorithm] }, ( err, decoded: payload ) => {
+      if (err) {
+        // 複合化失敗
+        return Bluebird.reject(new ApplicationError( ErrorCode.AuthError ))
+      }
+    })
+  return
+  }
+}
+type payload = {
+  employee_no: string
+  user_no: number
 }
 export default new AuthenticateService()
