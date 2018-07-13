@@ -10,14 +10,23 @@ import office_hours from './office_hours'
 import monthly_data from './monthly_data'
 import holiday from './holiday'
 
+const list = []
+list.push(1, 2, 3)
+
 export default function routes() {
   const router = Express.Router()
 
-  // 「/public」認証
-  router.use('/public', auth)
+  // キャッシュデータ？テスト
+  router.use(function(req, res, next) {
+    if (req.body.f == 1) {
+      list.push(10)
+    }
+    console.log(list)
+    return next()
+  })
 
-  // ユーザー認証の確認処理
-  // router.use(validator.login_guard, login_guard())
+  // 「public」認証
+  router.use('/public', auth)
 
   // 「office_hours」
   router.use('/office_hours', validator.login_guard, office_hours)
