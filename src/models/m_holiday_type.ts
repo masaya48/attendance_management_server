@@ -3,20 +3,24 @@ module.exports = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes
   const model = sequelize.define(
     'm_holiday',
     {
-      holiday_code: {
+      holiday_type: {
         type: DataTypes.BIGINT,
         primaryKey: true,
         autoIncrement: true,
-        allowNull: false
-      },
-      holiday_type: {
-        type: DataTypes.INTEGER,
         allowNull: false
       },
       name: {
         type: DataTypes.STRING(20),
         allowNull: false,
         defaultValue: ''
+      },
+      hours: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      days: {
+        type: DataTypes.DECIMAL(2,1),
+        allowNull: false
       }
     }, {
       // その他option
