@@ -1,5 +1,4 @@
 import * as Sequelize from 'sequelize'
-const U_KEY_02 = 'uq_t_own_holiday_02'
 module.exports = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes) => {
   const model = sequelize.define(
     't_own_holiday',
@@ -13,13 +12,17 @@ module.exports = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes
       },
       user_no: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        unique: U_KEY_02
+        allowNull: false
       },
       holiday_code: {
         type: DataTypes.BIGINT,
+        allowNull: false
+      },
+      own_holidays: {
+        type: DataTypes.INTEGER,
         allowNull: false,
-        unique: U_KEY_02
+        // 有給の最小付与日数
+        defaultValue: 10
       },
       start_date: {
         type: DataTypes.DATEONLY,

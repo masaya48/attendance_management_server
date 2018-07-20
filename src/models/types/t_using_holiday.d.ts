@@ -1,10 +1,12 @@
 import * as Sequelize from 'sequelize';
-declare namespace MHolidayType {
+declare namespace TOwnHoliday {
   interface Params {
-    holiday_type: string
-    name: string
-    hours: number
-    days: number
+    id?: number
+    user_no: number
+    holiday_code: number
+    using_date: Date
+    create_user_no: number
+    update_user_no: number
   }
   interface InstanceParams {
     created_at: string
@@ -15,4 +17,4 @@ declare namespace MHolidayType {
   interface Model extends Sequelize.Model<Instance, Params> {
   }
 }
-export default MHolidayType
+export default TOwnHoliday

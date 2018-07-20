@@ -1,29 +1,36 @@
 import * as Sequelize from 'sequelize'
 module.exports = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes) => {
   const model = sequelize.define(
-    'm_holiday',
+    't_using_holiday',
     {
-      holiday_type: {
+      id: {
         type: DataTypes.BIGINT,
+        // id という名前以外で主キーが必要な場合必ず必要
         primaryKey: true,
         autoIncrement: true,
         allowNull: false
       },
-      name: {
-        type: DataTypes.STRING(20),
-        allowNull: false,
-        defaultValue: ''
-      },
-      addition_hours: {
+      user_no: {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      addition_dates: {
-        type: DataTypes.DECIMAL(2,1),
+      holiday_code: {
+        type: DataTypes.BIGINT,
+        allowNull: false
+      },
+      using_date: {
+        type: DataTypes.DATE,
+        allowNull: false
+      },
+      create_user_no: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      update_user_no: {
+        type: DataTypes.INTEGER,
         allowNull: false
       }
     }, {
-      // その他option
     }
   )
   // model.associate = (models: Sequelize.Models) => {
