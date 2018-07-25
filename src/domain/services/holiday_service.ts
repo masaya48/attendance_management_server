@@ -35,16 +35,16 @@ class HolidayService {
   }
 
   /**
-   * 休暇情報削除
-   */
-  public delete(userNo: number, id: number) {
-  }
-
-  /**
    * 休暇付与
    */
   public grantHoliday() {
 
+  }
+
+  /**
+   * 休暇情報削除
+   */
+  public deleteHoliday(userNo: number, id: number) {
   }
 
   /**
@@ -72,12 +72,21 @@ class HolidayService {
     return usingHoliday
   }
 
-  private async update(userNo: number, usingHoildayId: number) {
-    await TUsingHoliday.update
+  private async update(userNo: number, usingHolidayId: number) {
+    const usingHoliday = await TUsingHoliday.find({
+      where: {
+        id: usingHolidayId
+      }
+    })
+
+    usingHoliday.update({
+    })
+    return usingHoliday
   }
 
   private async checkRemainingHolidays(userNo: number) {
     const ownHoliday = await TOwnHoliday.create
+    return ownHoliday
   }
 
 }

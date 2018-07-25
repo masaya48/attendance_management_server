@@ -1,7 +1,7 @@
 import * as Sequelize from 'sequelize';
 declare namespace TOwnHoliday {
   interface Params {
-    id: number
+    id?: number
     user_no: number
     holiday_code: number
     own_holidays: number
