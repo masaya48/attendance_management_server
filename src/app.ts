@@ -6,10 +6,11 @@ import * as cookieParser from 'cookie-parser'
 import * as bodyParser from 'body-parser'
 import * as helmet from 'helmet'
 // import * as cors from 'cors'
+import { CronJob } from 'cron'
 import routes from './controller/routes/api/v1'
 import errorResponseAdapter from './controller/adapters/response/error_response_adapter'
-import ApplicationError from './libs/errors/application_error';
-import { ErrorCode } from './utils/constants/error_code';
+import ApplicationError from './libs/errors/application_error'
+import { ErrorCode } from './utils/constants/error_code'
 
 const app = express()
 
@@ -73,3 +74,15 @@ app.use((err: ApplicationError, req: express.Request, res: express.Response, nex
 // app.listen(config.server.port || 3000)
 
 module.exports = app
+
+// 定期実行　処理
+var workerJob = new CronJob({
+  cronTime: '* * */1 * * *', //1時間毎実行
+  onTick: function() {
+    //ここに実行したい処理を書く
+    console.log('Hoge !');
+  },
+  start: true, //newした後即時実行するかどうか
+  timeZone: 'Asia/Tokyo'
+});
+workerJob.start();
