@@ -7,7 +7,6 @@ module.exports = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes
         type: DataTypes.BIGINT,
         // id という名前以外で主キーが必要な場合必ず必要
         primaryKey: true,
-        autoIncrement: true,
         allowNull: false
       },
       absent_type: {

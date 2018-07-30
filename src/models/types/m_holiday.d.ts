@@ -2,8 +2,10 @@ import * as Sequelize from 'sequelize';
 declare namespace MHoliday {
   interface Params {
     holiday_code: number
-    holiday_type: string
+    holiday_type: number
     name: string
+    addition_hours: number
+    addition_dates: number
   }
   interface InstanceParams {
     created_at: string

@@ -80,9 +80,9 @@ var workerJob = new CronJob({
   cronTime: '* * */1 * * *', //1時間毎実行
   onTick: function() {
     //ここに実行したい処理を書く
-    console.log('Hoge !');
+    console.log('Hoge !')
   },
   start: true, //newした後即時実行するかどうか
   timeZone: 'Asia/Tokyo'
-});
-workerJob.start();
+})
+workerJob.start()

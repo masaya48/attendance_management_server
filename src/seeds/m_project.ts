@@ -1,3 +1,4 @@
+import MProject from './../models/types/m_project'
 module.exports = {
   name: 'm_project',
   seeds: [
@@ -20,4 +21,7 @@ module.exports = {
       project_short_name: 'テスト3'
     }
   ]
+} as {
+  name: string,
+  seeds: MProject.Params[]
 }

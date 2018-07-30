@@ -6,11 +6,10 @@ module.exports = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes
       holiday_code: {
         type: DataTypes.BIGINT,
         primaryKey: true,
-        autoIncrement: true,
         allowNull: false
       },
-      holiday_type: {
-        type: DataTypes.INTEGER,
+      holiday_calc_type: {
+        type: DataTypes.BIGINT,
         allowNull: false
       },
       name: {

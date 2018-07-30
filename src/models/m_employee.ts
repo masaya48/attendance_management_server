@@ -4,7 +4,7 @@ module.exports = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes
     'm_employee',
     {
       user_no: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         // id という名前以外で主キーが必要な場合必ず必要
         primaryKey: true,
         autoIncrement: true,

@@ -1,26 +1,22 @@
 import * as Sequelize from 'sequelize'
 module.exports = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes) => {
   const model = sequelize.define(
-    'm_holiday_type',
+    'm_holiday_reason',
     {
-      holiday_calc_type: {
+      reason_code: {
         type: DataTypes.BIGINT,
         primaryKey: true,
+        allowNull: false
+      },
+      holiday_code: {
+        type: DataTypes.BIGINT,
         allowNull: false
       },
       name: {
         type: DataTypes.STRING(20),
         allowNull: false,
         defaultValue: ''
-      }/*,
-      addition_hours: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
-      addition_dates: {
-        type: DataTypes.DECIMAL(2,1),
-        allowNull: false
-      }*/
+      }
     }, {
       // その他option
     }

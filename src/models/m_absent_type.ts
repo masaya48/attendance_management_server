@@ -4,10 +4,9 @@ module.exports = (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes
     'm_absent_type',
     {
       absent_type: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         // id という名前以外で主キーが必要な場合必ず必要
         primaryKey: true,
-        autoIncrement: true,
         allowNull: false
       },
       absent_name: {
