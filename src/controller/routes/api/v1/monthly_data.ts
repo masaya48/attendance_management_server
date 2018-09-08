@@ -30,7 +30,6 @@ router.post('/get', (req: Express.Request, res: Express.Response, next: Express.
     return res.status(errorResponse.getStatus()).json(errorResponse.getBody())
   }
 
-  // ログイン認証処理
   return monthlyDataGetService
     .getMonthlyData(monthlyDataGetRequestAdapter.convert(req))
     .then(( responseDTO ) => {
@@ -41,6 +40,19 @@ router.post('/get', (req: Express.Request, res: Express.Response, next: Express.
       const errorResponse = errorResponseAdapter.convert(err)
       return res.status(errorResponse.getStatus()).json(errorResponse.getBody())
     })
+})
+
+
+router.post('/excel', (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
+  // バリデーションチェック
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const errorResponse = validator.getValidateErrorResponse(errors)
+    return res.status(errorResponse.getStatus()).json(errorResponse.getBody())
+  }
+  monthlyDataGetService.getExcel(monthlyDataGetRequestAdapter.convert(req)).then(file => {
+    res.download(file)
+  })
 })
 
 export default router
